@@ -161,3 +161,638 @@ Agentic SAST  repo=/home/higgs/workspace/cyness/juice-shop  module=juice-shop  a
   [s4] chunk catchall-12: 1 high-confidence findings
   [s4] chunk catchall-13 (medium, rank 14, lens=generic): Coverage sweep of 'config/bodgeit.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
     [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-13] (11005 chars, max_tokens=6000, json)
+    [openai] usage: in=6737 (cached=0) out=2
+    [s4] catchall-13 run 1/1: 0 raw findings
+  [s4] chunk catchall-13: 0 high-confidence findings
+  [s4] chunk catchall-14 (medium, rank 15, lens=generic): Coverage sweep of 'config/ctf.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-14] (1625 chars, max_tokens=6000, json)
+    [openai] usage: in=2299 (cached=0) out=9
+    [s4] catchall-14 run 1/1: 0 raw findings
+  [s4] chunk catchall-14: 0 high-confidence findings
+  [s4] chunk catchall-15 (medium, rank 16, lens=generic): Coverage sweep of 'config/default.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 7 PAN-prefix + 0 sensitive token(s) in config/default.yml
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-15] (27287 chars, max_tokens=6000, json)
+    [openai] usage: in=12041 (cached=0) out=1269
+    [s4] catchall-15 run 1/1: 3 raw findings
+  [s4] chunk catchall-15: 3 high-confidence findings
+  [s4] chunk catchall-16 (medium, rank 17, lens=generic): Coverage sweep of 'config/defcon33.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-16] (11124 chars, max_tokens=6000, json)
+    [openai] usage: in=5904 (cached=0) out=7535
+    [s4] dropped malformed finding: 1 validation error for Finding
+confidence
+  Field required [type=missing, input_value={'file': 'config/defcon33...hunk_id': 'catchall-16'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] catchall-16 run 1/1: 0 raw findings
+  [s4] chunk catchall-16: 0 high-confidence findings
+  [s4] chunk catchall-17 (medium, rank 18, lens=generic): Coverage sweep of 'config/fbctf.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-17] (11237 chars, max_tokens=6000, json)
+    [openai] usage: in=6069 (cached=0) out=396
+    [s4] catchall-17 run 1/1: 1 raw findings
+  [s4] chunk catchall-17: 1 high-confidence findings
+  [s4] chunk catchall-18 (medium, rank 19, lens=generic): Coverage sweep of 'config/juicebox.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-18] (1841 chars, max_tokens=6000, json)
+    [openai] usage: in=2368 (cached=0) out=9
+    [s4] catchall-18 run 1/1: 0 raw findings
+  [s4] chunk catchall-18: 0 high-confidence findings
+  [s4] chunk catchall-19 (medium, rank 20, lens=generic): Coverage sweep of 'config/mozilla.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-19] (10643 chars, max_tokens=6000, json)
+    [openai] usage: in=5611 (cached=0) out=334
+    [s4] catchall-19 run 1/1: 1 raw findings
+  [s4] chunk catchall-19: 1 high-confidence findings
+  [s4] chunk catchall-20 (medium, rank 21, lens=generic): Coverage sweep of 'config/oss.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in config/oss.yml
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-20] (9075 chars, max_tokens=6000, json)
+    [openai] usage: in=5112 (cached=0) out=642
+    [s4] catchall-20 run 1/1: 2 raw findings
+  [s4] chunk catchall-20: 2 high-confidence findings
+  [s4] chunk catchall-21 (medium, rank 22, lens=generic): Coverage sweep of 'config/quiet.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-21] (1498 chars, max_tokens=6000, json)
+    [openai] usage: in=2244 (cached=0) out=9
+    [s4] catchall-21 run 1/1: 0 raw findings
+  [s4] chunk catchall-21: 0 high-confidence findings
+  [s4] chunk catchall-22 (medium, rank 23, lens=generic): Coverage sweep of 'config/test.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-22] (1198 chars, max_tokens=6000, json)
+    [openai] usage: in=2141 (cached=0) out=9
+    [s4] catchall-22 run 1/1: 0 raw findings
+  [s4] chunk catchall-22: 0 high-confidence findings
+  [s4] chunk catchall-23 (medium, rank 24, lens=generic): Coverage sweep of 'config/tutorial.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-23] (1264 chars, max_tokens=6000, json)
+    [openai] usage: in=2160 (cached=0) out=9
+    [s4] catchall-23 run 1/1: 0 raw findings
+  [s4] chunk catchall-23: 0 high-confidence findings
+  [s4] chunk catchall-24 (medium, rank 25, lens=generic): Coverage sweep of 'config/unsafe.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-24] (1250 chars, max_tokens=6000, json)
+    [openai] usage: in=2159 (cached=0) out=9
+    [s4] catchall-24 run 1/1: 0 raw findings
+  [s4] chunk catchall-24: 0 high-confidence findings
+  [s4] chunk catchall-25 (medium, rank 26, lens=typescript): Coverage sweep of 'data/datacache.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-25] (4501 chars, max_tokens=6000, json)
+    [openai] usage: in=3082 (cached=0) out=9
+    [s4] catchall-25 run 1/1: 0 raw findings
+  [s4] chunk catchall-25: 0 high-confidence findings
+  [s4] chunk catchall-26 (medium, rank 27, lens=typescript): Coverage sweep of 'data/datacreator.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 1 PAN-prefix + 1 sensitive token(s) in data/datacreator.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-26] (33215 chars, max_tokens=6000, json)
+    [openai] usage: in=13068 (cached=0) out=376
+    [s4] catchall-26 run 1/1: 1 raw findings
+  [s4] chunk catchall-26: 1 high-confidence findings
+  [s4] chunk catchall-27 (medium, rank 28, lens=typescript): Coverage sweep of 'data/mongodb.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-27] (3181 chars, max_tokens=6000, json)
+    [openai] usage: in=2705 (cached=0) out=9
+    [s4] catchall-27 run 1/1: 0 raw findings
+  [s4] chunk catchall-27: 0 high-confidence findings
+  [s4] chunk catchall-28 (medium, rank 29, lens=generic): Coverage sweep of 'data/static [shard 1/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-28] (10749 chars, max_tokens=6000, json)
+    [openai] usage: in=7689 (cached=0) out=376
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['182| "action": "functio...handler": "couponCode"'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-28 run 1/1: 0 raw findings
+  [s4] chunk catchall-28: 0 high-confidence findings
+  [s4] chunk catchall-29 (medium, rank 30, lens=generic): Coverage sweep of 'data/static [shard 2/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-29] (93059 chars, max_tokens=6000, json)
+    [openai] usage: in=31072 (cached=0) out=9
+    [s4] catchall-29 run 1/1: 0 raw findings
+  [s4] chunk catchall-29: 0 high-confidence findings
+  [s4] chunk catchall-30 (medium, rank 31, lens=typescript): Coverage sweep of 'data/static [shard 3/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-30] (72504 chars, max_tokens=6000, json)
+    [openai] usage: in=25758 (cached=0) out=1151
+    [s4] catchall-30 run 1/1: 3 raw findings
+  [s4] chunk catchall-30: 3 high-confidence findings
+  [s4] chunk catchall-31 (medium, rank 32, lens=typescript+solidity): Coverage sweep of 'data/static [shard 4/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-31] (76314 chars, max_tokens=6000, json)
+    [openai] usage: in=27850 (cached=0) out=2020
+    [s4] catchall-31 run 1/1: 6 raw findings
+  [s4] chunk catchall-31: 6 high-confidence findings
+  [s4] chunk catchall-32 (medium, rank 33, lens=typescript+solidity): Coverage sweep of 'data/static [shard 5/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in data/static/codefixes/weakPasswordChallenge_1_correct.ts [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in data/static/codefixes/weakPasswordChallenge_2.ts [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in data/static/codefixes/weakPasswordChallenge_3.ts [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in data/static/codefixes/weakPasswordChallenge_4.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-32] (48254 chars, max_tokens=6000, json)
+    [openai] usage: in=19500 (cached=0) out=682
+    [s4] catchall-32 run 1/1: 2 raw findings
+  [s4] chunk catchall-32: 2 high-confidence findings
+  [s4] chunk catchall-33 (medium, rank 34, lens=generic): Coverage sweep of 'data/static [shard 6/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-33] (104561 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=248
+    [s4] catchall-33 run 1/1: 0 raw findings
+  [s4] chunk catchall-33: 0 high-confidence findings
+  [s4] chunk catchall-34 (medium, rank 35, lens=solidity): Coverage sweep of 'data/static [shard 7/7]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [s4] redacted 6 PAN-prefix + 15 sensitive token(s) in data/static/users.yml [SECRET:15]
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in data/static/web3-snippets/BeeFaucet.sol
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-34] (28233 chars, max_tokens=6000, json)
+    [openai] usage: in=13221 (cached=0) out=442
+    [s4] catchall-34 run 1/1: 1 raw findings
+  [s4] chunk catchall-34: 1 high-confidence findings
+  [s4] chunk catchall-35 (medium, rank 36, lens=typescript): Coverage sweep of 'data/staticData.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in data/staticData.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-35] (6060 chars, max_tokens=6000, json)
+    [openai] usage: in=3711 (cached=0) out=354
+    [s4] catchall-35 run 1/1: 1 raw findings
+  [s4] chunk catchall-35: 1 high-confidence findings
+  [s4] chunk catchall-36 (medium, rank 37, lens=typescript): Coverage sweep of 'data/types.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-36] (4578 chars, max_tokens=6000, json)
+    [openai] usage: in=3159 (cached=0) out=9
+    [s4] catchall-36 run 1/1: 0 raw findings
+  [s4] chunk catchall-36: 0 high-confidence findings
+  [s4] chunk catchall-37 (medium, rank 38, lens=generic): Coverage sweep of 'frontend/.browserslistrc' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-37] (1397 chars, max_tokens=6000, json)
+    [openai] usage: in=2208 (cached=0) out=9
+    [s4] catchall-37 run 1/1: 0 raw findings
+  [s4] chunk catchall-37: 0 high-confidence findings
+  [s4] chunk catchall-38 (medium, rank 39, lens=generic): Coverage sweep of 'frontend/.npmrc' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-38] (1223 chars, max_tokens=6000, json)
+    [openai] usage: in=2151 (cached=0) out=315
+    [s4] catchall-38 run 1/1: 1 raw findings
+  [s4] chunk catchall-38: 1 high-confidence findings
+  [s4] chunk catchall-39 (medium, rank 40, lens=generic): Coverage sweep of 'frontend/angular.json' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-39] (6349 chars, max_tokens=6000, json)
+    [openai] usage: in=3770 (cached=0) out=9
+    [s4] catchall-39 run 1/1: 0 raw findings
+  [s4] chunk catchall-39: 0 high-confidence findings
+  [s4] chunk catchall-40 (medium, rank 41, lens=javascript): Coverage sweep of 'frontend/eslint.config.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-40] (4262 chars, max_tokens=6000, json)
+    [openai] usage: in=3046 (cached=0) out=2
+    [s4] catchall-40 run 1/1: 0 raw findings
+  [s4] chunk catchall-40: 0 high-confidence findings
+  [s4] chunk catchall-41 (medium, rank 42, lens=generic): Coverage sweep of 'frontend/package.json' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in frontend/package.json [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-41] (5065 chars, max_tokens=6000, json)
+    [openai] usage: in=3818 (cached=0) out=9
+    [s4] catchall-41 run 1/1: 0 raw findings
+  [s4] chunk catchall-41: 0 high-confidence findings
+  [s4] chunk catchall-42 (medium, rank 43, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 1/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 0 PAN-prefix + 3 sensitive token(s) in frontend/src/app/Services/two-factor-auth-service.ts [SECRET:3]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in frontend/src/app/Services/user.service.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-42] (69286 chars, max_tokens=6000, json)
+    [openai] usage: in=23371 (cached=0) out=714
+    [s4] catchall-42 run 1/1: 2 raw findings
+  [s4] chunk catchall-42: 2 high-confidence findings
+  [s4] chunk catchall-43 (medium, rank 44, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 2/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in frontend/src/app/address-create/address-create.component.html
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-43] (71243 chars, max_tokens=6000, json)
+    [openai] usage: in=23851 (cached=0) out=719
+    [s4] catchall-43 run 1/1: 2 raw findings
+  [s4] chunk catchall-43: 2 high-confidence findings
+  [s4] chunk catchall-44 (medium, rank 45, lens=web-template+typescript): Coverage sweep of 'frontend/src [shard 3/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in frontend/src/app/change-password/change-password.component.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-44] (69573 chars, max_tokens=6000, json)
+    [openai] usage: in=23711 (cached=0) out=732
+    [s4] catchall-44 run 1/1: 2 raw findings
+  [s4] chunk catchall-44: 2 high-confidence findings
+  [s4] chunk catchall-45 (medium, rank 46, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 4/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in frontend/src/app/forgot-password/forgot-password.component.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-45] (70152 chars, max_tokens=6000, json)
+    [openai] usage: in=23172 (cached=0) out=334
+    [s4] catchall-45 run 1/1: 1 raw findings
+  [s4] chunk catchall-45: 1 high-confidence findings
+  [s4] chunk catchall-46 (medium, rank 47, lens=web-template+typescript): Coverage sweep of 'frontend/src [shard 5/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 1 PAN-prefix + 2 sensitive token(s) in frontend/src/app/login/login.component.ts [SECRET:2]
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in frontend/src/app/oauth/oauth.component.ts [SECRET:2]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-46] (67332 chars, max_tokens=6000, json)
+    [openai] usage: in=22676 (cached=0) out=721
+    [s4] catchall-46 run 1/1: 2 raw findings
+  [s4] chunk catchall-46: 2 high-confidence findings
+  [s4] chunk catchall-47 (medium, rank 48, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 6/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 2 PAN-prefix + 0 sensitive token(s) in frontend/src/app/payment-method/payment-method.component.ts
+    [s4] redacted 9 PAN-prefix + 0 sensitive token(s) in frontend/src/app/payment/payment.component.ts
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-47] (67572 chars, max_tokens=6000, json)
+    [openai] usage: in=22905 (cached=0) out=371
+    [s4] catchall-47 run 1/1: 1 raw findings
+  [s4] chunk catchall-47: 1 high-confidence findings
+  [s4] chunk catchall-48 (medium, rank 49, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 7/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in frontend/src/app/register/register.component.ts [SECRET:2]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-48] (68657 chars, max_tokens=6000, json)
+    [openai] usage: in=21959 (cached=0) out=343
+    [s4] catchall-48 run 1/1: 1 raw findings
+  [s4] chunk catchall-48: 1 high-confidence findings
+  [s4] chunk catchall-49 (medium, rank 50, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 8/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [s4] redacted 0 PAN-prefix + 18 sensitive token(s) in frontend/src/app/score-board/components/coding-challenge-progress-score-card/coding-challenge-progress-score-card.component.html [SSN:18]
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in frontend/src/app/score-board/components/difficulty-overview-score-card/difficulty-overview-score-card.component.html [SSN:2]
+    [s4] redacted 0 PAN-prefix + 29 sensitive token(s) in frontend/src/app/score-board/components/hacking-challenge-progress-score-card/hacking-challenge-progress-score-card.component.html [SSN:29]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-49] (66329 chars, max_tokens=6000, json)
+    [openai] usage: in=25613 (cached=0) out=2
+    [s4] catchall-49 run 1/1: 0 raw findings
+  [s4] chunk catchall-49: 0 high-confidence findings
+  [s4] chunk catchall-50 (medium, rank 51, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 9/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-50] (68357 chars, max_tokens=6000, json)
+    [openai] usage: in=22764 (cached=0) out=302
+    [s4] catchall-50 run 1/1: 1 raw findings
+  [s4] chunk catchall-50: 1 high-confidence findings
+  [s4] chunk catchall-51 (medium, rank 52, lens=typescript+web-template): Coverage sweep of 'frontend/src [shard 10/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in frontend/src/app/two-factor-auth/two-factor-auth.component.ts [SECRET:2]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-51] (72230 chars, max_tokens=6000, json)
+    [openai] usage: in=24251 (cached=0) out=320
+    [s4] catchall-51 run 1/1: 1 raw findings
+  [s4] chunk catchall-51: 1 high-confidence findings
+  [s4] chunk catchall-52 (medium, rank 53, lens=javascript): Coverage sweep of 'frontend/src [shard 11/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-52] (47449 chars, max_tokens=6000, json)
+    [openai] usage: in=18844 (cached=0) out=9
+    [s4] catchall-52 run 1/1: 0 raw findings
+  [s4] chunk catchall-52: 0 high-confidence findings
+  [s4] chunk catchall-53 (medium, rank 54, lens=javascript): Coverage sweep of 'frontend/src [shard 12/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-53] (21680 chars, max_tokens=6000, json)
+    [openai] usage: in=9616 (cached=0) out=736
+    [s4] catchall-53 run 1/1: 2 raw findings
+  [s4] chunk catchall-53: 2 high-confidence findings
+  [s4] chunk catchall-54 (medium, rank 55, lens=javascript): Coverage sweep of 'frontend/src [shard 13/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-54] (1025379 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=348
+    [s4] catchall-54 run 1/1: 0 raw findings
+  [s4] chunk catchall-54: 0 high-confidence findings
+  [s4] chunk catchall-55 (medium, rank 56, lens=web-template+typescript): Coverage sweep of 'frontend/src [shard 14/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-55] (40750 chars, max_tokens=6000, json)
+    [openai] usage: in=18145 (cached=0) out=9
+    [s4] catchall-55 run 1/1: 0 raw findings
+  [s4] chunk catchall-55: 0 high-confidence findings
+  [s4] chunk catchall-56 (medium, rank 57, lens=generic): Coverage sweep of 'frontend/src [shard 15/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [s4] redacted 44 PAN-prefix + 0 sensitive token(s) in frontend/src/assets/public/images/JuiceShop_Logo.ai
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-56] (75457 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=193
+    [s4] dropped malformed finding: 7 validation errors for Finding
+file
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'type': 'Metadata', 'des...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped malformed finding: 7 validation errors for Finding
+file
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'type': 'Page Count', 'd...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped malformed finding: 7 validation errors for Finding
+file
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'type': 'Stream Objects'...tchall-56', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] catchall-56 run 1/1: 0 raw findings
+  [s4] chunk catchall-56: 0 high-confidence findings
+  [s4] chunk catchall-57 (medium, rank 58, lens=generic): Coverage sweep of 'frontend/src [shard 16/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [s4] redacted 0 PAN-prefix + 292 sensitive token(s) in frontend/src/assets/public/images/products/JuiceShop.stl [SSN:292]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-57] (663388 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=164
+    [s4] catchall-57 run 1/1: 0 raw findings
+  [s4] chunk catchall-57: 0 high-confidence findings
+  [s4] chunk catchall-58 (medium, rank 59, lens=typescript): Coverage sweep of 'frontend/src [shard 17/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-58] (71362 chars, max_tokens=6000, json)
+    [openai] usage: in=31663 (cached=0) out=542
+    [s4] dropped malformed finding: 1 validation error for Finding
+confidence
+  Field required [type=missing, input_value={'file': 'frontend/src/ha...hunk_id': 'catchall-58'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped malformed finding: 7 validation errors for Finding
+file
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+description
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'title': 'Admin Section'...tchall-58', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] catchall-58 run 1/1: 0 raw findings
+  [s4] chunk catchall-58: 0 high-confidence findings
+  [s4] chunk catchall-59 (medium, rank 60, lens=typescript+web-template+javascript): Coverage sweep of 'frontend/src [shard 18/18]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-59] (38515 chars, max_tokens=6000, json)
+    [openai] usage: in=14085 (cached=0) out=369
+    [s4] catchall-59 run 1/1: 1 raw findings
+  [s4] chunk catchall-59: 1 high-confidence findings
+  [s4] chunk catchall-60 (medium, rank 61, lens=javascript): Coverage sweep of 'frontend/stylelint-plugin-spacing-fixer.mjs' — files not assigned to any risk-ranked chunk. Hunt for …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-60] (6087 chars, max_tokens=6000, json)
+    [openai] usage: in=3904 (cached=0) out=9
+    [s4] catchall-60 run 1/1: 0 raw findings
+  [s4] chunk catchall-60: 0 high-confidence findings
+  [s4] chunk catchall-61 (medium, rank 62, lens=javascript): Coverage sweep of 'frontend/stylelint.config.mjs' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabil…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-61] (3207 chars, max_tokens=6000, json)
+    [openai] usage: in=2749 (cached=0) out=2
+    [s4] catchall-61 run 1/1: 0 raw findings
+  [s4] chunk catchall-61: 0 high-confidence findings
+  [s4] chunk catchall-62 (medium, rank 63, lens=generic): Coverage sweep of 'frontend/tsconfig.base.json' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabilit…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-62] (1748 chars, max_tokens=6000, json)
+    [openai] usage: in=2354 (cached=0) out=9
+    [s4] catchall-62 run 1/1: 0 raw findings
+  [s4] chunk catchall-62: 0 high-confidence findings
+  [s4] chunk catchall-63 (medium, rank 64, lens=generic): Coverage sweep of 'frontend/tsconfig.json' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-63] (1841 chars, max_tokens=6000, json)
+    [openai] usage: in=2356 (cached=0) out=2
+    [s4] catchall-63 run 1/1: 0 raw findings
+  [s4] chunk catchall-63: 0 high-confidence findings
+  [s4] chunk catchall-64 (medium, rank 65, lens=generic): Coverage sweep of 'ftp/eastere.gg' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-64] (1618 chars, max_tokens=6000, json)
+    [openai] usage: in=2343 (cached=0) out=9
+    [s4] catchall-64 run 1/1: 0 raw findings
+  [s4] chunk catchall-64: 0 high-confidence findings
+  [s4] chunk catchall-65 (medium, rank 66, lens=generic): Coverage sweep of 'ftp/incident-support.kdbx' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-65] (4700 chars, max_tokens=6000, json)
+    [openai] usage: in=4944 (cached=0) out=9
+    [s4] catchall-65 run 1/1: 0 raw findings
+  [s4] chunk catchall-65: 0 high-confidence findings
+  [s4] chunk catchall-66 (medium, rank 67, lens=generic): Coverage sweep of 'ftp/quarantine' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-66] (2191 chars, max_tokens=6000, json)
+    [openai] usage: in=2623 (cached=0) out=9
+    [s4] catchall-66 run 1/1: 0 raw findings
+  [s4] chunk catchall-66: 0 high-confidence findings
+  [s4] chunk catchall-67 (medium, rank 68, lens=generic): Coverage sweep of 'ftp/suspicious_errors.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-67] (2074 chars, max_tokens=6000, json)
+    [openai] usage: in=2389 (cached=0) out=9
+    [s4] catchall-67 run 1/1: 0 raw findings
+  [s4] chunk catchall-67: 0 high-confidence findings
+  [s4] chunk catchall-68 (medium, rank 69, lens=typescript): Coverage sweep of 'lib/accuracy.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-68] (5678 chars, max_tokens=6000, json)
+    [openai] usage: in=3586 (cached=0) out=398
+    [s4] catchall-68 run 1/1: 1 raw findings
+  [s4] chunk catchall-68: 1 high-confidence findings
+  [s4] chunk catchall-69 (medium, rank 70, lens=typescript): Coverage sweep of 'lib/antiCheat.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-69] (12755 chars, max_tokens=6000, json)
+    [openai] usage: in=5814 (cached=0) out=441
+    [s4] catchall-69 run 1/1: 1 raw findings
+  [s4] chunk catchall-69: 1 high-confidence findings
+  [s4] chunk catchall-70 (medium, rank 71, lens=typescript): Coverage sweep of 'lib/botUtils.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-70] (4395 chars, max_tokens=6000, json)
+    [openai] usage: in=3126 (cached=0) out=361
+    [s4] catchall-70 run 1/1: 1 raw findings
+  [s4] chunk catchall-70: 1 high-confidence findings
+  [s4] chunk catchall-71 (medium, rank 72, lens=typescript): Coverage sweep of 'lib/challengeUtils.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-71] (9406 chars, max_tokens=6000, json)
+    [openai] usage: in=4618 (cached=0) out=388
+    [s4] catchall-71 run 1/1: 1 raw findings
+  [s4] chunk catchall-71: 1 high-confidence findings
+  [s4] chunk catchall-72 (medium, rank 73, lens=typescript): Coverage sweep of 'lib/codingChallenges.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-72] (7949 chars, max_tokens=6000, json)
+    [openai] usage: in=4308 (cached=0) out=288
+    [s4] dropped malformed finding: 3 validation errors for Finding
+file
+  Field required [type=missing, input_value={'vuln_class': 'type-conf...hunk_id': 'catchall-72'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'vuln_class': 'type-conf...hunk_id': 'catchall-72'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'vuln_class': 'type-conf...hunk_id': 'catchall-72'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] catchall-72 run 1/1: 0 raw findings
+  [s4] chunk catchall-72: 0 high-confidence findings
+  [s4] chunk catchall-73 (medium, rank 74, lens=typescript): Coverage sweep of 'lib/config.types.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-73] (7067 chars, max_tokens=6000, json)
+    [openai] usage: in=4185 (cached=0) out=9
+    [s4] catchall-73 run 1/1: 0 raw findings
+  [s4] chunk catchall-73: 0 high-confidence findings
+  [s4] chunk catchall-74 (medium, rank 75, lens=typescript): Coverage sweep of 'lib/is-docker.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-74] (3687 chars, max_tokens=6000, json)
+    [openai] usage: in=2933 (cached=0) out=350
+    [s4] catchall-74 run 1/1: 1 raw findings
+  [s4] chunk catchall-74: 1 high-confidence findings
+  [s4] chunk catchall-75 (medium, rank 76, lens=typescript): Coverage sweep of 'lib/is-heroku.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-75] (3103 chars, max_tokens=6000, json)
+    [openai] usage: in=2691 (cached=0) out=9
+    [s4] catchall-75 run 1/1: 0 raw findings
+  [s4] chunk catchall-75: 0 high-confidence findings
+  [s4] chunk catchall-76 (medium, rank 77, lens=typescript): Coverage sweep of 'lib/is-windows.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-76] (3160 chars, max_tokens=6000, json)
+    [openai] usage: in=2706 (cached=0) out=9
+    [s4] catchall-76 run 1/1: 0 raw findings
+  [s4] chunk catchall-76: 0 high-confidence findings
+  [s4] chunk catchall-77 (medium, rank 78, lens=typescript): Coverage sweep of 'lib/logger.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-77] (3273 chars, max_tokens=6000, json)
+    [openai] usage: in=2745 (cached=0) out=9
+    [s4] catchall-77 run 1/1: 0 raw findings
+  [s4] chunk catchall-77: 0 high-confidence findings
+  [s4] chunk catchall-78 (medium, rank 79, lens=typescript): Coverage sweep of 'lib/noUpdate.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-78] (4986 chars, max_tokens=6000, json)
+    [openai] usage: in=3251 (cached=0) out=475
+    [s4] catchall-78 run 1/1: 1 raw findings
+  [s4] chunk catchall-78: 1 high-confidence findings
+  [s4] chunk catchall-79 (medium, rank 80, lens=typescript): Coverage sweep of 'lib/startup' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-79] (34833 chars, max_tokens=6000, json)
+    [openai] usage: in=12540 (cached=0) out=1227
+    [s4] catchall-79 run 1/1: 3 raw findings
+  [s4] chunk catchall-79: 3 high-confidence findings
+  [s4] chunk catchall-80 (medium, rank 81, lens=typescript): Coverage sweep of 'lib/utils.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in lib/utils.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-80] (11285 chars, max_tokens=6000, json)
+    [openai] usage: in=5776 (cached=0) out=9
+    [s4] catchall-80 run 1/1: 0 raw findings
+  [s4] chunk catchall-80: 0 high-confidence findings
+  [s4] chunk catchall-81 (medium, rank 82, lens=typescript): Coverage sweep of 'lib/webhook.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-81] (4486 chars, max_tokens=6000, json)
+    [openai] usage: in=3132 (cached=0) out=423
+    [s4] catchall-81 run 1/1: 1 raw findings
+  [s4] chunk catchall-81: 1 high-confidence findings
+  [s4] chunk catchall-82 (medium, rank 83, lens=typescript): Coverage sweep of 'models/address.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-82] (4894 chars, max_tokens=6000, json)
+    [openai] usage: in=3331 (cached=0) out=341
+    [s4] catchall-82 run 1/1: 1 raw findings
+  [s4] chunk catchall-82: 1 high-confidence findings
+  [s4] chunk catchall-83 (medium, rank 84, lens=typescript): Coverage sweep of 'models/basket.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-83] (4166 chars, max_tokens=6000, json)
+    [openai] usage: in=3052 (cached=0) out=9
+    [s4] catchall-83 run 1/1: 0 raw findings
+  [s4] chunk catchall-83: 0 high-confidence findings
+  [s4] chunk catchall-84 (medium, rank 85, lens=typescript): Coverage sweep of 'models/basketitem.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-84] (4154 chars, max_tokens=6000, json)
+    [openai] usage: in=3058 (cached=0) out=9
+    [s4] catchall-84 run 1/1: 0 raw findings
+  [s4] chunk catchall-84: 0 high-confidence findings
+  [s4] chunk catchall-85 (medium, rank 86, lens=typescript): Coverage sweep of 'models/captcha.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-85] (3854 chars, max_tokens=6000, json)
+    [openai] usage: in=2965 (cached=0) out=9
+    [s4] catchall-85 run 1/1: 0 raw findings
+  [s4] chunk catchall-85: 0 high-confidence findings
+  [s4] chunk catchall-86 (medium, rank 87, lens=typescript): Coverage sweep of 'models/card.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 2 PAN-prefix + 0 sensitive token(s) in models/card.ts
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-86] (4706 chars, max_tokens=6000, json)
+    [openai] usage: in=3299 (cached=0) out=9
+    [s4] catchall-86 run 1/1: 0 raw findings
+  [s4] chunk catchall-86: 0 high-confidence findings
+  [s4] chunk catchall-87 (medium, rank 88, lens=typescript): Coverage sweep of 'models/challenge.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-87] (9024 chars, max_tokens=6000, json)
+    [openai] usage: in=4747 (cached=0) out=2
+    [s4] catchall-87 run 1/1: 0 raw findings
+  [s4] chunk catchall-87: 0 high-confidence findings
+  [s4] chunk catchall-88 (medium, rank 89, lens=typescript): Coverage sweep of 'models/complaint.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-88] (4105 chars, max_tokens=6000, json)
+    [openai] usage: in=3033 (cached=0) out=9
+    [s4] catchall-88 run 1/1: 0 raw findings
+  [s4] chunk catchall-88: 0 high-confidence findings
+  [s4] chunk catchall-89 (medium, rank 90, lens=typescript): Coverage sweep of 'models/delivery.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-89] (4173 chars, max_tokens=6000, json)
+    [openai] usage: in=3059 (cached=0) out=303
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-89 run 1/1: 0 raw findings
+  [s4] chunk catchall-89: 0 high-confidence findings
+  [s4] chunk catchall-90 (medium, rank 91, lens=typescript): Coverage sweep of 'models/feedback.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-90] (5388 chars, max_tokens=6000, json)
+    [openai] usage: in=3390 (cached=0) out=407
+    [s4] catchall-90 run 1/1: 1 raw findings
+  [s4] chunk catchall-90: 1 high-confidence findings
+  [s4] chunk catchall-91 (medium, rank 92, lens=typescript): Coverage sweep of 'models/hint.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-91] (4291 chars, max_tokens=6000, json)
+    [openai] usage: in=3122 (cached=0) out=2
+    [s4] catchall-91 run 1/1: 0 raw findings
+  [s4] chunk catchall-91: 0 high-confidence findings
+  [s4] chunk catchall-92 (medium, rank 93, lens=typescript): Coverage sweep of 'models/imageCaptcha.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-92] (4183 chars, max_tokens=6000, json)
+    [openai] usage: in=3056 (cached=0) out=9
+    [s4] catchall-92 run 1/1: 0 raw findings
+  [s4] chunk catchall-92: 0 high-confidence findings
+  [s4] chunk catchall-93 (medium, rank 94, lens=typescript): Coverage sweep of 'models/index.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-93] (5349 chars, max_tokens=6000, json)
+    [openai] usage: in=3384 (cached=0) out=9
+    [s4] catchall-93 run 1/1: 0 raw findings
+  [s4] chunk catchall-93: 0 high-confidence findings
+  [s4] chunk catchall-94 (medium, rank 95, lens=typescript): Coverage sweep of 'models/memory.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-94] (4065 chars, max_tokens=6000, json)
+    [openai] usage: in=3026 (cached=0) out=9
+    [s4] catchall-94 run 1/1: 0 raw findings
+  [s4] chunk catchall-94: 0 high-confidence findings
+  [s4] chunk catchall-95 (medium, rank 96, lens=typescript): Coverage sweep of 'models/privacyRequests.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-95] (4167 chars, max_tokens=6000, json)
+    [openai] usage: in=3040 (cached=0) out=9
+    [s4] catchall-95 run 1/1: 0 raw findings
+  [s4] chunk catchall-95: 0 high-confidence findings
+  [s4] chunk catchall-96 (medium, rank 97, lens=typescript): Coverage sweep of 'models/product.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-96] (5180 chars, max_tokens=6000, json)
+    [openai] usage: in=3334 (cached=0) out=9
+    [s4] catchall-96 run 1/1: 0 raw findings
+  [s4] chunk catchall-96: 0 high-confidence findings
+  [s4] chunk catchall-97 (medium, rank 98, lens=typescript): Coverage sweep of 'models/quantity.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-97] (4369 chars, max_tokens=6000, json)
+    [openai] usage: in=3132 (cached=0) out=9
+    [s4] catchall-97 run 1/1: 0 raw findings
+  [s4] chunk catchall-97: 0 high-confidence findings
+  [s4] chunk catchall-98 (medium, rank 99, lens=typescript): Coverage sweep of 'models/recycle.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-98] (4290 chars, max_tokens=6000, json)
+    [openai] usage: in=3110 (cached=0) out=2
+    [s4] catchall-98 run 1/1: 0 raw findings
+  [s4] chunk catchall-98: 0 high-confidence findings
+  [s4] chunk catchall-99 (medium, rank 100, lens=typescript): Coverage sweep of 'models/relations.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-99] (7178 chars, max_tokens=6000, json)
+    [openai] usage: in=4203 (cached=0) out=2
+    [s4] catchall-99 run 1/1: 0 raw findings
+  [s4] chunk catchall-99: 0 high-confidence findings
+  [s4] chunk catchall-100 (medium, rank 101, lens=typescript): Coverage sweep of 'models/securityAnswer.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-100] (4460 chars, max_tokens=6000, json)
+    [openai] usage: in=3141 (cached=0) out=9
+    [s4] catchall-100 run 1/1: 0 raw findings
+  [s4] chunk catchall-100: 0 high-confidence findings
+  [s4] chunk catchall-101 (medium, rank 102, lens=typescript): Coverage sweep of 'models/securityQuestion.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-101] (4028 chars, max_tokens=6000, json)
+    [openai] usage: in=2993 (cached=0) out=9
+    [s4] catchall-101 run 1/1: 0 raw findings
+  [s4] chunk catchall-101: 0 high-confidence findings
+  [s4] chunk catchall-102 (medium, rank 103, lens=typescript): Coverage sweep of 'models/user.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 0 PAN-prefix + 4 sensitive token(s) in models/user.ts [SECRET:4]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-102] (7799 chars, max_tokens=6000, json)
+    [openai] usage: in=4198 (cached=0) out=1109
+    [s4] catchall-102 run 1/1: 3 raw findings
+  [s4] chunk catchall-102: 3 high-confidence findings
+  [s4] chunk catchall-103 (medium, rank 104, lens=typescript): Coverage sweep of 'models/wallet.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-103] (4151 chars, max_tokens=6000, json)
+    [openai] usage: in=3063 (cached=0) out=9
+    [s4] catchall-103 run 1/1: 0 raw findings
+  [s4] chunk catchall-103: 0 high-confidence findings
+  [s4] chunk catchall-104 (medium, rank 105, lens=generic): Coverage sweep of 'monitoring/grafana-dashboard.json' — files not assigned to any risk-ranked chunk. Hunt for any vulner…
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in monitoring/grafana-dashboard.json
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-104] (64672 chars, max_tokens=6000, json)
+    [openai] usage: in=27013 (cached=0) out=9
+    [s4] catchall-104 run 1/1: 0 raw findings
+  [s4] chunk catchall-104: 0 high-confidence findings
+  [s4] chunk catchall-105 (medium, rank 106, lens=typescript): Coverage sweep of 'routes/2fa.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-105] (8268 chars, max_tokens=6000, json)
+    [openai] usage: in=4515 (cached=0) out=460
+    [s4] catchall-105 run 1/1: 1 raw findings
+  [s4] chunk catchall-105: 1 high-confidence findings
+  [s4] chunk catchall-106 (medium, rank 107, lens=typescript): Coverage sweep of 'routes/address.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-106] (4367 chars, max_tokens=6000, json)
+    [openai] usage: in=3099 (cached=0) out=1030
+    [s4] catchall-106 run 1/1: 3 raw findings
+  [s4] chunk catchall-106: 3 high-confidence findings
+  [s4] chunk catchall-107 (medium, rank 108, lens=typescript): Coverage sweep of 'routes/angular.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-107] (3565 chars, max_tokens=6000, json)
+    [openai] usage: in=2828 (cached=0) out=340
+    [s4] catchall-107 run 1/1: 1 raw findings
+  [s4] chunk catchall-107: 1 high-confidence findings
+  [s4] chunk catchall-108 (medium, rank 109, lens=typescript): Coverage sweep of 'routes/appConfiguration.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-108] (3275 chars, max_tokens=6000, json)
+    [openai] usage: in=2736 (cached=0) out=270
+    [s4] catchall-108 run 1/1: 1 raw findings
+  [s4] chunk catchall-108: 1 high-confidence findings
+  [s4] chunk catchall-109 (medium, rank 110, lens=typescript): Coverage sweep of 'routes/appVersion.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-109] (3403 chars, max_tokens=6000, json)
+    [openai] usage: in=2783 (cached=0) out=9
+    [s4] catchall-109 run 1/1: 0 raw findings
+  [s4] chunk catchall-109: 0 high-confidence findings
+  [s4] chunk catchall-110 (medium, rank 111, lens=typescript): Coverage sweep of 'routes/b2bOrder.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-110] (5054 chars, max_tokens=6000, json)
+    [openai] usage: in=3305 (cached=0) out=421
+    [s4] catchall-110 run 1/1: 1 raw findings
+  [s4] chunk catchall-110: 1 high-confidence findings
+  [s4] chunk catchall-111 (medium, rank 112, lens=typescript): Coverage sweep of 'routes/basket.ts' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-111] (4435 chars, max_tokens=6000, json)
