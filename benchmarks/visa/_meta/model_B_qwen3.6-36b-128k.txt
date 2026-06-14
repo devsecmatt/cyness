@@ -1,0 +1,27 @@
+  Model
+    architecture        qwen35moe    
+    parameters          36.0B        
+    context length      262144       
+    embedding length    2048         
+    quantization        Q4_K_M       
+
+  Capabilities
+    completion    
+    vision        
+    tools         
+    thinking      
+
+  Parameters
+    temperature         0.2       
+    top_k               20        
+    top_p               0.95      
+    min_p               0         
+    num_ctx             131072    
+    presence_penalty    1.5       
+    repeat_penalty      1         
+
+  License
+    Apache License               
+    Version 2.0, January 2004    
+    ...                          
+

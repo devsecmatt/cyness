@@ -1,0 +1,3 @@
+opencode/qwen/anthropics prompts:
+
+run the skills for /threat-model /vuln-scan and /triage workflows against the repos for @juice-shop/ @nokogiri/ and @underscore/ and store the artifacts under the respective directories under /benchmarks/anthropics. any support tools you need for the harness are in @defending-code-reference-harness/

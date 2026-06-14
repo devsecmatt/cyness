@@ -1,0 +1,163 @@
+  [env] loaded /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.env
+  config: config.yaml
+  step1 overlay: --auto-step1 (per-target checkpoints/step1.yaml will be derived)
+  WARN: no CMDB file (/home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/inputs/cmdb.csv) — VulContextSeverity environmental scoring skipped (CVSS + OffensivePriority still computed).
+  [auth] active backends: openai
+  [auth] openai credential sources (presence only — secrets never printed):
+    env  OPENAI_API_KEY           = set ✓
+    cfg  openai.api_key           = set ✓
+    cfg  openai.base_url          = http://localhost:11434/v1
+  [openai] OPENAI_API_KEY present ✓
+  [probe] live model connectivity (1 unique model/backend pair(s)):
+    [openai] prompt -> qwen2.5-coder-14b-32k [preflight] (4 chars, max_tokens=4)
+    [openai] usage: in=30 (cached=0) out=193
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 8.4s)  roles: autoexclude,preprocess,threatmodel,decompose,deepdive,verify,dedup,chain
+  [probe] agentic backend path (1 agentic role/backend pair(s)):
+    [openai] agentic -> qwen2.5-coder-14b-32k [preflight-agentic] (tools=['Read', 'Glob', 'Grep'], cwd=/tmp/vva-preflight-xpe3x6bb)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 0.8s)  agentic roles: preprocess,verify
+  [probe] all model backends reachable ✓
+  [auto-step1] surveying /home/higgs/workspace/cyness/juice-shop (817 files, prompt 11690 chars)
+    [openai] prompt -> qwen2.5-coder-14b-32k [s1 autoexclude] (11690 chars, max_tokens=8000)
+    [openai] usage: in=3864 (cached=0) out=112
+  [auto-step1] wrote /home/higgs/workspace/cyness/juice-shop/checkpoints/step1.yaml  (+11 dirs, +0 exts, +4 globs)
+  [auto-step1] applied overlay  (exclude_dirs=16 exts=20 globs=5)
+Agentic SAST  repo=/home/higgs/workspace/cyness/juice-shop  module=juice-shop  app_id=bench-juice-shop  run_id=_home_higgs_workspace_cyness_juice_shop
+  models:
+    autoexclude -> qwen2.5-coder-14b-32k        [openai]
+    preprocess  -> qwen2.5-coder-14b-32k        [openai]
+    threatmodel -> qwen2.5-coder-14b-32k        [openai]
+    decompose   -> qwen2.5-coder-14b-32k        [openai]
+    deepdive    -> qwen2.5-coder-14b-32k        [openai]
+    verify      -> qwen2.5-coder-14b-32k        [openai]
+    dedup       -> qwen2.5-coder-14b-32k        [openai]
+    chain       -> qwen2.5-coder-14b-32k        [openai]
+  [cmdb] application_id bench-juice-shop not found
+  injected: 0 CVEs, 0 controls, app_profile=no
+  ▶ [1/9] Step 1 — Pre-process (qwen2.5-coder-14b-32k [openai]) …
+    [openai] agentic -> qwen2.5-coder-14b-32k (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/juice-shop)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+  [s1] config-dedup: 199 config files -> 4 shape-clusters; kept 4 reps + 0 promoted, dropped 124 near-duplicates
+  [s1]   largest: data/static/i18n/ja_JP.json x43, frontend/src/assets/i18n/ru_RU.json x43, data/static/codefixes/localXssChallenge.info.yml x31
+  [s1] call-graph: agent=0 edges → validate -0 hallucinated → supplement +0 regex = 0 qualified edges over 0 nodes, 0 located fns (475 source files scanned)
+  [s1] file inventory: 57681 on disk -> 666 in scope (excluded: 56666 dir, 101 ext, 124 glob, 0 oversize, 124 config-dedup)
+  [s1] done: 0 modules, 0 entry points, 0 sinks, 666 files in scope
+  ✓ [1/9] Step 1 — Pre-process (qwen2.5-coder-14b-32k [openai]) (12.9s)
+  [ckpt] saved s1
+  ▶ [2/9] Step 2 — Threat model (qwen2.5-coder-14b-32k [openai]) …
+  [s2] evidence: 666 files, 0 modules, 0 entry points, 21 config reps, 1 api artefacts, 0 docs, 2 manifests
+  [s2] baseline=auto repo_kind=['web-api']
+    [openai] prompt -> qwen2.5-coder-14b-32k [s2 threatmodel] (8579 chars, max_tokens=6000)
+    [openai] usage: in=3245 (cached=0) out=735
+  [s2] done: 4 assets, 3 trust boundaries, 4 threats
+  ✓ [2/9] Step 2 — Threat model (qwen2.5-coder-14b-32k [openai]) (43.8s)
+  [ckpt] saved s2
+  ▶ [3/9] Step 3 — Decompose (qwen2.5-coder-14b-32k [openai]) …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s3 decompose] (35682 chars, max_tokens=6000)
+    [openai] usage: in=9314 (cached=0) out=551
+    [s3] dropped non-existent file from chunk-02: frontend/src/app/file-upload/file-upload.component.ts
+    [s3] pack_by=tokens  budget=20000tok − overhead=6000tok → 56000 chars/chunk  (legacy *_chunk_loc caps ignored)
+    [s3] taint: skipped (no entry points or sinks from s1)
+    [s3] coverage: 661 uncovered → 567 eligible → 174 catch-all chunks
+    [s3] specialist 'batch-etl' gated OFF — no matching surface in repo
+    [s3] specialist 'iac': scoped to 18 IaC file(s) → 3 shard(s)
+    [s3] specialists: crypto, logic-bug, access-control, iac -> 411 chunks (493/666 source files)
+    [s3] threat coverage: 4/4 threats have ≥1 chunk
+    [s3] chunk LOC: n=589 min=0 p50=54 p90=1.3k max=36.7k  (5 over risk_chunk_loc=10000)
+  [s3] done: 589 chunks (0 taint, 174 catch-all, 411 specialist), top risk = chunk-01
+  ✓ [3/9] Step 3 — Decompose (qwen2.5-coder-14b-32k [openai]) (59.6s)
+  [ckpt] saved s3
+  ▶ [4/9] Step 4 — Deep-dive (qwen2.5-coder-14b-32k [openai]; 1 runs, vote≥3, parallel=1) …
+  [s4] WARN: vote_threshold=3 exceeds runs=1; no finding could survive the vote — clamping vote_threshold to 1.
+  [s4] chunk chunk-01 (small, rank 1, lens=typescript): Unauth HTTP endpoint for user login poses a risk of unauthorized access to PII. Potential unsafe sinks include poor auth…
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in lib/insecurity.ts [PRIVATE-KEY:1, SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 chunk-01] (15940 chars, max_tokens=6000, json)
+    [openai] usage: in=7034 (cached=0) out=336
+    [s4] chunk-01 run 1/1: 1 raw findings
+  [s4] chunk chunk-01: 1 high-confidence findings
+  [s4] chunk chunk-02 (small, rank 1, lens=typescript): File upload functionality allows adjacent network attackers to tamper with configuration files. Insecure handling of upl…
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in lib/insecurity.ts [PRIVATE-KEY:1, SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 chunk-02] (18385 chars, max_tokens=6000, json)
+    [openai] usage: in=7810 (cached=0) out=453
+    [s4] chunk-02 run 1/1: 1 raw findings
+  [s4] chunk chunk-02: 1 high-confidence findings
+  [s4] chunk chunk-03 (small, rank 1, lens=typescript): HTTP endpoints for order processing could be vulnerable to SQL Injection, especially since they handle sensitive Payment…
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in lib/insecurity.ts [PRIVATE-KEY:1, SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 chunk-03] (21945 chars, max_tokens=6000, json)
+    [openai] usage: in=9078 (cached=0) out=9
+    [s4] chunk-03 run 1/1: 0 raw findings
+  [s4] chunk chunk-03: 0 high-confidence findings
+  [s4] chunk chunk-04 (small, rank 1, lens=typescript): Authenticated HTTP endpoints for user management could be exploited to forge JWT tokens, leading to unauthorized access.…
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in routes/authenticatedUsers.ts [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 2 sensitive token(s) in lib/insecurity.ts [PRIVATE-KEY:1, SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 chunk-04] (12185 chars, max_tokens=6000, json)
+    [openai] usage: in=5940 (cached=0) out=9
+    [s4] chunk-04 run 1/1: 0 raw findings
+  [s4] chunk chunk-04: 0 high-confidence findings
+  [s4] chunk catchall-01 (medium, rank 2, lens=javascript+typescript+ansible): Coverage sweep of '. [shard 1/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in package.json [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-01] (49224 chars, max_tokens=6000, json)
+    [openai] usage: in=20558 (cached=0) out=374
+    [s4] catchall-01 run 1/1: 1 raw findings
+  [s4] chunk catchall-01: 1 high-confidence findings
+  [s4] chunk catchall-02 (medium, rank 3, lens=typescript): Coverage sweep of '. [shard 2/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in server.ts [SECRET:1]
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-02] (41644 chars, max_tokens=6000, json)
+    [openai] usage: in=15465 (cached=0) out=609
+    [s4] catchall-02 run 1/1: 2 raw findings
+  [s4] chunk catchall-02: 2 high-confidence findings
+  [s4] chunk catchall-03 (medium, rank 4, lens=generic): Coverage sweep of '.github/FUNDING.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-03] (1274 chars, max_tokens=6000, json)
+    [openai] usage: in=2172 (cached=0) out=9
+    [s4] catchall-03 run 1/1: 0 raw findings
+  [s4] chunk catchall-03: 0 high-confidence findings
+  [s4] chunk catchall-04 (medium, rank 5, lens=generic): Coverage sweep of '.github/ISSUE_TEMPLATE' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-04] (1387 chars, max_tokens=6000, json)
+    [openai] usage: in=2202 (cached=0) out=9
+    [s4] catchall-04 run 1/1: 0 raw findings
+  [s4] chunk catchall-04: 0 high-confidence findings
+  [s4] chunk catchall-05 (medium, rank 6, lens=github-actions): Coverage sweep of '.github/workflows [shard 1/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabil…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-05] (66560 chars, max_tokens=6000, json)
+    [openai] usage: in=25270 (cached=0) out=368
+    [s4] catchall-05 run 1/1: 1 raw findings
+  [s4] chunk catchall-05: 1 high-confidence findings
+  [s4] chunk catchall-06 (medium, rank 7, lens=github-actions): Coverage sweep of '.github/workflows [shard 2/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabil…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-06] (3567 chars, max_tokens=6000, json)
+    [openai] usage: in=3058 (cached=0) out=9
+    [s4] catchall-06 run 1/1: 0 raw findings
+  [s4] chunk catchall-06: 0 high-confidence findings
+  [s4] chunk catchall-07 (medium, rank 8, lens=generic): Coverage sweep of '.nyc_output/326e9b35-0ad0-4506-972f-b48d48fdceb5.json' — files not assigned to any risk-ranked chunk.…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-07] (9281 chars, max_tokens=6000, json)
+    [openai] usage: in=5173 (cached=0) out=9
+    [s4] catchall-07 run 1/1: 0 raw findings
+  [s4] chunk catchall-07: 0 high-confidence findings
+  [s4] chunk catchall-08 (medium, rank 9, lens=generic): Coverage sweep of '.nyc_output/d4dcf808-a256-4b46-a3fe-fb7911698ea1.json' — files not assigned to any risk-ranked chunk.…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-08] (9281 chars, max_tokens=6000, json)
+    [openai] usage: in=5335 (cached=0) out=2
+    [s4] catchall-08 run 1/1: 0 raw findings
+  [s4] chunk catchall-08: 0 high-confidence findings
+  [s4] chunk catchall-09 (medium, rank 10, lens=generic): Coverage sweep of '.nyc_output/processinfo' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in .nyc_output/processinfo/326e9b35-0ad0-4506-972f-b48d48fdceb5.json
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in .nyc_output/processinfo/d4dcf808-a256-4b46-a3fe-fb7911698ea1.json
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-09] (15992 chars, max_tokens=6000, json)
+    [openai] usage: in=7875 (cached=0) out=9
+    [s4] catchall-09 run 1/1: 0 raw findings
+  [s4] chunk catchall-09: 0 high-confidence findings
+  [s4] chunk catchall-10 (medium, rank 11, lens=generic): Coverage sweep of '.well-known/csaf' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-10] (16920 chars, max_tokens=6000, json)
+    [openai] usage: in=8633 (cached=0) out=9
+    [s4] catchall-10 run 1/1: 0 raw findings
+  [s4] chunk catchall-10: 0 high-confidence findings
+  [s4] chunk catchall-11 (medium, rank 12, lens=generic): Coverage sweep of 'config/7ms.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 11 PAN-prefix + 0 sensitive token(s) in config/7ms.yml
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-11] (12628 chars, max_tokens=6000, json)
+    [openai] usage: in=6371 (cached=0) out=2
+    [s4] catchall-11 run 1/1: 0 raw findings
+  [s4] chunk catchall-11: 0 high-confidence findings
+  [s4] chunk catchall-12 (medium, rank 13, lens=generic): Coverage sweep of 'config/addo.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-12] (8023 chars, max_tokens=6000, json)
+    [openai] usage: in=4772 (cached=0) out=386
+    [s4] catchall-12 run 1/1: 1 raw findings
+  [s4] chunk catchall-12: 1 high-confidence findings
+  [s4] chunk catchall-13 (medium, rank 14, lens=generic): Coverage sweep of 'config/bodgeit.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-13] (11005 chars, max_tokens=6000, json)

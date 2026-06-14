@@ -1,0 +1,67 @@
+{
+  "target": "nokogiri",
+  "scanned_at": "2026-06-12T00:00:00Z",
+  "focus_areas": [
+    "XSLT transform & parameters (ext/nokogiri/xslt_stylesheet.c)",
+    "Parse-option security posture (lib/nokogiri/xml/parse_options.rb)",
+    "CSS->XPath selector translation (lib/nokogiri/css)",
+    "gumbo HTML5 bridge (ext/nokogiri/gumbo.c)",
+    "C bridge memory/return-value handling (ext/nokogiri/*.c)"
+  ],
+  "scope_note": "Static review covers nokogiri's own in-tree code: the C bridge (ext/nokogiri/*.c) and the Ruby API (lib/). The vendored native libraries (libxml2, libxslt, gumbo-parser, zlib, libiconv) are fetched/compiled at build time and are NOT in this checkout, so their memory-corruption surface — the dominant historical CVE source — is out of scope for static review. For execution-verified crashes in the native parsers, use vuln-pipeline.",
+  "findings": [
+    {
+      "id": "F-001",
+      "file": "lib/nokogiri/xml/parse_options.rb",
+      "line": 342,
+      "category": "xxe",
+      "severity": "HIGH",
+      "confidence": 0.5,
+      "title": "DEFAULT_XSLT enables NOENT and DTDLOAD, allowing entity/DTD loading when processing XSLT",
+      "description": "DEFAULT_XSLT = RECOVER | NONET | NOENT | DTDLOAD | DTDATTR | NOCDATA | BIG_LINES (parse_options.rb:342). Unlike DEFAULT_XML (line 334, which omits NOENT/DTDLOAD), the XSLT default substitutes entities and loads DTDs. A stylesheet or input document parsed under these options can reference external/parameter entities and DTDs; NONET blocks network fetches, but local file disclosure via SYSTEM entities / DTD load and entity-expansion DoS remain reachable. The code carries an explicit warning comment that this set is unsafe for untrusted documents.",
+      "exploit_scenario": "An application that compiles an attacker-influenced XSLT stylesheet (or transforms a document that pulls in a malicious DTD) under the default options has entities expanded and DTDs loaded, enabling local file read via SYSTEM entities or billion-laughs-style expansion.",
+      "recommendation": "Never parse untrusted XSLT. Offer/document a hardened XSLT option set without NOENT/DTDLOAD for cases where stylesheet trust cannot be guaranteed.",
+      "confidence_reason": "The unsafe flags are real and on-by-default for XSLT, but the behavior is documented with an explicit warning and entity loading is intrinsic to XSLT semantics; triage may rule intended-but-documented."
+    },
+    {
+      "id": "F-002",
+      "file": "ext/nokogiri/xslt_stylesheet.c",
+      "line": 160,
+      "category": "injection",
+      "severity": "MEDIUM",
+      "confidence": 0.45,
+      "title": "XSLT/XPath parameter injection when transform() params are not quoted",
+      "description": "build_xslt_params (xslt_stylesheet.c:155-163) takes each Ruby param via StringValueCStr (line 160) and passes the raw C strings to xsltApplyStylesheet. libxslt interprets parameter VALUES as XPath expressions, not literals. If an application forwards untrusted input as a transform() parameter value without wrapping it in Nokogiri::XSLT.quote_params, the attacker controls an XPath expression evaluated inside the stylesheet context.",
+      "exploit_scenario": "App does stylesheet.transform(doc, {\"q\" => userInput}); attacker supplies an XPath payload as userInput that exfiltrates or alters selected nodes / influences output beyond the intended literal.",
+      "recommendation": "Always pass user-controlled params through Nokogiri::XSLT.quote_params; document that raw param values are XPath expressions.",
+      "confidence_reason": "Real injection class, but the library provides quote_params and documents the contract; reachability requires caller misuse, so medium-low."
+    },
+    {
+      "id": "F-003",
+      "file": "lib/nokogiri/css/xpath_visitor.rb",
+      "line": 304,
+      "category": "injection",
+      "severity": "MEDIUM",
+      "confidence": 0.35,
+      "title": "XPath injection via untrusted CSS/XPath selectors built by the caller",
+      "description": "The CSS->XPath translation validates function NAMES (validate_xpath_function_name, xpath_visitor.rb:304) but does not sanitize attacker-controlled selector VALUES. When an application builds a selector or XPath string by interpolating untrusted input and passes it to Node#search/#xpath/#css, the attacker can alter the query (XPath injection), reading nodes outside the intended scope.",
+      "exploit_scenario": "doc.xpath(\"//user[@name='#{params[:name]}']\") with name = \"' or '1'='1\" returns all user nodes; richer payloads traverse to sibling/secret nodes.",
+      "recommendation": "Use variable bindings / parameterized XPath (doc.xpath(expr, nil, name: value)) instead of string interpolation; treat selectors built from untrusted input as injection-prone.",
+      "confidence_reason": "Primarily a caller-side misuse pattern; nokogiri offers parameterized XPath. Reportable as a candidate but likely a caller-responsibility / intended-API verdict in triage."
+    },
+    {
+      "id": "F-004",
+      "file": "ext/nokogiri/gumbo.c",
+      "line": 231,
+      "category": "integer-overflow",
+      "severity": "LOW",
+      "confidence": 0.3,
+      "title": "CDATA length truncated by (int) cast of strlen in the gumbo bridge",
+      "description": "In the GUMBO_NODE_CDATA case, xmlNewCDataBlock is called with (int) strlen(gumbo_child->v.text.text) (gumbo.c:230-231). strlen returns size_t; the cast to int truncates (and can go negative) for text nodes larger than INT_MAX. For a >2GB CDATA section this passes a wrong/negative length to libxml2.",
+      "exploit_scenario": "A >2GB CDATA section in attacker HTML produces a truncated/negative length into xmlNewCDataBlock, potentially mis-sizing the copied buffer.",
+      "recommendation": "Validate the length fits in int (or use a size_t-aware API / cap node size) before the cast.",
+      "confidence_reason": "Requires a multi-gigabyte single text node; gumbo/host limits make this largely theoretical — defense-in-depth."
+    }
+  ],
+  "summary": {"total": 4, "high": 1, "medium": 2, "low": 1, "low_confidence": 2}
+}

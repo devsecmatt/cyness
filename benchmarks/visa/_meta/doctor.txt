@@ -1,0 +1,35 @@
+  [env] loaded /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.env
+  [probe] live model connectivity (1 unique model/backend pair(s)):
+    [openai] prompt -> qwen2.5-coder-14b-32k [preflight] (4 chars, max_tokens=4)
+    [openai] usage: in=30 (cached=0) out=11
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 2.9s)  roles: autoexclude,preprocess,threatmodel,decompose,deepdive,verify,dedup,chain
+  [probe] agentic backend path (1 agentic role/backend pair(s)):
+    [openai] agentic -> qwen2.5-coder-14b-32k [preflight-agentic] (tools=['Read', 'Glob', 'Grep'], cwd=/tmp/vva-preflight-fz5icdwn)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 0.7s)  agentic roles: preprocess,verify
+  [probe] all model backends reachable ✓
+  ✓ Python                         3.12.3 (≥ 3.10)
+  ✓ git                            /usr/bin/git
+  ✓ pip3                           /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.venv/bin/pip3
+  ✓ agent: Claude Code             claude ✓ (via:cli) — installed and logged in
+  ⚠ agent: OpenAI Codex            not installed
+  ⚠ agent: Gemini CLI              not installed
+  ⚠ agent: Cursor Agent            not installed
+  ⚠ agent: GitHub Copilot CLI      not installed
+  ⚠ cred: ANTHROPIC_SDK_API_KEY    unset
+  ⚠ cred: ANTHROPIC_API_KEY        unset
+  ⚠ cred: ANTHROPIC_AUTH_TOKEN     unset
+  ⚠ cred: CLAUDE_CODE_OAUTH_TOKEN  unset
+  ✓ cred: OPENAI_API_KEY           set
+  ⚠ cred: GEMINI_API_KEY           unset
+  ⚠ cred: GITHUB_TOKEN             unset
+  ✓ dep: pydantic                  importable
+  ✓ dep: PyYAML                    importable
+  ✓ dep: anthropic                 importable
+  ✓ dep: openai                    importable
+  ✓ TLS / CA cert                  api.anthropic.com:443 verified (system trust store) — no extra CA bundle needed
+  ✓ config                         config.yaml loads
+  ✓ .env                           .env found
+  ✓ active backends                openai
+  ────────────────────────────────────────────────────────────
+  13 ok · 10 warning(s) · 0 blocking issue(s)

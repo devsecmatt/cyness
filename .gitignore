@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Cloned upstream repos — tracked in THEIR own git, cloned separately here.
+# Not part of this benchmark repo (see README for the clone URLs).
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Target/source packages under scan
+/nokogiri/
+/juice-shop/
+/underscore/
+
+# Scanning harnesses
+/visa-vulnerability-agentic-harness/
+/defending-code-reference-harness/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Local tooling / state (kept here, but not committed)
+# ─────────────────────────────────────────────────────────────────────────────
+.triage-state/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# NOTE: benchmarks/ is intentionally NOT ignored — the scan artifacts under
+# benchmarks/visa/ and benchmarks/anthropics/ are the deliverables of this repo.
