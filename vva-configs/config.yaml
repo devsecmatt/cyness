@@ -1,0 +1,175 @@
+# vvaharness all-local (Model A: qwen2.5-coder-14b-32k @ 32k) — derived from vvaharness/config/profiles/full.yaml
+# (complete structure; only model routing -> via:openai/Ollama and the
+#  context budgets changed). Regenerate via the transform in scan.log notes.
+# inject.* point at ./inputs/*.json|yaml — absent files are skipped gracefully.
+
+models:
+  autoexclude:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  preprocess:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  threatmodel:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  decompose:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  deepdive:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  verify:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  dedup:
+    id: ${OLLAMA_MODEL}
+    via: openai
+  chain:
+    id: ${OLLAMA_MODEL}
+    via: openai
+sdk:
+  api_key: ${ANTHROPIC_SDK_API_KEY}
+  base_url: ${ANTHROPIC_SDK_BASE_URL}
+  verify_ssl: true
+  ca_cert: ${ANTHROPIC_SDK_CA_CERT}
+  client_cert: ${ANTHROPIC_SDK_CLIENT_CERT}
+openai:
+  api_key: ${OPENAI_API_KEY}
+  base_url: ${OPENAI_BASE_URL}
+  verify_ssl: true
+cli:
+  verify_ssl: true
+  ca_cert: ${CLAUDE_CLI_CA_CERT}
+  effort: high
+step1:
+  max_budget_usd: 25.0
+  max_turns: 40
+  allowed_tools:
+  - Read
+  - Glob
+  - Grep
+  exclude_dirs:
+  - .vs
+  - .settings
+  - .vscode
+  - .idea
+  - node_modules
+  exclude_exts:
+  - .msi
+  - .nupkg
+  - .pdb
+  - .lib
+  - .aar
+  - .ser
+  - .pbix
+  - .p12
+  - .pfx
+  - .jks
+  - .der
+  - .cer
+  - .doc
+  - .docx
+  - .xls
+  - .xlsx
+  - .xlsm
+  - .bmp
+  - .sqlite
+  - .db
+  exclude_globs:
+  - '**/._*'
+  max_file_kb: 1024
+  call_graph_validate: true
+  call_graph_supplement: true
+  call_graph_rounds: 4
+  call_graph_max_targets: 3
+  config_dedup:
+    enabled: true
+    min_cluster_size: 5
+    keep_per_top_dir: true
+    promote_on_secret_hit: true
+    promote_on_insecure_value: true
+step2:
+  enabled: true
+  max_tokens: 6000
+  max_threats: 50
+  baseline: auto
+  max_doc_chars: 20000
+  max_manifest_chars: 4000
+  max_modules: 100
+  max_entry_points: 400
+  max_config_reps: 80
+  max_api_artefacts: 100
+step3:
+  max_tokens: 6000
+  timeout: 3600
+  taint_chunks: true
+  taint_max_hops: 10
+  taint_max_chunks: 60
+  taint_files_per_hop: 5
+  pack_by: tokens
+  chunk_token_budget: 20000
+  chunk_overhead_tokens: 6000
+  risk_chunk_loc: 10000
+  catchall_enabled: true
+  catchall_chunk_loc: 4000
+  catchall_max_files: 100
+  max_files_per_chunk: 80
+  specialists:
+  - crypto
+  - logic-bug
+  - access-control
+  - batch-etl
+  - iac
+  specialist_chunk_loc: 10000
+step4:
+  parallel: 1
+  timeout: 1800
+  runs: 1
+  vote_threshold: 3
+  specialist_runs: 1
+  line_bucket: 10
+  max_findings_per_run: 10
+  max_tokens: 6000
+  neighbor_context_lines: 25
+  neighbor_context_max: 50
+step5_prefilter:
+  min_pre_confidence: 0.6
+  require_evidence: true
+step6_verify:
+  parallel: 1
+  min_confidence: 7
+  max_budget_usd: 10.0
+  max_turns: 20
+  allowed_tools:
+  - Read
+  - Glob
+  - Grep
+step7_dedup:
+  line_tolerance: 3
+  semantic: true
+  max_tokens: 6000
+step8:
+  max_tokens: 6000
+  timeout: 3600
+inject:
+  cve_file: ./inputs/known_cves.json
+  controls_file: ./inputs/design_controls.yaml
+  cmdb_file: ./inputs/cmdb.csv
+batch:
+  git_token: ${GITHUB_TOKEN}
+  git_base_url: ${GIT_BASE_URL}
+  skip_repo_patterns:
+  - '*automation*'
+  - '*-playwright*'
+  - '*-selenium*'
+  - '*-karate*'
+  - '*perf-script*'
+  - '*perf-test*'
+  - '*test-buddy*'
+  - '*-e2e*'
+  - '*-mock-*'
+output:
+  preserve_on_cleanup:
+  - checkpoints
+  - security-scan

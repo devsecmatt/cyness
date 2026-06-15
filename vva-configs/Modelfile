@@ -1,0 +1,27 @@
+# vvaharness — long-context Ollama variant.
+#
+# WHY: Ollama defaults num_ctx to ~2k–4k and SILENTLY TRUNCATES any prompt that
+# exceeds it. vvaharness packs large multi-file prompts, so a default-context
+# model returns garbage/empty. This Modelfile bakes in a 32k window that matches
+# the budgets in ./config.yaml (chunk_token_budget 20000 + 6000 output ≈ 26k).
+#
+# BUILD:
+#   ollama pull qwen2.5-coder:14b
+#   ollama create qwen2.5-coder-14b-32k -f ./Modelfile
+# Then in .env:  OLLAMA_MODEL=qwen2.5-coder-14b-32k
+# (This model already exists in your Ollama — it was renamed from the earlier
+#  misleading "qwen3.6-32k". Rebuild only if you delete it.)
+#
+# Swap FROM to match whatever base you pulled (must support tools + JSON).
+# Raise num_ctx if your VRAM allows AND you raise chunk_token_budget in
+# config.yaml to match — keep (chunk_token_budget + max output) < num_ctx.
+
+FROM qwen2.5-coder:14b
+
+# 32k context window. This is the knob that actually prevents truncation; the
+# OpenAI-compat /v1 endpoint cannot set it per-request, so it must live here.
+PARAMETER num_ctx 32768
+
+# Deterministic-ish analysis. The openai backend may also send temperature and
+# auto-drop it on rejection; this is the model-side default.
+PARAMETER temperature 0.2

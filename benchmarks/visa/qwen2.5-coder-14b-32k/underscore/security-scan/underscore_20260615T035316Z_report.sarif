@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Agentic SAST",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "CWE-690",
+              "name": "CWE-690"
+            }
+          ],
+          "supportedTaxonomies": [
+            {
+              "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+            }
+          ]
+        }
+      },
+      "taxonomies": [
+        {
+          "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3",
+          "name": "CWE",
+          "organization": "MITRE",
+          "shortDescription": {
+            "text": "The MITRE Common Weakness Enumeration"
+          },
+          "informationUri": "https://cwe.mitre.org/",
+          "taxa": [
+            {
+              "id": "CWE-690",
+              "helpUri": "https://cwe.mitre.org/data/definitions/690.html"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "applicationId": "bench-underscore",
+        "scanDegraded": false,
+        "unrankedFallback": false
+      },
+      "results": [
+        {
+          "ruleId": "CWE-690",
+          "level": "error",
+          "message": {
+            "text": "Incorrectly handles circular references in objects  [CVSS 10.0: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:H]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "modules/isEmpty.js"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "critical",
+            "security-severity": "10.0",
+            "cvssRating": "Critical",
+            "category": "CWE-690",
+            "cvssVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:H",
+            "cwe": "CWE-690",
+            "cweId": "CWE-690",
+            "cvssScore": 10.0,
+            "offensivePriority": "P3",
+            "offensivePriorityLabel": "Internal Network / Privileged Position",
+            "offensivePriorityReason": "Internal Network / Privileged Position | *exposure unverified \u2014 no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*",
+            "confidence": 0.95,
+            "description": "#### Description\nThe `isEmpty` function does not handle circular references correctly. When passed an object with circular references, it falls into an infinite recursion, leading to a potential denial-of-service condition.\n\n#### Impact\nAn attacker can create a large number of circular references, causing the `isEmpty` function to hang indefinitely. This blocks further execution and potentially leads to a denial-of-service attack.\n\n#### Exploit scenario\nAn attacker can craft a JavaScript object with circular references and pass it to the `isEmpty` function. The function will be unable to terminate its loop and will hang indefinitely, causing performance degradation or complete blockage.\n\n#### Preconditions\n- The attacker can control the input to the `isEmpty` function\n\n```\n// Check for circular references\nlet seen = new Set();\nfunction isEmpty(obj) {\n  if (obj == null || seen.has(obj)) return true;\n  seen.add(obj);\n  // Rest of the function remains unchanged except for adding seen checks.\n}\n```\n\n#### How to fix\nModify the `isEmpty` function to handle circular references by using a visited set of objects. Ensure deep iteration does not lead to infinite loops.\n\n**Exploitability:** The `isEmpty` function does not handle circular references correctly, leading to an infinite recursion and denial-of-service condition. The attack does not require any preconditions or authentication, making it highly exploitable in both client and server environments.\n\n#### Adversarial verification\n**Verdict:** TRUE_POSITIVE (confidence: 8/10) \u2014 The code allows an object with circular references to pass the initial check, leading to infinite recursion.\n\n{\"name\": \"Read\", \"arguments\": {\"path\": \"modules/isEmpty.js\"}}"
+          },
+          "taxa": [
+            {
+              "toolComponent": {
+                "name": "CWE",
+                "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+              },
+              "id": "CWE-690"
+            }
+          ],
+          "rank": 100.0
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": [
+            {
+              "level": "warning",
+              "message": {
+                "text": "s4: 18 recoverable error(s) logged"
+              }
+            },
+            {
+              "level": "warning",
+              "message": {
+                "text": "s6-verify: 20 recoverable error(s) logged"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

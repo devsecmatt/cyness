@@ -1,0 +1,2266 @@
+  [env] loaded /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.env
+  config: config.yaml
+  step1 overlay: --auto-step1 (per-target checkpoints/step1.yaml will be derived)
+  WARN: no CMDB file (/home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/inputs/cmdb.csv) — VulContextSeverity environmental scoring skipped (CVSS + OffensivePriority still computed).
+  [auth] active backends: openai
+  [auth] openai credential sources (presence only — secrets never printed):
+    env  OPENAI_API_KEY           = set ✓
+    cfg  openai.api_key           = set ✓
+    cfg  openai.base_url          = http://localhost:11434/v1
+  [openai] OPENAI_API_KEY present ✓
+  [probe] live model connectivity (1 unique model/backend pair(s)):
+    [openai] prompt -> qwen2.5-coder-14b-32k [preflight] (4 chars, max_tokens=4)
+    [openai] usage: in=30 (cached=0) out=43
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 2.1s)  roles: autoexclude,preprocess,threatmodel,decompose,deepdive,verify,dedup,chain
+  [probe] agentic backend path (1 agentic role/backend pair(s)):
+    [openai] agentic -> qwen2.5-coder-14b-32k [preflight-agentic] (tools=['Read', 'Glob', 'Grep'], cwd=/tmp/vva-preflight-n7f9487g)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    ✓ [openai] qwen2.5-coder-14b-32k            ( 0.7s)  agentic roles: preprocess,verify
+  [probe] all model backends reachable ✓
+  [auto-step1] surveying /home/higgs/workspace/cyness/underscore (362 files, prompt 7143 chars)
+    [openai] prompt -> qwen2.5-coder-14b-32k [s1 autoexclude] (7143 chars, max_tokens=8000)
+    [openai] usage: in=2351 (cached=0) out=118
+  [auto-step1] wrote /home/higgs/workspace/cyness/underscore/checkpoints/step1.yaml  (+2 dirs, +1 exts, +2 globs, config_dedup=['exts', 'min_cluster_size'])
+  [auto-step1] applied overlay  (exclude_dirs=7 exts=21 globs=3)
+Agentic SAST  repo=/home/higgs/workspace/cyness/underscore  module=underscore  app_id=bench-underscore  run_id=_home_higgs_workspace_cyness_underscore
+  models:
+    autoexclude -> qwen2.5-coder-14b-32k        [openai]
+    preprocess  -> qwen2.5-coder-14b-32k        [openai]
+    threatmodel -> qwen2.5-coder-14b-32k        [openai]
+    decompose   -> qwen2.5-coder-14b-32k        [openai]
+    deepdive    -> qwen2.5-coder-14b-32k        [openai]
+    verify      -> qwen2.5-coder-14b-32k        [openai]
+    dedup       -> qwen2.5-coder-14b-32k        [openai]
+    chain       -> qwen2.5-coder-14b-32k        [openai]
+  [cmdb] application_id bench-underscore not found
+  injected: 0 CVEs, 0 controls, app_profile=no
+  ▶ [1/9] Step 1 — Pre-process (qwen2.5-coder-14b-32k [openai]) …
+    [openai] agentic -> qwen2.5-coder-14b-32k (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+  [s1] call-graph: agent=0 edges → validate -0 hallucinated → supplement +0 regex = 0 qualified edges over 0 nodes, 0 located fns (179 source files scanned)
+  [s1] file inventory: 429 on disk -> 188 in scope (excluded: 225 dir, 13 ext, 3 glob, 0 oversize, 0 config-dedup)
+  [s1] done: 0 modules, 0 entry points, 0 sinks, 188 files in scope
+  ✓ [1/9] Step 1 — Pre-process (qwen2.5-coder-14b-32k [openai]) (3.2s)
+  [ckpt] saved s1
+  ▶ [2/9] Step 2 — Threat model (qwen2.5-coder-14b-32k [openai]) …
+  [s2] evidence: 188 files, 0 modules, 0 entry points, 5 config reps, 0 api artefacts, 2 docs, 1 manifests
+  [s2] baseline=auto repo_kind=['library']
+    [openai] prompt -> qwen2.5-coder-14b-32k [s2 threatmodel] (9978 chars, max_tokens=6000)
+    [openai] usage: in=3381 (cached=0) out=409
+  [s2] done: 1 assets, 1 trust boundaries, 0 threats
+  ✓ [2/9] Step 2 — Threat model (qwen2.5-coder-14b-32k [openai]) (26.8s)
+  [ckpt] saved s2
+  ▶ [3/9] Step 3 — Decompose (qwen2.5-coder-14b-32k [openai]) …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s3 decompose] (5332 chars, max_tokens=6000)
+    [openai] usage: in=1998 (cached=0) out=220
+    [s3] pack_by=tokens  budget=20000tok − overhead=6000tok → 56000 chars/chunk  (legacy *_chunk_loc caps ignored)
+    [s3] taint: skipped (no entry points or sinks from s1)
+    [s3] coverage: 183 uncovered → 182 eligible → 171 catch-all chunks
+    [s3] specialist 'crypto' gated OFF — no matching surface in repo
+    [s3] specialist 'access-control' gated OFF — no matching surface in repo
+    [s3] specialist 'batch-etl' gated OFF — no matching surface in repo
+    [s3] specialist 'iac' gated OFF — no matching surface in repo
+    [s3] specialists: logic-bug -> 172 chunks (179/188 source files)
+    [s3] chunk LOC: n=344 min=1 p50=10 p90=31 max=4.5k  (0 over risk_chunk_loc=10000)
+  [s3] done: 344 chunks (0 taint, 171 catch-all, 172 specialist), top risk = chunk-01
+  ✓ [3/9] Step 3 — Decompose (qwen2.5-coder-14b-32k [openai]) (13.8s)
+  [ckpt] saved s3
+  ▶ [4/9] Step 4 — Deep-dive (qwen2.5-coder-14b-32k [openai]; 1 runs, vote≥3, parallel=1) …
+  [s4] WARN: vote_threshold=3 exceeds runs=1; no finding could survive the vote — clamping vote_threshold to 1.
+  [s4] chunk chunk-01 (small, rank 1, lens=javascript): The template function is a critical entry point where untrusted input is processed and executed. CVE variants involving …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 chunk-01] (7937 chars, max_tokens=6000, json)
+    [openai] usage: in=4270 (cached=0) out=370
+    [s4] dropped malformed finding: 1 validation error for Finding
+confidence
+  Field required [type=missing, input_value={'file': 'modules/templat... 'chunk_id': 'chunk-01'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped non-object finding: str
+    [s4] chunk-01 run 1/1: 0 raw findings
+  [s4] chunk chunk-01: 0 high-confidence findings
+  [s4] chunk catchall-01 (medium, rank 2, lens=generic): Coverage sweep of '. [shard 1/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-01] (3384 chars, max_tokens=6000, json)
+    [openai] usage: in=3127 (cached=0) out=9
+    [s4] catchall-01 run 1/1: 0 raw findings
+  [s4] chunk catchall-01: 0 high-confidence findings
+  [s4] chunk catchall-02 (medium, rank 3, lens=web-template): Coverage sweep of '. [shard 2/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in index.html
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-02] (222685 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=351
+    [s4] catchall-02 run 1/1: 0 raw findings
+  [s4] chunk catchall-02: 0 high-confidence findings
+  [s4] chunk catchall-03 (medium, rank 4, lens=javascript): Coverage sweep of '. [shard 3/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-03] (24777 chars, max_tokens=6000, json)
+    [openai] usage: in=10150 (cached=0) out=317
+    [s4] catchall-03 run 1/1: 1 raw findings
+  [s4] chunk catchall-03: 1 high-confidence findings
+  [s4] chunk catchall-04 (medium, rank 5, lens=javascript): Coverage sweep of '. [shard 4/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-04] (83819 chars, max_tokens=6000, json)
+    [openai] usage: in=32263 (cached=0) out=388
+    [s4] catchall-04 run 1/1: 1 raw findings
+  [s4] chunk catchall-04: 1 high-confidence findings
+  [s4] chunk catchall-05 (medium, rank 6, lens=javascript): Coverage sweep of '. [shard 5/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-05] (10786 chars, max_tokens=6000, json)
+    [openai] usage: in=5591 (cached=0) out=9
+    [s4] catchall-05 run 1/1: 0 raw findings
+  [s4] chunk catchall-05: 0 high-confidence findings
+  [s4] chunk catchall-06 (medium, rank 7, lens=javascript): Coverage sweep of '. [shard 6/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-06] (86493 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=9
+    [s4] catchall-06 run 1/1: 0 raw findings
+  [s4] chunk catchall-06: 0 high-confidence findings
+  [s4] chunk catchall-07 (medium, rank 8, lens=javascript): Coverage sweep of '. [shard 7/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-07] (13172 chars, max_tokens=6000, json)
+    [openai] usage: in=6275 (cached=0) out=7
+    [s4] catchall-07 run 1/1: 0 raw findings
+  [s4] chunk catchall-07: 0 high-confidence findings
+  [s4] chunk catchall-08 (medium, rank 9, lens=javascript): Coverage sweep of '. [shard 8/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-08] (86415 chars, max_tokens=6000, json)
+    [openai] usage: in=32637 (cached=0) out=552
+    [s4] dropped malformed finding: 2 validation errors for Finding
+preconditions
+  Input should be a valid list [type=list_type, input_value='User must be able to pro...he `template` function.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+code_snippet
+  Input should be a valid string [type=string_type, input_value=["var render = new Functi...his, data, _$1);', '};'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] dropped malformed finding: 2 validation errors for Finding
+preconditions
+  Input should be a valid list [type=list_type, input_value='User must be able to pro... the `invoke` function.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/list_type
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['if (!method) {', '  if ..., contextPath);', '  }'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-08 run 1/1: 0 raw findings
+  [s4] chunk catchall-08: 0 high-confidence findings
+  [s4] chunk catchall-09 (medium, rank 10, lens=javascript): Coverage sweep of '. [shard 9/9]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-09] (86411 chars, max_tokens=6000, json)
+    [openai] usage: in=32635 (cached=0) out=9
+    [s4] catchall-09 run 1/1: 0 raw findings
+  [s4] chunk catchall-09: 0 high-confidence findings
+  [s4] chunk catchall-10 (medium, rank 11, lens=generic): Coverage sweep of 'modules/.eslintrc' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-10] (1726 chars, max_tokens=6000, json)
+    [openai] usage: in=2364 (cached=0) out=2
+    [s4] catchall-10 run 1/1: 0 raw findings
+  [s4] chunk catchall-10: 0 high-confidence findings
+  [s4] chunk catchall-11 (medium, rank 12, lens=javascript): Coverage sweep of 'modules/_baseCreate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-11] (2884 chars, max_tokens=6000, json)
+    [openai] usage: in=2609 (cached=0) out=9
+    [s4] catchall-11 run 1/1: 0 raw findings
+  [s4] chunk catchall-11: 0 high-confidence findings
+  [s4] chunk catchall-12 (medium, rank 13, lens=javascript): Coverage sweep of 'modules/_baseIteratee.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-12] (3108 chars, max_tokens=6000, json)
+    [openai] usage: in=2644 (cached=0) out=9
+    [s4] catchall-12 run 1/1: 0 raw findings
+  [s4] chunk catchall-12: 0 high-confidence findings
+  [s4] chunk catchall-13 (medium, rank 14, lens=javascript): Coverage sweep of 'modules/_cb.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-13] (2695 chars, max_tokens=6000, json)
+    [openai] usage: in=2545 (cached=0) out=8
+    [s4] catchall-13 run 1/1: 0 raw findings
+  [s4] chunk catchall-13: 0 high-confidence findings
+  [s4] chunk catchall-14 (medium, rank 15, lens=javascript): Coverage sweep of 'modules/_chainResult.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-14] (2467 chars, max_tokens=6000, json)
+    [openai] usage: in=2472 (cached=0) out=321
+    [s4] catchall-14 run 1/1: 1 raw findings
+  [s4] chunk catchall-14: 1 high-confidence findings
+  [s4] chunk catchall-15 (medium, rank 16, lens=javascript): Coverage sweep of 'modules/_collectNonEnumProps.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-15] (3884 chars, max_tokens=6000, json)
+    [openai] usage: in=2960 (cached=0) out=9
+    [s4] catchall-15 run 1/1: 0 raw findings
+  [s4] chunk catchall-15: 0 high-confidence findings
+  [s4] chunk catchall-16 (medium, rank 17, lens=javascript): Coverage sweep of 'modules/_createAssigner.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-16] (2939 chars, max_tokens=6000, json)
+    [openai] usage: in=2639 (cached=0) out=9
+    [s4] catchall-16 run 1/1: 0 raw findings
+  [s4] chunk catchall-16: 0 high-confidence findings
+  [s4] chunk catchall-17 (medium, rank 18, lens=javascript): Coverage sweep of 'modules/_createIndexFinder.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabil…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-17] (3410 chars, max_tokens=6000, json)
+    [openai] usage: in=2820 (cached=0) out=9
+    [s4] catchall-17 run 1/1: 0 raw findings
+  [s4] chunk catchall-17: 0 high-confidence findings
+  [s4] chunk catchall-18 (medium, rank 19, lens=javascript): Coverage sweep of 'modules/_createPredicateIndexFinder.js' — files not assigned to any risk-ranked chunk. Hunt for any v…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-18] (2869 chars, max_tokens=6000, json)
+    [openai] usage: in=2606 (cached=0) out=339
+    [s4] catchall-18 run 1/1: 1 raw findings
+  [s4] chunk catchall-18: 1 high-confidence findings
+  [s4] chunk catchall-19 (medium, rank 20, lens=javascript): Coverage sweep of 'modules/_createReduce.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-19] (3468 chars, max_tokens=6000, json)
+    [openai] usage: in=2810 (cached=0) out=9
+    [s4] catchall-19 run 1/1: 0 raw findings
+  [s4] chunk catchall-19: 0 high-confidence findings
+  [s4] chunk catchall-20 (medium, rank 21, lens=javascript): Coverage sweep of 'modules/_createSizePropertyCheck.js' — files not assigned to any risk-ranked chunk. Hunt for any vuln…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-20] (2680 chars, max_tokens=6000, json)
+    [openai] usage: in=2527 (cached=0) out=9
+    [s4] catchall-20 run 1/1: 0 raw findings
+  [s4] chunk catchall-20: 0 high-confidence findings
+  [s4] chunk catchall-21 (medium, rank 22, lens=javascript): Coverage sweep of 'modules/_deepGet.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-21] (2560 chars, max_tokens=6000, json)
+    [openai] usage: in=2523 (cached=0) out=518
+    [s4] catchall-21 run 1/1: 1 raw findings
+  [s4] chunk catchall-21: 1 high-confidence findings
+  [s4] chunk catchall-22 (medium, rank 23, lens=javascript): Coverage sweep of 'modules/_escapeMap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-22] (2448 chars, max_tokens=6000, json)
+    [openai] usage: in=2495 (cached=0) out=9
+    [s4] catchall-22 run 1/1: 0 raw findings
+  [s4] chunk catchall-22: 0 high-confidence findings
+  [s4] chunk catchall-23 (medium, rank 24, lens=javascript): Coverage sweep of 'modules/_executeBound.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-23] (2902 chars, max_tokens=6000, json)
+    [openai] usage: in=2590 (cached=0) out=9
+    [s4] catchall-23 run 1/1: 0 raw findings
+  [s4] chunk catchall-23: 0 high-confidence findings
+  [s4] chunk catchall-24 (medium, rank 25, lens=javascript): Coverage sweep of 'modules/_flatten.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-24] (3661 chars, max_tokens=6000, json)
+    [openai] usage: in=2886 (cached=0) out=9
+    [s4] catchall-24 run 1/1: 0 raw findings
+  [s4] chunk catchall-24: 0 high-confidence findings
+  [s4] chunk catchall-25 (medium, rank 26, lens=javascript): Coverage sweep of 'modules/_getByteLength.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-25] (2426 chars, max_tokens=6000, json)
+    [openai] usage: in=2459 (cached=0) out=9
+    [s4] catchall-25 run 1/1: 0 raw findings
+  [s4] chunk catchall-25: 0 high-confidence findings
+  [s4] chunk catchall-26 (medium, rank 27, lens=javascript): Coverage sweep of 'modules/_getLength.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-26] (2410 chars, max_tokens=6000, json)
+    [openai] usage: in=2455 (cached=0) out=9
+    [s4] catchall-26 run 1/1: 0 raw findings
+  [s4] chunk catchall-26: 0 high-confidence findings
+  [s4] chunk catchall-27 (medium, rank 28, lens=javascript): Coverage sweep of 'modules/_group.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-27] (2775 chars, max_tokens=6000, json)
+    [openai] usage: in=2581 (cached=0) out=9
+    [s4] catchall-27 run 1/1: 0 raw findings
+  [s4] chunk catchall-27: 0 high-confidence findings
+  [s4] chunk catchall-28 (medium, rank 29, lens=javascript): Coverage sweep of 'modules/_has.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-28] (2473 chars, max_tokens=6000, json)
+    [openai] usage: in=2481 (cached=0) out=9
+    [s4] catchall-28 run 1/1: 0 raw findings
+  [s4] chunk catchall-28: 0 high-confidence findings
+  [s4] chunk catchall-29 (medium, rank 30, lens=javascript): Coverage sweep of 'modules/_hasObjectTag.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-29] (2326 chars, max_tokens=6000, json)
+    [openai] usage: in=2438 (cached=0) out=9
+    [s4] catchall-29 run 1/1: 0 raw findings
+  [s4] chunk catchall-29: 0 high-confidence findings
+  [s4] chunk catchall-30 (medium, rank 31, lens=javascript): Coverage sweep of 'modules/_isArrayLike.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-30] (2703 chars, max_tokens=6000, json)
+    [openai] usage: in=2545 (cached=0) out=9
+    [s4] catchall-30 run 1/1: 0 raw findings
+  [s4] chunk catchall-30: 0 high-confidence findings
+  [s4] chunk catchall-31 (medium, rank 32, lens=javascript): Coverage sweep of 'modules/_isBufferLike.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-31] (2548 chars, max_tokens=6000, json)
+    [openai] usage: in=2490 (cached=0) out=9
+    [s4] catchall-31 run 1/1: 0 raw findings
+  [s4] chunk catchall-31: 0 high-confidence findings
+  [s4] chunk catchall-32 (medium, rank 33, lens=javascript): Coverage sweep of 'modules/_keyInObj.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-32] (2437 chars, max_tokens=6000, json)
+    [openai] usage: in=2473 (cached=0) out=316
+    [s4] catchall-32 run 1/1: 1 raw findings
+  [s4] chunk catchall-32: 1 high-confidence findings
+  [s4] chunk catchall-33 (medium, rank 34, lens=javascript): Coverage sweep of 'modules/_methodFingerprint.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabil…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-33] (3994 chars, max_tokens=6000, json)
+    [openai] usage: in=2967 (cached=0) out=2
+    [s4] catchall-33 run 1/1: 0 raw findings
+  [s4] chunk catchall-33: 0 high-confidence findings
+  [s4] chunk catchall-34 (medium, rank 35, lens=javascript): Coverage sweep of 'modules/_optimizeCb.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-34] (3178 chars, max_tokens=6000, json)
+    [openai] usage: in=2692 (cached=0) out=443
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=[' 8| return func.call(co...y(context, arguments);'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-34 run 1/1: 0 raw findings
+  [s4] chunk catchall-34: 0 high-confidence findings
+  [s4] chunk catchall-35 (medium, rank 36, lens=javascript): Coverage sweep of 'modules/_setup.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-35] (4342 chars, max_tokens=6000, json)
+    [openai] usage: in=3036 (cached=0) out=9
+    [s4] catchall-35 run 1/1: 0 raw findings
+  [s4] chunk catchall-35: 0 high-confidence findings
+  [s4] chunk catchall-36 (medium, rank 37, lens=javascript): Coverage sweep of 'modules/_shallowProperty.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabilit…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-36] (2477 chars, max_tokens=6000, json)
+    [openai] usage: in=2479 (cached=0) out=341
+    [s4] catchall-36 run 1/1: 1 raw findings
+  [s4] chunk catchall-36: 1 high-confidence findings
+  [s4] chunk catchall-37 (medium, rank 38, lens=javascript): Coverage sweep of 'modules/_stringTagBug.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-37] (3012 chars, max_tokens=6000, json)
+    [openai] usage: in=2650 (cached=0) out=782
+    [s4] catchall-37 run 1/1: 2 raw findings
+  [s4] chunk catchall-37: 2 high-confidence findings
+  [s4] chunk catchall-38 (medium, rank 39, lens=javascript): Coverage sweep of 'modules/_tagTester.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-38] (2541 chars, max_tokens=6000, json)
+    [openai] usage: in=2505 (cached=0) out=9
+    [s4] catchall-38 run 1/1: 0 raw findings
+  [s4] chunk catchall-38: 0 high-confidence findings
+  [s4] chunk catchall-39 (medium, rank 40, lens=javascript): Coverage sweep of 'modules/_toBufferView.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-39] (2669 chars, max_tokens=6000, json)
+    [openai] usage: in=2537 (cached=0) out=9
+    [s4] catchall-39 run 1/1: 0 raw findings
+  [s4] chunk catchall-39: 0 high-confidence findings
+  [s4] chunk catchall-40 (medium, rank 41, lens=javascript): Coverage sweep of 'modules/_toPath.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-40] (2489 chars, max_tokens=6000, json)
+    [openai] usage: in=2494 (cached=0) out=9
+    [s4] catchall-40 run 1/1: 0 raw findings
+  [s4] chunk catchall-40: 0 high-confidence findings
+  [s4] chunk catchall-41 (medium, rank 42, lens=javascript): Coverage sweep of 'modules/after.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-41] (2488 chars, max_tokens=6000, json)
+    [openai] usage: in=2489 (cached=0) out=9
+    [s4] catchall-41 run 1/1: 0 raw findings
+  [s4] chunk catchall-41: 0 high-confidence findings
+  [s4] chunk catchall-42 (medium, rank 43, lens=javascript): Coverage sweep of 'modules/allKeys.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-42] (2722 chars, max_tokens=6000, json)
+    [openai] usage: in=2569 (cached=0) out=9
+    [s4] catchall-42 run 1/1: 0 raw findings
+  [s4] chunk catchall-42: 0 high-confidence findings
+  [s4] chunk catchall-43 (medium, rank 44, lens=javascript): Coverage sweep of 'modules/before.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-43] (2597 chars, max_tokens=6000, json)
+    [openai] usage: in=2535 (cached=0) out=9
+    [s4] catchall-43 run 1/1: 0 raw findings
+  [s4] chunk catchall-43: 0 high-confidence findings
+  [s4] chunk catchall-44 (medium, rank 45, lens=javascript): Coverage sweep of 'modules/bind.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-44] (2828 chars, max_tokens=6000, json)
+    [openai] usage: in=2572 (cached=0) out=2
+    [s4] catchall-44 run 1/1: 0 raw findings
+  [s4] chunk catchall-44: 0 high-confidence findings
+  [s4] chunk catchall-45 (medium, rank 46, lens=javascript): Coverage sweep of 'modules/bindAll.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-45] (2936 chars, max_tokens=6000, json)
+    [openai] usage: in=2624 (cached=0) out=9
+    [s4] catchall-45 run 1/1: 0 raw findings
+  [s4] chunk catchall-45: 0 high-confidence findings
+  [s4] chunk catchall-46 (medium, rank 47, lens=javascript): Coverage sweep of 'modules/chain.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-46] (2457 chars, max_tokens=6000, json)
+    [openai] usage: in=2480 (cached=0) out=9
+    [s4] catchall-46 run 1/1: 0 raw findings
+  [s4] chunk catchall-46: 0 high-confidence findings
+  [s4] chunk catchall-47 (medium, rank 48, lens=javascript): Coverage sweep of 'modules/chunk.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-47] (2672 chars, max_tokens=6000, json)
+    [openai] usage: in=2559 (cached=0) out=9
+    [s4] catchall-47 run 1/1: 0 raw findings
+  [s4] chunk catchall-47: 0 high-confidence findings
+  [s4] chunk catchall-48 (medium, rank 49, lens=javascript): Coverage sweep of 'modules/clone.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-48] (2564 chars, max_tokens=6000, json)
+    [openai] usage: in=2508 (cached=0) out=9
+    [s4] catchall-48 run 1/1: 0 raw findings
+  [s4] chunk catchall-48: 0 high-confidence findings
+  [s4] chunk catchall-49 (medium, rank 50, lens=javascript): Coverage sweep of 'modules/compact.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-49] (2412 chars, max_tokens=6000, json)
+    [openai] usage: in=2462 (cached=0) out=9
+    [s4] catchall-49 run 1/1: 0 raw findings
+  [s4] chunk catchall-49: 0 high-confidence findings
+  [s4] chunk catchall-50 (medium, rank 51, lens=javascript): Coverage sweep of 'modules/compose.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-50] (2698 chars, max_tokens=6000, json)
+    [openai] usage: in=2549 (cached=0) out=9
+    [s4] catchall-50 run 1/1: 0 raw findings
+  [s4] chunk catchall-50: 0 high-confidence findings
+  [s4] chunk catchall-51 (medium, rank 52, lens=javascript): Coverage sweep of 'modules/constant.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-51] (2418 chars, max_tokens=6000, json)
+    [openai] usage: in=2461 (cached=0) out=9
+    [s4] catchall-51 run 1/1: 0 raw findings
+  [s4] chunk catchall-51: 0 high-confidence findings
+  [s4] chunk catchall-52 (medium, rank 53, lens=javascript): Coverage sweep of 'modules/contains.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-52] (2691 chars, max_tokens=6000, json)
+    [openai] usage: in=2547 (cached=0) out=9
+    [s4] catchall-52 run 1/1: 0 raw findings
+  [s4] chunk catchall-52: 0 high-confidence findings
+  [s4] chunk catchall-53 (medium, rank 54, lens=javascript): Coverage sweep of 'modules/countBy.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-53] (2618 chars, max_tokens=6000, json)
+    [openai] usage: in=2523 (cached=0) out=9
+    [s4] catchall-53 run 1/1: 0 raw findings
+  [s4] chunk catchall-53: 0 high-confidence findings
+  [s4] chunk catchall-54 (medium, rank 55, lens=javascript): Coverage sweep of 'modules/create.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-54] (2680 chars, max_tokens=6000, json)
+    [openai] usage: in=2533 (cached=0) out=2
+    [s4] catchall-54 run 1/1: 0 raw findings
+  [s4] chunk catchall-54: 0 high-confidence findings
+  [s4] chunk catchall-55 (medium, rank 56, lens=javascript): Coverage sweep of 'modules/debounce.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-55] (3717 chars, max_tokens=6000, json)
+    [openai] usage: in=2886 (cached=0) out=9
+    [s4] catchall-55 run 1/1: 0 raw findings
+  [s4] chunk catchall-55: 0 high-confidence findings
+  [s4] chunk catchall-56 (medium, rank 57, lens=javascript): Coverage sweep of 'modules/defaults.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-56] (2437 chars, max_tokens=6000, json)
+    [openai] usage: in=2466 (cached=0) out=9
+    [s4] catchall-56 run 1/1: 0 raw findings
+  [s4] chunk catchall-56: 0 high-confidence findings
+  [s4] chunk catchall-57 (medium, rank 58, lens=javascript): Coverage sweep of 'modules/defer.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-57] (2487 chars, max_tokens=6000, json)
+    [openai] usage: in=2483 (cached=0) out=9
+    [s4] catchall-57 run 1/1: 0 raw findings
+  [s4] chunk catchall-57: 0 high-confidence findings
+  [s4] chunk catchall-58 (medium, rank 59, lens=javascript): Coverage sweep of 'modules/delay.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-58] (2574 chars, max_tokens=6000, json)
+    [openai] usage: in=2504 (cached=0) out=9
+    [s4] catchall-58 run 1/1: 0 raw findings
+  [s4] chunk catchall-58: 0 high-confidence findings
+  [s4] chunk catchall-59 (medium, rank 60, lens=javascript): Coverage sweep of 'modules/difference.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-59] (2781 chars, max_tokens=6000, json)
+    [openai] usage: in=2558 (cached=0) out=2
+    [s4] catchall-59 run 1/1: 0 raw findings
+  [s4] chunk catchall-59: 0 high-confidence findings
+  [s4] chunk catchall-60 (medium, rank 61, lens=javascript): Coverage sweep of 'modules/each.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-60] (3089 chars, max_tokens=6000, json)
+    [openai] usage: in=2707 (cached=0) out=9
+    [s4] catchall-60 run 1/1: 0 raw findings
+  [s4] chunk catchall-60: 0 high-confidence findings
+  [s4] chunk catchall-61 (medium, rank 62, lens=javascript): Coverage sweep of 'modules/every.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-61] (2847 chars, max_tokens=6000, json)
+    [openai] usage: in=2605 (cached=0) out=9
+    [s4] catchall-61 run 1/1: 0 raw findings
+  [s4] chunk catchall-61: 0 high-confidence findings
+  [s4] chunk catchall-62 (medium, rank 63, lens=javascript): Coverage sweep of 'modules/extend.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-62] (2449 chars, max_tokens=6000, json)
+    [openai] usage: in=2469 (cached=0) out=9
+    [s4] catchall-62 run 1/1: 0 raw findings
+  [s4] chunk catchall-62: 0 high-confidence findings
+  [s4] chunk catchall-63 (medium, rank 64, lens=javascript): Coverage sweep of 'modules/extendOwn.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-63] (2566 chars, max_tokens=6000, json)
+    [openai] usage: in=2502 (cached=0) out=9
+    [s4] catchall-63 run 1/1: 0 raw findings
+  [s4] chunk catchall-63: 0 high-confidence findings
+  [s4] chunk catchall-64 (medium, rank 65, lens=javascript): Coverage sweep of 'modules/filter.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-64] (2651 chars, max_tokens=6000, json)
+    [openai] usage: in=2537 (cached=0) out=9
+    [s4] catchall-64 run 1/1: 0 raw findings
+  [s4] chunk catchall-64: 0 high-confidence findings
+  [s4] chunk catchall-65 (medium, rank 66, lens=javascript): Coverage sweep of 'modules/find.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-65] (2671 chars, max_tokens=6000, json)
+    [openai] usage: in=2541 (cached=0) out=266
+    [s4] catchall-65 run 1/1: 1 raw findings
+  [s4] chunk catchall-65: 1 high-confidence findings
+  [s4] chunk catchall-66 (medium, rank 67, lens=javascript): Coverage sweep of 'modules/findIndex.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-66] (2439 chars, max_tokens=6000, json)
+    [openai] usage: in=2459 (cached=0) out=9
+    [s4] catchall-66 run 1/1: 0 raw findings
+  [s4] chunk catchall-66: 0 high-confidence findings
+  [s4] chunk catchall-67 (medium, rank 68, lens=javascript): Coverage sweep of 'modules/findKey.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-67] (2685 chars, max_tokens=6000, json)
+    [openai] usage: in=2561 (cached=0) out=9
+    [s4] catchall-67 run 1/1: 0 raw findings
+  [s4] chunk catchall-67: 0 high-confidence findings
+  [s4] chunk catchall-68 (medium, rank 69, lens=javascript): Coverage sweep of 'modules/findLastIndex.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-68] (2447 chars, max_tokens=6000, json)
+    [openai] usage: in=2461 (cached=0) out=365
+    [s4] catchall-68 run 1/1: 1 raw findings
+  [s4] chunk catchall-68: 1 high-confidence findings
+  [s4] chunk catchall-69 (medium, rank 70, lens=javascript): Coverage sweep of 'modules/findWhere.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-69] (2552 chars, max_tokens=6000, json)
+    [openai] usage: in=2497 (cached=0) out=9
+    [s4] catchall-69 run 1/1: 0 raw findings
+  [s4] chunk catchall-69: 0 high-confidence findings
+  [s4] chunk catchall-70 (medium, rank 71, lens=javascript): Coverage sweep of 'modules/first.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-70] (2682 chars, max_tokens=6000, json)
+    [openai] usage: in=2548 (cached=0) out=9
+    [s4] catchall-70 run 1/1: 0 raw findings
+  [s4] chunk catchall-70: 0 high-confidence findings
+  [s4] chunk catchall-71 (medium, rank 72, lens=javascript): Coverage sweep of 'modules/flatten.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-71] (2548 chars, max_tokens=6000, json)
+    [openai] usage: in=2503 (cached=0) out=9
+    [s4] catchall-71 run 1/1: 0 raw findings
+  [s4] chunk catchall-71: 0 high-confidence findings
+  [s4] chunk catchall-72 (medium, rank 73, lens=javascript): Coverage sweep of 'modules/functions.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-72] (2563 chars, max_tokens=6000, json)
+    [openai] usage: in=2506 (cached=0) out=344
+    [s4] catchall-72 run 1/1: 1 raw findings
+  [s4] chunk catchall-72: 1 high-confidence findings
+  [s4] chunk catchall-73 (medium, rank 74, lens=javascript): Coverage sweep of 'modules/get.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-73] (2788 chars, max_tokens=6000, json)
+    [openai] usage: in=2576 (cached=0) out=2
+    [s4] catchall-73 run 1/1: 0 raw findings
+  [s4] chunk catchall-73: 0 high-confidence findings
+  [s4] chunk catchall-74 (medium, rank 75, lens=javascript): Coverage sweep of 'modules/groupBy.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-74] (2602 chars, max_tokens=6000, json)
+    [openai] usage: in=2516 (cached=0) out=323
+    [s4] catchall-74 run 1/1: 1 raw findings
+  [s4] chunk catchall-74: 1 high-confidence findings
+  [s4] chunk catchall-75 (medium, rank 76, lens=javascript): Coverage sweep of 'modules/has.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-75] (2845 chars, max_tokens=6000, json)
+    [openai] usage: in=2611 (cached=0) out=9
+    [s4] catchall-75 run 1/1: 0 raw findings
+  [s4] chunk catchall-75: 0 high-confidence findings
+  [s4] chunk catchall-76 (medium, rank 77, lens=javascript): Coverage sweep of 'modules/identity.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-76] (2365 chars, max_tokens=6000, json)
+    [openai] usage: in=2443 (cached=0) out=7
+    [s4] catchall-76 run 1/1: 0 raw findings
+  [s4] chunk catchall-76: 0 high-confidence findings
+  [s4] chunk catchall-77 (medium, rank 78, lens=javascript): Coverage sweep of 'modules/index-all.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-77] (3154 chars, max_tokens=6000, json)
+    [openai] usage: in=2669 (cached=0) out=9
+    [s4] catchall-77 run 1/1: 0 raw findings
+  [s4] chunk catchall-77: 0 high-confidence findings
+  [s4] chunk catchall-78 (medium, rank 79, lens=javascript): Coverage sweep of 'modules/index-default.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-78] (3288 chars, max_tokens=6000, json)
+    [openai] usage: in=2748 (cached=0) out=2
+    [s4] catchall-78 run 1/1: 0 raw findings
+  [s4] chunk catchall-78: 0 high-confidence findings
+  [s4] chunk catchall-79 (medium, rank 80, lens=javascript): Coverage sweep of 'modules/index.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-79] (12514 chars, max_tokens=6000, json)
+    [openai] usage: in=5535 (cached=0) out=9
+    [s4] catchall-79 run 1/1: 0 raw findings
+  [s4] chunk catchall-79: 0 high-confidence findings
+  [s4] chunk catchall-80 (medium, rank 81, lens=javascript): Coverage sweep of 'modules/indexBy.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-80] (2512 chars, max_tokens=6000, json)
+    [openai] usage: in=2492 (cached=0) out=359
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value={'file': 'modules/indexBy... 'result[key] = value;'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-80 run 1/1: 0 raw findings
+  [s4] chunk catchall-80: 0 high-confidence findings
+  [s4] chunk catchall-81 (medium, rank 82, lens=javascript): Coverage sweep of 'modules/indexOf.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-81] (2709 chars, max_tokens=6000, json)
+    [openai] usage: in=2541 (cached=0) out=194
+    [s4] catchall-81 run 1/1: 1 raw findings
+  [s4] chunk catchall-81: 1 high-confidence findings
+  [s4] chunk catchall-82 (medium, rank 83, lens=javascript): Coverage sweep of 'modules/initial.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-82] (2632 chars, max_tokens=6000, json)
+    [openai] usage: in=2528 (cached=0) out=9
+    [s4] catchall-82 run 1/1: 0 raw findings
+  [s4] chunk catchall-82: 0 high-confidence findings
+  [s4] chunk catchall-83 (medium, rank 84, lens=javascript): Coverage sweep of 'modules/intersection.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-83] (2932 chars, max_tokens=6000, json)
+    [openai] usage: in=2637 (cached=0) out=2
+    [s4] catchall-83 run 1/1: 0 raw findings
+  [s4] chunk catchall-83: 0 high-confidence findings
+  [s4] chunk catchall-84 (medium, rank 85, lens=javascript): Coverage sweep of 'modules/invert.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-84] (2601 chars, max_tokens=6000, json)
+    [openai] usage: in=2538 (cached=0) out=9
+    [s4] catchall-84 run 1/1: 0 raw findings
+  [s4] chunk catchall-84: 0 high-confidence findings
+  [s4] chunk catchall-85 (medium, rank 86, lens=javascript): Coverage sweep of 'modules/invoke.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-85] (3241 chars, max_tokens=6000, json)
+    [openai] usage: in=2742 (cached=0) out=9
+    [s4] catchall-85 run 1/1: 0 raw findings
+  [s4] chunk catchall-85: 0 high-confidence findings
+  [s4] chunk catchall-86 (medium, rank 87, lens=javascript): Coverage sweep of 'modules/isArguments.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-86] (2735 chars, max_tokens=6000, json)
+    [openai] usage: in=2577 (cached=0) out=2
+    [s4] catchall-86 run 1/1: 0 raw findings
+  [s4] chunk catchall-86: 0 high-confidence findings
+  [s4] chunk catchall-87 (medium, rank 88, lens=javascript): Coverage sweep of 'modules/isArray.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-87] (2474 chars, max_tokens=6000, json)
+    [openai] usage: in=2483 (cached=0) out=9
+    [s4] catchall-87 run 1/1: 0 raw findings
+  [s4] chunk catchall-87: 0 high-confidence findings
+  [s4] chunk catchall-88 (medium, rank 89, lens=javascript): Coverage sweep of 'modules/isArrayBuffer.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-88] (2331 chars, max_tokens=6000, json)
+    [openai] usage: in=2437 (cached=0) out=9
+    [s4] catchall-88 run 1/1: 0 raw findings
+  [s4] chunk catchall-88: 0 high-confidence findings
+  [s4] chunk catchall-89 (medium, rank 90, lens=javascript): Coverage sweep of 'modules/isBoolean.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-89] (2461 chars, max_tokens=6000, json)
+    [openai] usage: in=2475 (cached=0) out=9
+    [s4] catchall-89 run 1/1: 0 raw findings
+  [s4] chunk catchall-89: 0 high-confidence findings
+  [s4] chunk catchall-90 (medium, rank 91, lens=javascript): Coverage sweep of 'modules/isDataView.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-90] (2944 chars, max_tokens=6000, json)
+    [openai] usage: in=2632 (cached=0) out=9
+    [s4] catchall-90 run 1/1: 0 raw findings
+  [s4] chunk catchall-90: 0 high-confidence findings
+  [s4] chunk catchall-91 (medium, rank 92, lens=javascript): Coverage sweep of 'modules/isDate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-91] (2310 chars, max_tokens=6000, json)
+    [openai] usage: in=2434 (cached=0) out=9
+    [s4] catchall-91 run 1/1: 0 raw findings
+  [s4] chunk catchall-91: 0 high-confidence findings
+  [s4] chunk catchall-92 (medium, rank 93, lens=javascript): Coverage sweep of 'modules/isElement.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-92] (2365 chars, max_tokens=6000, json)
+    [openai] usage: in=2450 (cached=0) out=356
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['export default function....nodeType === 1);', '}'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-92 run 1/1: 0 raw findings
+  [s4] chunk catchall-92: 0 high-confidence findings
+  [s4] chunk catchall-93 (medium, rank 94, lens=javascript): Coverage sweep of 'modules/isEmpty.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-93] (2980 chars, max_tokens=6000, json)
+    [openai] usage: in=2647 (cached=0) out=363
+    [s4] catchall-93 run 1/1: 1 raw findings
+  [s4] chunk catchall-93: 1 high-confidence findings
+  [s4] chunk catchall-94 (medium, rank 95, lens=javascript): Coverage sweep of 'modules/isEqual.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-94] (9478 chars, max_tokens=6000, json)
+    [openai] usage: in=4825 (cached=0) out=7
+    [s4] catchall-94 run 1/1: 0 raw findings
+  [s4] chunk catchall-94: 0 high-confidence findings
+  [s4] chunk catchall-95 (medium, rank 96, lens=javascript): Coverage sweep of 'modules/isError.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-95] (2313 chars, max_tokens=6000, json)
+    [openai] usage: in=2434 (cached=0) out=9
+    [s4] catchall-95 run 1/1: 0 raw findings
+  [s4] chunk catchall-95: 0 high-confidence findings
+  [s4] chunk catchall-96 (medium, rank 97, lens=javascript): Coverage sweep of 'modules/isFinite.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-96] (2496 chars, max_tokens=6000, json)
+    [openai] usage: in=2491 (cached=0) out=9
+    [s4] catchall-96 run 1/1: 0 raw findings
+  [s4] chunk catchall-96: 0 high-confidence findings
+  [s4] chunk catchall-97 (medium, rank 98, lens=javascript): Coverage sweep of 'modules/isFunction.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-97] (2854 chars, max_tokens=6000, json)
+    [openai] usage: in=2618 (cached=0) out=9
+    [s4] catchall-97 run 1/1: 0 raw findings
+  [s4] chunk catchall-97: 0 high-confidence findings
+  [s4] chunk catchall-98 (medium, rank 99, lens=javascript): Coverage sweep of 'modules/isMap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-98] (2477 chars, max_tokens=6000, json)
+    [openai] usage: in=2491 (cached=0) out=9
+    [s4] catchall-98 run 1/1: 0 raw findings
+  [s4] chunk catchall-98: 0 high-confidence findings
+  [s4] chunk catchall-99 (medium, rank 100, lens=javascript): Coverage sweep of 'modules/isMatch.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-99] (2715 chars, max_tokens=6000, json)
+    [openai] usage: in=2576 (cached=0) out=9
+    [s4] catchall-99 run 1/1: 0 raw findings
+  [s4] chunk catchall-99: 0 high-confidence findings
+  [s4] chunk catchall-100 (medium, rank 101, lens=javascript): Coverage sweep of 'modules/isNaN.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-100] (2445 chars, max_tokens=6000, json)
+    [openai] usage: in=2482 (cached=0) out=9
+    [s4] catchall-100 run 1/1: 0 raw findings
+  [s4] chunk catchall-100: 0 high-confidence findings
+  [s4] chunk catchall-101 (medium, rank 102, lens=javascript): Coverage sweep of 'modules/isNull.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-101] (2340 chars, max_tokens=6000, json)
+    [openai] usage: in=2445 (cached=0) out=2
+    [s4] catchall-101 run 1/1: 0 raw findings
+  [s4] chunk catchall-101: 0 high-confidence findings
+  [s4] chunk catchall-102 (medium, rank 103, lens=javascript): Coverage sweep of 'modules/isNumber.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-102] (2317 chars, max_tokens=6000, json)
+    [openai] usage: in=2435 (cached=0) out=367
+    [s4] catchall-102 run 1/1: 1 raw findings
+  [s4] chunk catchall-102: 1 high-confidence findings
+  [s4] chunk catchall-103 (medium, rank 104, lens=javascript): Coverage sweep of 'modules/isObject.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-103] (2416 chars, max_tokens=6000, json)
+    [openai] usage: in=2467 (cached=0) out=9
+    [s4] catchall-103 run 1/1: 0 raw findings
+  [s4] chunk catchall-103: 0 high-confidence findings
+  [s4] chunk catchall-104 (medium, rank 105, lens=javascript): Coverage sweep of 'modules/isRegExp.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-104] (2317 chars, max_tokens=6000, json)
+    [openai] usage: in=2435 (cached=0) out=9
+    [s4] catchall-104 run 1/1: 0 raw findings
+  [s4] chunk catchall-104: 0 high-confidence findings
+  [s4] chunk catchall-105 (medium, rank 106, lens=javascript): Coverage sweep of 'modules/isSet.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-105] (2478 chars, max_tokens=6000, json)
+    [openai] usage: in=2492 (cached=0) out=9
+    [s4] catchall-105 run 1/1: 0 raw findings
+  [s4] chunk catchall-105: 0 high-confidence findings
+  [s4] chunk catchall-106 (medium, rank 107, lens=javascript): Coverage sweep of 'modules/isString.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-106] (2317 chars, max_tokens=6000, json)
+    [openai] usage: in=2435 (cached=0) out=9
+    [s4] catchall-106 run 1/1: 0 raw findings
+  [s4] chunk catchall-106: 0 high-confidence findings
+  [s4] chunk catchall-107 (medium, rank 108, lens=javascript): Coverage sweep of 'modules/isSymbol.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-107] (2317 chars, max_tokens=6000, json)
+    [openai] usage: in=2435 (cached=0) out=9
+    [s4] catchall-107 run 1/1: 0 raw findings
+  [s4] chunk catchall-107: 0 high-confidence findings
+  [s4] chunk catchall-108 (medium, rank 109, lens=javascript): Coverage sweep of 'modules/isTypedArray.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-108] (3057 chars, max_tokens=6000, json)
+    [openai] usage: in=2670 (cached=0) out=9
+    [s4] catchall-108 run 1/1: 0 raw findings
+  [s4] chunk catchall-108: 0 high-confidence findings
+  [s4] chunk catchall-109 (medium, rank 110, lens=javascript): Coverage sweep of 'modules/isUndefined.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-109] (2356 chars, max_tokens=6000, json)
+    [openai] usage: in=2445 (cached=0) out=9
+    [s4] catchall-109 run 1/1: 0 raw findings
+  [s4] chunk catchall-109: 0 high-confidence findings
+  [s4] chunk catchall-110 (medium, rank 111, lens=javascript): Coverage sweep of 'modules/isWeakMap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-110] (2498 chars, max_tokens=6000, json)
+    [openai] usage: in=2498 (cached=0) out=2
+    [s4] catchall-110 run 1/1: 0 raw findings
+  [s4] chunk catchall-110: 0 high-confidence findings
+  [s4] chunk catchall-111 (medium, rank 112, lens=javascript): Coverage sweep of 'modules/isWeakSet.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-111] (2320 chars, max_tokens=6000, json)
+    [openai] usage: in=2438 (cached=0) out=9
+    [s4] catchall-111 run 1/1: 0 raw findings
+  [s4] chunk catchall-111: 0 high-confidence findings
+  [s4] chunk catchall-112 (medium, rank 113, lens=javascript): Coverage sweep of 'modules/iteratee.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-112] (2704 chars, max_tokens=6000, json)
+    [openai] usage: in=2539 (cached=0) out=9
+    [s4] catchall-112 run 1/1: 0 raw findings
+  [s4] chunk catchall-112: 0 high-confidence findings
+  [s4] chunk catchall-113 (medium, rank 114, lens=javascript): Coverage sweep of 'modules/keys.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-113] (2887 chars, max_tokens=6000, json)
+    [openai] usage: in=2631 (cached=0) out=2
+    [s4] catchall-113 run 1/1: 0 raw findings
+  [s4] chunk catchall-113: 0 high-confidence findings
+  [s4] chunk catchall-114 (medium, rank 115, lens=javascript): Coverage sweep of 'modules/last.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-114] (2645 chars, max_tokens=6000, json)
+    [openai] usage: in=2543 (cached=0) out=9
+    [s4] catchall-114 run 1/1: 0 raw findings
+  [s4] chunk catchall-114: 0 high-confidence findings
+  [s4] chunk catchall-115 (medium, rank 116, lens=javascript): Coverage sweep of 'modules/lastIndexOf.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-115] (2546 chars, max_tokens=6000, json)
+    [openai] usage: in=2496 (cached=0) out=9
+    [s4] catchall-115 run 1/1: 0 raw findings
+  [s4] chunk catchall-115: 0 high-confidence findings
+  [s4] chunk catchall-116 (medium, rank 117, lens=javascript): Coverage sweep of 'modules/map.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-116] (2881 chars, max_tokens=6000, json)
+    [openai] usage: in=2619 (cached=0) out=357
+    [s4] catchall-116 run 1/1: 1 raw findings
+  [s4] chunk catchall-116: 1 high-confidence findings
+  [s4] chunk catchall-117 (medium, rank 118, lens=javascript): Coverage sweep of 'modules/mapObject.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-117] (2862 chars, max_tokens=6000, json)
+    [openai] usage: in=2614 (cached=0) out=9
+    [s4] catchall-117 run 1/1: 0 raw findings
+  [s4] chunk catchall-117: 0 high-confidence findings
+  [s4] chunk catchall-118 (medium, rank 119, lens=javascript): Coverage sweep of 'modules/matcher.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-118] (2602 chars, max_tokens=6000, json)
+    [openai] usage: in=2524 (cached=0) out=445
+    [s4] catchall-118 run 1/1: 1 raw findings
+  [s4] chunk catchall-118: 1 high-confidence findings
+  [s4] chunk catchall-119 (medium, rank 120, lens=javascript): Coverage sweep of 'modules/max.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-119] (3369 chars, max_tokens=6000, json)
+    [openai] usage: in=2785 (cached=0) out=9
+    [s4] catchall-119 run 1/1: 0 raw findings
+  [s4] chunk catchall-119: 0 high-confidence findings
+  [s4] chunk catchall-120 (medium, rank 121, lens=javascript): Coverage sweep of 'modules/memoize.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-120] (2726 chars, max_tokens=6000, json)
+    [openai] usage: in=2568 (cached=0) out=9
+    [s4] catchall-120 run 1/1: 0 raw findings
+  [s4] chunk catchall-120: 0 high-confidence findings
+  [s4] chunk catchall-121 (medium, rank 122, lens=javascript): Coverage sweep of 'modules/min.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-121] (3365 chars, max_tokens=6000, json)
+    [openai] usage: in=2781 (cached=0) out=342
+    [s4] catchall-121 run 1/1: 1 raw findings
+  [s4] chunk catchall-121: 1 high-confidence findings
+  [s4] chunk catchall-122 (medium, rank 123, lens=javascript): Coverage sweep of 'modules/mixin.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-122] (2881 chars, max_tokens=6000, json)
+    [openai] usage: in=2615 (cached=0) out=9
+    [s4] catchall-122 run 1/1: 0 raw findings
+  [s4] chunk catchall-122: 0 high-confidence findings
+  [s4] chunk catchall-123 (medium, rank 124, lens=javascript): Coverage sweep of 'modules/negate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-123] (2432 chars, max_tokens=6000, json)
+    [openai] usage: in=2467 (cached=0) out=9
+    [s4] catchall-123 run 1/1: 0 raw findings
+  [s4] chunk catchall-123: 0 high-confidence findings
+  [s4] chunk catchall-124 (medium, rank 125, lens=javascript): Coverage sweep of 'modules/noop.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-124] (2327 chars, max_tokens=6000, json)
+    [openai] usage: in=2433 (cached=0) out=9
+    [s4] catchall-124 run 1/1: 0 raw findings
+  [s4] chunk catchall-124: 0 high-confidence findings
+  [s4] chunk catchall-125 (medium, rank 126, lens=javascript): Coverage sweep of 'modules/now.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-125] (2381 chars, max_tokens=6000, json)
+    [openai] usage: in=2453 (cached=0) out=9
+    [s4] catchall-125 run 1/1: 0 raw findings
+  [s4] chunk catchall-125: 0 high-confidence findings
+  [s4] chunk catchall-126 (medium, rank 127, lens=javascript): Coverage sweep of 'modules/object.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-126] (2863 chars, max_tokens=6000, json)
+    [openai] usage: in=2617 (cached=0) out=9
+    [s4] catchall-126 run 1/1: 0 raw findings
+  [s4] chunk catchall-126: 0 high-confidence findings
+  [s4] chunk catchall-127 (medium, rank 128, lens=javascript): Coverage sweep of 'modules/omit.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-127] (3072 chars, max_tokens=6000, json)
+    [openai] usage: in=2677 (cached=0) out=9
+    [s4] catchall-127 run 1/1: 0 raw findings
+  [s4] chunk catchall-127: 0 high-confidence findings
+  [s4] chunk catchall-128 (medium, rank 129, lens=javascript): Coverage sweep of 'modules/once.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-128] (2488 chars, max_tokens=6000, json)
+    [openai] usage: in=2480 (cached=0) out=9
+    [s4] catchall-128 run 1/1: 0 raw findings
+  [s4] chunk catchall-128: 0 high-confidence findings
+  [s4] chunk catchall-129 (medium, rank 130, lens=generic): Coverage sweep of 'modules/package.json' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-129] (1284 chars, max_tokens=6000, json)
+    [openai] usage: in=2175 (cached=0) out=9
+    [s4] catchall-129 run 1/1: 0 raw findings
+  [s4] chunk catchall-129: 0 high-confidence findings
+  [s4] chunk catchall-130 (medium, rank 131, lens=javascript): Coverage sweep of 'modules/pairs.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-130] (2662 chars, max_tokens=6000, json)
+    [openai] usage: in=2564 (cached=0) out=9
+    [s4] catchall-130 run 1/1: 0 raw findings
+  [s4] chunk catchall-130: 0 high-confidence findings
+  [s4] chunk catchall-131 (medium, rank 132, lens=javascript): Coverage sweep of 'modules/partial.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-131] (3361 chars, max_tokens=6000, json)
+    [openai] usage: in=2738 (cached=0) out=9
+    [s4] catchall-131 run 1/1: 0 raw findings
+  [s4] chunk catchall-131: 0 high-confidence findings
+  [s4] chunk catchall-132 (medium, rank 133, lens=javascript): Coverage sweep of 'modules/partition.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-132] (2549 chars, max_tokens=6000, json)
+    [openai] usage: in=2502 (cached=0) out=9
+    [s4] catchall-132 run 1/1: 0 raw findings
+  [s4] chunk catchall-132: 0 high-confidence findings
+  [s4] chunk catchall-133 (medium, rank 134, lens=javascript): Coverage sweep of 'modules/pick.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-133] (3247 chars, max_tokens=6000, json)
+    [openai] usage: in=2753 (cached=0) out=9
+    [s4] catchall-133 run 1/1: 0 raw findings
+  [s4] chunk catchall-133: 0 high-confidence findings
+  [s4] chunk catchall-134 (medium, rank 135, lens=javascript): Coverage sweep of 'modules/pluck.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-134] (2483 chars, max_tokens=6000, json)
+    [openai] usage: in=2484 (cached=0) out=9
+    [s4] catchall-134 run 1/1: 0 raw findings
+  [s4] chunk catchall-134: 0 high-confidence findings
+  [s4] chunk catchall-135 (medium, rank 136, lens=javascript): Coverage sweep of 'modules/property.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-135] (2653 chars, max_tokens=6000, json)
+    [openai] usage: in=2537 (cached=0) out=9
+    [s4] catchall-135 run 1/1: 0 raw findings
+  [s4] chunk catchall-135: 0 high-confidence findings
+  [s4] chunk catchall-136 (medium, rank 137, lens=javascript): Coverage sweep of 'modules/propertyOf.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-136] (2559 chars, max_tokens=6000, json)
+    [openai] usage: in=2511 (cached=0) out=415
+    [s4] catchall-136 run 1/1: 1 raw findings
+  [s4] chunk catchall-136: 1 high-confidence findings
+  [s4] chunk catchall-137 (medium, rank 138, lens=javascript): Coverage sweep of 'modules/random.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-137] (2492 chars, max_tokens=6000, json)
+    [openai] usage: in=2500 (cached=0) out=9
+    [s4] catchall-137 run 1/1: 0 raw findings
+  [s4] chunk catchall-137: 0 high-confidence findings
+  [s4] chunk catchall-138 (medium, rank 139, lens=javascript): Coverage sweep of 'modules/range.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-138] (2932 chars, max_tokens=6000, json)
+    [openai] usage: in=2662 (cached=0) out=9
+    [s4] catchall-138 run 1/1: 0 raw findings
+  [s4] chunk catchall-138: 0 high-confidence findings
+  [s4] chunk catchall-139 (medium, rank 140, lens=javascript): Coverage sweep of 'modules/reduce.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-139] (2421 chars, max_tokens=6000, json)
+    [openai] usage: in=2468 (cached=0) out=9
+    [s4] catchall-139 run 1/1: 0 raw findings
+  [s4] chunk catchall-139: 0 high-confidence findings
+  [s4] chunk catchall-140 (medium, rank 141, lens=javascript): Coverage sweep of 'modules/reduceRight.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-140] (2400 chars, max_tokens=6000, json)
+    [openai] usage: in=2458 (cached=0) out=9
+    [s4] catchall-140 run 1/1: 0 raw findings
+  [s4] chunk catchall-140: 0 high-confidence findings
+  [s4] chunk catchall-141 (medium, rank 142, lens=javascript): Coverage sweep of 'modules/reject.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-141] (2537 chars, max_tokens=6000, json)
+    [openai] usage: in=2496 (cached=0) out=9
+    [s4] catchall-141 run 1/1: 0 raw findings
+  [s4] chunk catchall-141: 0 high-confidence findings
+  [s4] chunk catchall-142 (medium, rank 143, lens=javascript): Coverage sweep of 'modules/rest.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-142] (2582 chars, max_tokens=6000, json)
+    [openai] usage: in=2516 (cached=0) out=9
+    [s4] catchall-142 run 1/1: 0 raw findings
+  [s4] chunk catchall-142: 0 high-confidence findings
+  [s4] chunk catchall-143 (medium, rank 144, lens=javascript): Coverage sweep of 'modules/restArguments.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-143] (3539 chars, max_tokens=6000, json)
+    [openai] usage: in=2797 (cached=0) out=2
+    [s4] catchall-143 run 1/1: 0 raw findings
+  [s4] chunk catchall-143: 0 high-confidence findings
+  [s4] chunk catchall-144 (medium, rank 145, lens=javascript): Coverage sweep of 'modules/result.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-144] (3113 chars, max_tokens=6000, json)
+    [openai] usage: in=2707 (cached=0) out=9
+    [s4] catchall-144 run 1/1: 0 raw findings
+  [s4] chunk catchall-144: 0 high-confidence findings
+  [s4] chunk catchall-145 (medium, rank 146, lens=javascript): Coverage sweep of 'modules/sample.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-145] (3379 chars, max_tokens=6000, json)
+    [openai] usage: in=2782 (cached=0) out=206
+    [s4] dropped malformed finding: 1 validation error for Finding
+title
+  Field required [type=missing, input_value={'file': 'modules/sample....chall-145', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] catchall-145 run 1/1: 0 raw findings
+  [s4] chunk catchall-145: 0 high-confidence findings
+  [s4] chunk catchall-146 (medium, rank 147, lens=javascript): Coverage sweep of 'modules/shuffle.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-146] (2391 chars, max_tokens=6000, json)
+    [openai] usage: in=2457 (cached=0) out=2
+    [s4] catchall-146 run 1/1: 0 raw findings
+  [s4] chunk catchall-146: 0 high-confidence findings
+  [s4] chunk catchall-147 (medium, rank 148, lens=javascript): Coverage sweep of 'modules/size.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-147] (2518 chars, max_tokens=6000, json)
+    [openai] usage: in=2499 (cached=0) out=9
+    [s4] catchall-147 run 1/1: 0 raw findings
+  [s4] chunk catchall-147: 0 high-confidence findings
+  [s4] chunk catchall-148 (medium, rank 149, lens=javascript): Coverage sweep of 'modules/some.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-148] (2856 chars, max_tokens=6000, json)
+    [openai] usage: in=2609 (cached=0) out=9
+    [s4] catchall-148 run 1/1: 0 raw findings
+  [s4] chunk catchall-148: 0 high-confidence findings
+  [s4] chunk catchall-149 (medium, rank 150, lens=javascript): Coverage sweep of 'modules/sortBy.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-149] (3062 chars, max_tokens=6000, json)
+    [openai] usage: in=2709 (cached=0) out=9
+    [s4] catchall-149 run 1/1: 0 raw findings
+  [s4] chunk catchall-149: 0 high-confidence findings
+  [s4] chunk catchall-150 (medium, rank 151, lens=javascript): Coverage sweep of 'modules/sortedIndex.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-150] (2880 chars, max_tokens=6000, json)
+    [openai] usage: in=2624 (cached=0) out=9
+    [s4] catchall-150 run 1/1: 0 raw findings
+  [s4] chunk catchall-150: 0 high-confidence findings
+  [s4] chunk catchall-151 (medium, rank 152, lens=javascript): Coverage sweep of 'modules/tap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-151] (2552 chars, max_tokens=6000, json)
+    [openai] usage: in=2500 (cached=0) out=9
+    [s4] catchall-151 run 1/1: 0 raw findings
+  [s4] chunk catchall-151: 0 high-confidence findings
+  [s4] chunk catchall-152 (medium, rank 153, lens=javascript): Coverage sweep of 'modules/throttle.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-152] (4008 chars, max_tokens=6000, json)
+    [openai] usage: in=2987 (cached=0) out=9
+    [s4] catchall-152 run 1/1: 0 raw findings
+  [s4] chunk catchall-152: 0 high-confidence findings
+  [s4] chunk catchall-153 (medium, rank 154, lens=javascript): Coverage sweep of 'modules/times.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-153] (2560 chars, max_tokens=6000, json)
+    [openai] usage: in=2527 (cached=0) out=9
+    [s4] catchall-153 run 1/1: 0 raw findings
+  [s4] chunk catchall-153: 0 high-confidence findings
+  [s4] chunk catchall-154 (medium, rank 155, lens=javascript): Coverage sweep of 'modules/toArray.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-154] (3050 chars, max_tokens=6000, json)
+    [openai] usage: in=2681 (cached=0) out=2
+    [s4] catchall-154 run 1/1: 0 raw findings
+  [s4] chunk catchall-154: 0 high-confidence findings
+  [s4] chunk catchall-155 (medium, rank 156, lens=javascript): Coverage sweep of 'modules/toPath.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-155] (2550 chars, max_tokens=6000, json)
+    [openai] usage: in=2509 (cached=0) out=9
+    [s4] catchall-155 run 1/1: 0 raw findings
+  [s4] chunk catchall-155: 0 high-confidence findings
+  [s4] chunk catchall-156 (medium, rank 157, lens=javascript): Coverage sweep of 'modules/underscore-array-methods.js' — files not assigned to any risk-ranked chunk. Hunt for any vuln…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-156] (3392 chars, max_tokens=6000, json)
+    [openai] usage: in=2799 (cached=0) out=9
+    [s4] catchall-156 run 1/1: 0 raw findings
+  [s4] chunk catchall-156: 0 high-confidence findings
+  [s4] chunk catchall-157 (medium, rank 158, lens=javascript): Coverage sweep of 'modules/underscore.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-157] (3188 chars, max_tokens=6000, json)
+    [openai] usage: in=2701 (cached=0) out=9
+    [s4] catchall-157 run 1/1: 0 raw findings
+  [s4] chunk catchall-157: 0 high-confidence findings
+  [s4] chunk catchall-158 (medium, rank 159, lens=javascript): Coverage sweep of 'modules/unescape.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-158] (2451 chars, max_tokens=6000, json)
+    [openai] usage: in=2472 (cached=0) out=9
+    [s4] catchall-158 run 1/1: 0 raw findings
+  [s4] chunk catchall-158: 0 high-confidence findings
+  [s4] chunk catchall-159 (medium, rank 160, lens=javascript): Coverage sweep of 'modules/union.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-159] (2591 chars, max_tokens=6000, json)
+    [openai] usage: in=2510 (cached=0) out=9
+    [s4] catchall-159 run 1/1: 0 raw findings
+  [s4] chunk catchall-159: 0 high-confidence findings
+  [s4] chunk catchall-160 (medium, rank 161, lens=javascript): Coverage sweep of 'modules/uniq.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-160] (3677 chars, max_tokens=6000, json)
+    [openai] usage: in=2883 (cached=0) out=393
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['if (iteratee != null) i...'  result.push(value);'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] catchall-160 run 1/1: 0 raw findings
+  [s4] chunk catchall-160: 0 high-confidence findings
+  [s4] chunk catchall-161 (medium, rank 162, lens=javascript): Coverage sweep of 'modules/uniqueId.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-161] (2504 chars, max_tokens=6000, json)
+    [openai] usage: in=2491 (cached=0) out=9
+    [s4] catchall-161 run 1/1: 0 raw findings
+  [s4] chunk catchall-161: 0 high-confidence findings
+  [s4] chunk catchall-162 (medium, rank 163, lens=javascript): Coverage sweep of 'modules/unzip.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-162] (2773 chars, max_tokens=6000, json)
+    [openai] usage: in=2590 (cached=0) out=9
+    [s4] catchall-162 run 1/1: 0 raw findings
+  [s4] chunk catchall-162: 0 high-confidence findings
+  [s4] chunk catchall-163 (medium, rank 164, lens=javascript): Coverage sweep of 'modules/values.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-163] (2592 chars, max_tokens=6000, json)
+    [openai] usage: in=2535 (cached=0) out=9
+    [s4] catchall-163 run 1/1: 0 raw findings
+  [s4] chunk catchall-163: 0 high-confidence findings
+  [s4] chunk catchall-164 (medium, rank 165, lens=javascript): Coverage sweep of 'modules/where.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-164] (2547 chars, max_tokens=6000, json)
+    [openai] usage: in=2496 (cached=0) out=9
+    [s4] catchall-164 run 1/1: 0 raw findings
+  [s4] chunk catchall-164: 0 high-confidence findings
+  [s4] chunk catchall-165 (medium, rank 166, lens=javascript): Coverage sweep of 'modules/without.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-165] (2540 chars, max_tokens=6000, json)
+    [openai] usage: in=2486 (cached=0) out=9
+    [s4] catchall-165 run 1/1: 0 raw findings
+  [s4] chunk catchall-165: 0 high-confidence findings
+  [s4] chunk catchall-166 (medium, rank 167, lens=javascript): Coverage sweep of 'modules/wrap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-166] (2567 chars, max_tokens=6000, json)
+    [openai] usage: in=2498 (cached=0) out=9
+    [s4] catchall-166 run 1/1: 0 raw findings
+  [s4] chunk catchall-166: 0 high-confidence findings
+  [s4] chunk catchall-167 (medium, rank 168, lens=javascript): Coverage sweep of 'modules/zip.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-167] (2467 chars, max_tokens=6000, json)
+    [openai] usage: in=2474 (cached=0) out=2
+    [s4] catchall-167 run 1/1: 0 raw findings
+  [s4] chunk catchall-167: 0 high-confidence findings
+  [s4] chunk catchall-168 (medium, rank 169, lens=generic): Coverage sweep of 'patches/docco+0.8.0.patch' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-168] (1671 chars, max_tokens=6000, json)
+    [openai] usage: in=2341 (cached=0) out=9
+    [s4] catchall-168 run 1/1: 0 raw findings
+  [s4] chunk catchall-168: 0 high-confidence findings
+  [s4] chunk catchall-169 (medium, rank 170, lens=javascript): Coverage sweep of 'test-treeshake/map.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-169] (2281 chars, max_tokens=6000, json)
+    [openai] usage: in=2427 (cached=0) out=9
+    [s4] catchall-169 run 1/1: 0 raw findings
+  [s4] chunk catchall-169: 0 high-confidence findings
+  [s4] chunk catchall-170 (medium, rank 171, lens=javascript): Coverage sweep of 'test-treeshake/rollup.config.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-170] (2583 chars, max_tokens=6000, json)
+    [openai] usage: in=2559 (cached=0) out=9
+    [s4] catchall-170 run 1/1: 0 raw findings
+  [s4] chunk catchall-170: 0 high-confidence findings
+  [s4] chunk catchall-171 (medium, rank 172, lens=javascript): Coverage sweep of 'test-treeshake/template.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability…
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 catchall-171] (2291 chars, max_tokens=6000, json)
+    [openai] usage: in=2426 (cached=0) out=9
+    [s4] catchall-171 run 1/1: 0 raw findings
+  [s4] chunk catchall-171: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-01 (medium, rank 173, lens=logic-bug): logic-bug specialist sweep over module '. [shard 1/8]'.
+    [s4] redacted 1 PAN-prefix + 0 sensitive token(s) in index.html
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-01] (223509 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=174
+    [s4] spec-logic-bug-01 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-01: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-02 (medium, rank 174, lens=logic-bug): logic-bug specialist sweep over module '. [shard 2/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-02] (19849 chars, max_tokens=6000, json)
+    [openai] usage: in=8251 (cached=0) out=2
+    [s4] spec-logic-bug-02 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-02: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-03 (medium, rank 175, lens=logic-bug): logic-bug specialist sweep over module '. [shard 3/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-03] (84593 chars, max_tokens=6000, json)
+    [openai] usage: in=32416 (cached=0) out=454
+    [s4] dropped malformed finding: 1 validation error for Finding
+confidence
+  Field required [type=missing, input_value={'file': 'underscore-esm....d': 'spec-logic-bug-03'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] spec-logic-bug-03 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-03: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-04 (medium, rank 176, lens=logic-bug): logic-bug specialist sweep over module '. [shard 4/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-04] (11560 chars, max_tokens=6000, json)
+    [openai] usage: in=5744 (cached=0) out=9
+    [s4] spec-logic-bug-04 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-04: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-05 (medium, rank 177, lens=logic-bug): logic-bug specialist sweep over module '. [shard 5/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-05] (87267 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=9
+    [s4] spec-logic-bug-05 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-05: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-06 (medium, rank 178, lens=logic-bug): logic-bug specialist sweep over module '. [shard 6/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-06] (13946 chars, max_tokens=6000, json)
+    [openai] usage: in=6428 (cached=0) out=2
+    [s4] spec-logic-bug-06 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-06: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-07 (medium, rank 179, lens=logic-bug): logic-bug specialist sweep over module '. [shard 7/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-07] (87189 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=305
+    [s4] dropped malformed finding: 6 validation errors for Finding
+line_start
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped malformed finding: 6 validation errors for Finding
+line_start
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+vuln_class
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+confidence
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-07', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] spec-logic-bug-07 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-07: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-08 (medium, rank 180, lens=logic-bug): logic-bug specialist sweep over module '. [shard 8/8]'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-08] (87185 chars, max_tokens=6000, json)
+    [openai] usage: in=32768 (cached=0) out=294
+    [s4] dropped malformed finding: 3 validation errors for Finding
+vuln_class
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] dropped malformed finding: 3 validation errors for Finding
+vuln_class
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+title
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+code_snippet
+  Field required [type=missing, input_value={'file': 'underscore-umd....ic-bug-08', 'cwe': None}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] spec-logic-bug-08 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-08: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-09 (medium, rank 181, lens=logic-bug): logic-bug specialist sweep over module 'modules/_baseCreate.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-09] (3658 chars, max_tokens=6000, json)
+    [openai] usage: in=2761 (cached=0) out=2
+    [s4] spec-logic-bug-09 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-09: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-10 (medium, rank 182, lens=logic-bug): logic-bug specialist sweep over module 'modules/_baseIteratee.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-10] (3882 chars, max_tokens=6000, json)
+    [openai] usage: in=2796 (cached=0) out=9
+    [s4] spec-logic-bug-10 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-10: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-11 (medium, rank 183, lens=logic-bug): logic-bug specialist sweep over module 'modules/_cb.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-11] (3469 chars, max_tokens=6000, json)
+    [openai] usage: in=2697 (cached=0) out=9
+    [s4] spec-logic-bug-11 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-11: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-12 (medium, rank 184, lens=logic-bug): logic-bug specialist sweep over module 'modules/_chainResult.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-12] (3241 chars, max_tokens=6000, json)
+    [openai] usage: in=2624 (cached=0) out=9
+    [s4] spec-logic-bug-12 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-12: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-13 (medium, rank 185, lens=logic-bug): logic-bug specialist sweep over module 'modules/_collectNonEnumProps.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-13] (4658 chars, max_tokens=6000, json)
+    [openai] usage: in=3112 (cached=0) out=7
+    [s4] spec-logic-bug-13 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-13: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-14 (medium, rank 186, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createAssigner.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-14] (3713 chars, max_tokens=6000, json)
+    [openai] usage: in=2791 (cached=0) out=2
+    [s4] spec-logic-bug-14 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-14: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-15 (medium, rank 187, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createEscaper.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-15] (3726 chars, max_tokens=6000, json)
+    [openai] usage: in=2784 (cached=0) out=418
+    [s4] spec-logic-bug-15 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-15: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-16 (medium, rank 188, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createIndexFinder.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-16] (4184 chars, max_tokens=6000, json)
+    [openai] usage: in=2972 (cached=0) out=2
+    [s4] spec-logic-bug-16 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-16: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-17 (medium, rank 189, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createPredicateIndexFinder.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-17] (3643 chars, max_tokens=6000, json)
+    [openai] usage: in=2758 (cached=0) out=9
+    [s4] spec-logic-bug-17 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-17: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-18 (medium, rank 190, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createReduce.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-18] (4242 chars, max_tokens=6000, json)
+    [openai] usage: in=2962 (cached=0) out=9
+    [s4] spec-logic-bug-18 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-18: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-19 (medium, rank 191, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createSizePropertyCheck.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-19] (3454 chars, max_tokens=6000, json)
+    [openai] usage: in=2679 (cached=0) out=9
+    [s4] spec-logic-bug-19 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-19: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-20 (medium, rank 192, lens=logic-bug): logic-bug specialist sweep over module 'modules/_deepGet.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-20] (3334 chars, max_tokens=6000, json)
+    [openai] usage: in=2675 (cached=0) out=9
+    [s4] spec-logic-bug-20 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-20: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-21 (medium, rank 193, lens=logic-bug): logic-bug specialist sweep over module 'modules/_escapeMap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-21] (3222 chars, max_tokens=6000, json)
+    [openai] usage: in=2647 (cached=0) out=9
+    [s4] spec-logic-bug-21 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-21: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-22 (medium, rank 194, lens=logic-bug): logic-bug specialist sweep over module 'modules/_executeBound.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-22] (3676 chars, max_tokens=6000, json)
+    [openai] usage: in=2742 (cached=0) out=362
+    [s4] spec-logic-bug-22 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-22: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-23 (medium, rank 195, lens=logic-bug): logic-bug specialist sweep over module 'modules/_flatten.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-23] (4435 chars, max_tokens=6000, json)
+    [openai] usage: in=3038 (cached=0) out=9
+    [s4] spec-logic-bug-23 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-23: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-24 (medium, rank 196, lens=logic-bug): logic-bug specialist sweep over module 'modules/_getByteLength.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-24] (3200 chars, max_tokens=6000, json)
+    [openai] usage: in=2611 (cached=0) out=9
+    [s4] spec-logic-bug-24 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-24: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-25 (medium, rank 197, lens=logic-bug): logic-bug specialist sweep over module 'modules/_getLength.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-25] (3184 chars, max_tokens=6000, json)
+    [openai] usage: in=2607 (cached=0) out=9
+    [s4] spec-logic-bug-25 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-25: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-26 (medium, rank 198, lens=logic-bug): logic-bug specialist sweep over module 'modules/_group.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-26] (3549 chars, max_tokens=6000, json)
+    [openai] usage: in=2733 (cached=0) out=9
+    [s4] spec-logic-bug-26 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-26: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-27 (medium, rank 199, lens=logic-bug): logic-bug specialist sweep over module 'modules/_has.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-27] (3247 chars, max_tokens=6000, json)
+    [openai] usage: in=2633 (cached=0) out=2
+    [s4] spec-logic-bug-27 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-27: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-28 (medium, rank 200, lens=logic-bug): logic-bug specialist sweep over module 'modules/_hasObjectTag.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-28] (3100 chars, max_tokens=6000, json)
+    [openai] usage: in=2590 (cached=0) out=387
+    [s4] spec-logic-bug-28 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-28: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-29 (medium, rank 201, lens=logic-bug): logic-bug specialist sweep over module 'modules/_isArrayLike.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-29] (3477 chars, max_tokens=6000, json)
+    [openai] usage: in=2697 (cached=0) out=2
+    [s4] spec-logic-bug-29 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-29: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-30 (medium, rank 202, lens=logic-bug): logic-bug specialist sweep over module 'modules/_isBufferLike.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-30] (3322 chars, max_tokens=6000, json)
+    [openai] usage: in=2642 (cached=0) out=9
+    [s4] spec-logic-bug-30 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-30: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-31 (medium, rank 203, lens=logic-bug): logic-bug specialist sweep over module 'modules/_keyInObj.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-31] (3211 chars, max_tokens=6000, json)
+    [openai] usage: in=2625 (cached=0) out=9
+    [s4] spec-logic-bug-31 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-31: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-32 (medium, rank 204, lens=logic-bug): logic-bug specialist sweep over module 'modules/_methodFingerprint.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-32] (4768 chars, max_tokens=6000, json)
+    [openai] usage: in=3119 (cached=0) out=9
+    [s4] spec-logic-bug-32 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-32: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-33 (medium, rank 205, lens=logic-bug): logic-bug specialist sweep over module 'modules/_optimizeCb.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-33] (3952 chars, max_tokens=6000, json)
+    [openai] usage: in=2844 (cached=0) out=9
+    [s4] spec-logic-bug-33 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-33: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-34 (medium, rank 206, lens=logic-bug): logic-bug specialist sweep over module 'modules/_setup.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-34] (5116 chars, max_tokens=6000, json)
+    [openai] usage: in=3188 (cached=0) out=2
+    [s4] spec-logic-bug-34 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-34: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-35 (medium, rank 207, lens=logic-bug): logic-bug specialist sweep over module 'modules/_shallowProperty.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-35] (3251 chars, max_tokens=6000, json)
+    [openai] usage: in=2631 (cached=0) out=2
+    [s4] spec-logic-bug-35 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-35: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-36 (medium, rank 208, lens=logic-bug): logic-bug specialist sweep over module 'modules/_stringTagBug.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-36] (3786 chars, max_tokens=6000, json)
+    [openai] usage: in=2802 (cached=0) out=9
+    [s4] spec-logic-bug-36 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-36: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-37 (medium, rank 209, lens=logic-bug): logic-bug specialist sweep over module 'modules/_tagTester.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-37] (3315 chars, max_tokens=6000, json)
+    [openai] usage: in=2657 (cached=0) out=2
+    [s4] spec-logic-bug-37 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-37: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-38 (medium, rank 210, lens=logic-bug): logic-bug specialist sweep over module 'modules/_toBufferView.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-38] (3443 chars, max_tokens=6000, json)
+    [openai] usage: in=2689 (cached=0) out=9
+    [s4] spec-logic-bug-38 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-38: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-39 (medium, rank 211, lens=logic-bug): logic-bug specialist sweep over module 'modules/_toPath.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-39] (3263 chars, max_tokens=6000, json)
+    [openai] usage: in=2646 (cached=0) out=9
+    [s4] spec-logic-bug-39 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-39: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-40 (medium, rank 212, lens=logic-bug): logic-bug specialist sweep over module 'modules/_unescapeMap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-40] (3194 chars, max_tokens=6000, json)
+    [openai] usage: in=2615 (cached=0) out=2
+    [s4] spec-logic-bug-40 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-40: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-41 (medium, rank 213, lens=logic-bug): logic-bug specialist sweep over module 'modules/after.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-41] (3262 chars, max_tokens=6000, json)
+    [openai] usage: in=2641 (cached=0) out=2
+    [s4] spec-logic-bug-41 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-41: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-42 (medium, rank 214, lens=logic-bug): logic-bug specialist sweep over module 'modules/allKeys.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-42] (3496 chars, max_tokens=6000, json)
+    [openai] usage: in=2721 (cached=0) out=2
+    [s4] spec-logic-bug-42 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-42: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-43 (medium, rank 215, lens=logic-bug): logic-bug specialist sweep over module 'modules/before.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-43] (3371 chars, max_tokens=6000, json)
+    [openai] usage: in=2687 (cached=0) out=451
+    [s4] spec-logic-bug-43 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-43: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-44 (medium, rank 216, lens=logic-bug): logic-bug specialist sweep over module 'modules/bind.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-44] (3602 chars, max_tokens=6000, json)
+    [openai] usage: in=2724 (cached=0) out=9
+    [s4] spec-logic-bug-44 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-44: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-45 (medium, rank 217, lens=logic-bug): logic-bug specialist sweep over module 'modules/bindAll.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-45] (3710 chars, max_tokens=6000, json)
+    [openai] usage: in=2776 (cached=0) out=9
+    [s4] spec-logic-bug-45 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-45: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-46 (medium, rank 218, lens=logic-bug): logic-bug specialist sweep over module 'modules/chain.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-46] (3231 chars, max_tokens=6000, json)
+    [openai] usage: in=2632 (cached=0) out=9
+    [s4] spec-logic-bug-46 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-46: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-47 (medium, rank 219, lens=logic-bug): logic-bug specialist sweep over module 'modules/chunk.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-47] (3446 chars, max_tokens=6000, json)
+    [openai] usage: in=2711 (cached=0) out=313
+    [s4] spec-logic-bug-47 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-47: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-48 (medium, rank 220, lens=logic-bug): logic-bug specialist sweep over module 'modules/clone.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-48] (3338 chars, max_tokens=6000, json)
+    [openai] usage: in=2660 (cached=0) out=9
+    [s4] spec-logic-bug-48 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-48: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-49 (medium, rank 221, lens=logic-bug): logic-bug specialist sweep over module 'modules/compact.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-49] (3186 chars, max_tokens=6000, json)
+    [openai] usage: in=2614 (cached=0) out=9
+    [s4] spec-logic-bug-49 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-49: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-50 (medium, rank 222, lens=logic-bug): logic-bug specialist sweep over module 'modules/compose.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-50] (3472 chars, max_tokens=6000, json)
+    [openai] usage: in=2701 (cached=0) out=2
+    [s4] spec-logic-bug-50 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-50: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-51 (medium, rank 223, lens=logic-bug): logic-bug specialist sweep over module 'modules/constant.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-51] (3192 chars, max_tokens=6000, json)
+    [openai] usage: in=2613 (cached=0) out=9
+    [s4] spec-logic-bug-51 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-51: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-52 (medium, rank 224, lens=logic-bug): logic-bug specialist sweep over module 'modules/contains.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-52] (3465 chars, max_tokens=6000, json)
+    [openai] usage: in=2699 (cached=0) out=429
+    [s4] spec-logic-bug-52 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-52: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-53 (medium, rank 225, lens=logic-bug): logic-bug specialist sweep over module 'modules/countBy.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-53] (3392 chars, max_tokens=6000, json)
+    [openai] usage: in=2675 (cached=0) out=9
+    [s4] spec-logic-bug-53 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-53: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-54 (medium, rank 226, lens=logic-bug): logic-bug specialist sweep over module 'modules/create.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-54] (3454 chars, max_tokens=6000, json)
+    [openai] usage: in=2685 (cached=0) out=9
+    [s4] spec-logic-bug-54 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-54: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-55 (medium, rank 227, lens=logic-bug): logic-bug specialist sweep over module 'modules/debounce.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-55] (4491 chars, max_tokens=6000, json)
+    [openai] usage: in=3038 (cached=0) out=2
+    [s4] spec-logic-bug-55 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-55: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-56 (medium, rank 228, lens=logic-bug): logic-bug specialist sweep over module 'modules/defaults.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-56] (3211 chars, max_tokens=6000, json)
+    [openai] usage: in=2618 (cached=0) out=9
+    [s4] spec-logic-bug-56 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-56: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-57 (medium, rank 229, lens=logic-bug): logic-bug specialist sweep over module 'modules/defer.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-57] (3261 chars, max_tokens=6000, json)
+    [openai] usage: in=2635 (cached=0) out=9
+    [s4] spec-logic-bug-57 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-57: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-58 (medium, rank 230, lens=logic-bug): logic-bug specialist sweep over module 'modules/delay.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-58] (3348 chars, max_tokens=6000, json)
+    [openai] usage: in=2656 (cached=0) out=9
+    [s4] spec-logic-bug-58 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-58: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-59 (medium, rank 231, lens=logic-bug): logic-bug specialist sweep over module 'modules/difference.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-59] (3555 chars, max_tokens=6000, json)
+    [openai] usage: in=2710 (cached=0) out=9
+    [s4] spec-logic-bug-59 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-59: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-60 (medium, rank 232, lens=logic-bug): logic-bug specialist sweep over module 'modules/each.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-60] (3863 chars, max_tokens=6000, json)
+    [openai] usage: in=2859 (cached=0) out=9
+    [s4] spec-logic-bug-60 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-60: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-61 (medium, rank 233, lens=logic-bug): logic-bug specialist sweep over module 'modules/escape.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-61] (3210 chars, max_tokens=6000, json)
+    [openai] usage: in=2617 (cached=0) out=9
+    [s4] spec-logic-bug-61 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-61: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-62 (medium, rank 234, lens=logic-bug): logic-bug specialist sweep over module 'modules/every.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-62] (3621 chars, max_tokens=6000, json)
+    [openai] usage: in=2757 (cached=0) out=9
+    [s4] spec-logic-bug-62 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-62: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-63 (medium, rank 235, lens=logic-bug): logic-bug specialist sweep over module 'modules/extend.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-63] (3223 chars, max_tokens=6000, json)
+    [openai] usage: in=2621 (cached=0) out=9
+    [s4] spec-logic-bug-63 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-63: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-64 (medium, rank 236, lens=logic-bug): logic-bug specialist sweep over module 'modules/extendOwn.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-64] (3340 chars, max_tokens=6000, json)
+    [openai] usage: in=2654 (cached=0) out=9
+    [s4] spec-logic-bug-64 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-64: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-65 (medium, rank 237, lens=logic-bug): logic-bug specialist sweep over module 'modules/filter.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-65] (3425 chars, max_tokens=6000, json)
+    [openai] usage: in=2689 (cached=0) out=156
+    [s4] dropped malformed finding: 2 validation errors for Finding
+line_start
+  Input should be a valid integer [type=int_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/int_type
+line_end
+  Input should be a valid integer [type=int_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/int_type
+    [s4] spec-logic-bug-65 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-65: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-66 (medium, rank 238, lens=logic-bug): logic-bug specialist sweep over module 'modules/find.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-66] (3445 chars, max_tokens=6000, json)
+    [openai] usage: in=2693 (cached=0) out=9
+    [s4] spec-logic-bug-66 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-66: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-67 (medium, rank 239, lens=logic-bug): logic-bug specialist sweep over module 'modules/findIndex.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-67] (3213 chars, max_tokens=6000, json)
+    [openai] usage: in=2611 (cached=0) out=9
+    [s4] spec-logic-bug-67 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-67: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-68 (medium, rank 240, lens=logic-bug): logic-bug specialist sweep over module 'modules/findKey.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-68] (3459 chars, max_tokens=6000, json)
+    [openai] usage: in=2713 (cached=0) out=7
+    [s4] spec-logic-bug-68 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-68: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-69 (medium, rank 241, lens=logic-bug): logic-bug specialist sweep over module 'modules/findLastIndex.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-69] (3221 chars, max_tokens=6000, json)
+    [openai] usage: in=2613 (cached=0) out=315
+    [s4] dropped malformed finding: 3 validation errors for Finding
+file
+  Field required [type=missing, input_value={'vuln_class': 'logic-fla...d': 'spec-logic-bug-69'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_start
+  Field required [type=missing, input_value={'vuln_class': 'logic-fla...d': 'spec-logic-bug-69'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+line_end
+  Field required [type=missing, input_value={'vuln_class': 'logic-fla...d': 'spec-logic-bug-69'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+    [s4] spec-logic-bug-69 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-69: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-70 (medium, rank 242, lens=logic-bug): logic-bug specialist sweep over module 'modules/findWhere.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-70] (3326 chars, max_tokens=6000, json)
+    [openai] usage: in=2649 (cached=0) out=371
+    [s4] spec-logic-bug-70 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-70: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-71 (medium, rank 243, lens=logic-bug): logic-bug specialist sweep over module 'modules/first.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-71] (3456 chars, max_tokens=6000, json)
+    [openai] usage: in=2700 (cached=0) out=394
+    [s4] spec-logic-bug-71 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-71: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-72 (medium, rank 244, lens=logic-bug): logic-bug specialist sweep over module 'modules/flatten.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-72] (3322 chars, max_tokens=6000, json)
+    [openai] usage: in=2655 (cached=0) out=9
+    [s4] spec-logic-bug-72 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-72: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-73 (medium, rank 245, lens=logic-bug): logic-bug specialist sweep over module 'modules/functions.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-73] (3337 chars, max_tokens=6000, json)
+    [openai] usage: in=2658 (cached=0) out=9
+    [s4] spec-logic-bug-73 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-73: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-74 (medium, rank 246, lens=logic-bug): logic-bug specialist sweep over module 'modules/get.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-74] (3562 chars, max_tokens=6000, json)
+    [openai] usage: in=2728 (cached=0) out=9
+    [s4] spec-logic-bug-74 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-74: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-75 (medium, rank 247, lens=logic-bug): logic-bug specialist sweep over module 'modules/groupBy.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-75] (3376 chars, max_tokens=6000, json)
+    [openai] usage: in=2668 (cached=0) out=9
+    [s4] spec-logic-bug-75 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-75: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-76 (medium, rank 248, lens=logic-bug): logic-bug specialist sweep over module 'modules/has.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-76] (3619 chars, max_tokens=6000, json)
+    [openai] usage: in=2763 (cached=0) out=497
+    [s4] spec-logic-bug-76 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-76: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-77 (medium, rank 249, lens=logic-bug): logic-bug specialist sweep over module 'modules/identity.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-77] (3139 chars, max_tokens=6000, json)
+    [openai] usage: in=2595 (cached=0) out=9
+    [s4] spec-logic-bug-77 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-77: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-78 (medium, rank 250, lens=logic-bug): logic-bug specialist sweep over module 'modules/index-all.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-78] (3928 chars, max_tokens=6000, json)
+    [openai] usage: in=2821 (cached=0) out=9
+    [s4] spec-logic-bug-78 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-78: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-79 (medium, rank 251, lens=logic-bug): logic-bug specialist sweep over module 'modules/index-default.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-79] (4062 chars, max_tokens=6000, json)
+    [openai] usage: in=2900 (cached=0) out=9
+    [s4] spec-logic-bug-79 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-79: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-80 (medium, rank 252, lens=logic-bug): logic-bug specialist sweep over module 'modules/index.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-80] (13288 chars, max_tokens=6000, json)
+    [openai] usage: in=5687 (cached=0) out=9
+    [s4] spec-logic-bug-80 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-80: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-81 (medium, rank 253, lens=logic-bug): logic-bug specialist sweep over module 'modules/indexBy.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-81] (3286 chars, max_tokens=6000, json)
+    [openai] usage: in=2644 (cached=0) out=7
+    [s4] spec-logic-bug-81 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-81: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-82 (medium, rank 254, lens=logic-bug): logic-bug specialist sweep over module 'modules/indexOf.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-82] (3483 chars, max_tokens=6000, json)
+    [openai] usage: in=2693 (cached=0) out=9
+    [s4] spec-logic-bug-82 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-82: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-83 (medium, rank 255, lens=logic-bug): logic-bug specialist sweep over module 'modules/initial.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-83] (3406 chars, max_tokens=6000, json)
+    [openai] usage: in=2680 (cached=0) out=428
+    [s4] spec-logic-bug-83 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-83: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-84 (medium, rank 256, lens=logic-bug): logic-bug specialist sweep over module 'modules/intersection.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-84] (3706 chars, max_tokens=6000, json)
+    [openai] usage: in=2789 (cached=0) out=2
+    [s4] spec-logic-bug-84 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-84: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-85 (medium, rank 257, lens=logic-bug): logic-bug specialist sweep over module 'modules/invert.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-85] (3375 chars, max_tokens=6000, json)
+    [openai] usage: in=2690 (cached=0) out=9
+    [s4] spec-logic-bug-85 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-85: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-86 (medium, rank 258, lens=logic-bug): logic-bug specialist sweep over module 'modules/invoke.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-86] (4015 chars, max_tokens=6000, json)
+    [openai] usage: in=2894 (cached=0) out=354
+    [s4] spec-logic-bug-86 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-86: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-87 (medium, rank 259, lens=logic-bug): logic-bug specialist sweep over module 'modules/isArguments.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-87] (3509 chars, max_tokens=6000, json)
+    [openai] usage: in=2729 (cached=0) out=2
+    [s4] spec-logic-bug-87 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-87: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-88 (medium, rank 260, lens=logic-bug): logic-bug specialist sweep over module 'modules/isArray.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-88] (3248 chars, max_tokens=6000, json)
+    [openai] usage: in=2635 (cached=0) out=9
+    [s4] spec-logic-bug-88 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-88: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-89 (medium, rank 261, lens=logic-bug): logic-bug specialist sweep over module 'modules/isArrayBuffer.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-89] (3105 chars, max_tokens=6000, json)
+    [openai] usage: in=2589 (cached=0) out=9
+    [s4] spec-logic-bug-89 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-89: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-90 (medium, rank 262, lens=logic-bug): logic-bug specialist sweep over module 'modules/isBoolean.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-90] (3235 chars, max_tokens=6000, json)
+    [openai] usage: in=2627 (cached=0) out=9
+    [s4] spec-logic-bug-90 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-90: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-91 (medium, rank 263, lens=logic-bug): logic-bug specialist sweep over module 'modules/isDataView.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-91] (3718 chars, max_tokens=6000, json)
+    [openai] usage: in=2784 (cached=0) out=9
+    [s4] spec-logic-bug-91 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-91: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-92 (medium, rank 264, lens=logic-bug): logic-bug specialist sweep over module 'modules/isDate.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-92] (3084 chars, max_tokens=6000, json)
+    [openai] usage: in=2586 (cached=0) out=9
+    [s4] spec-logic-bug-92 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-92: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-93 (medium, rank 265, lens=logic-bug): logic-bug specialist sweep over module 'modules/isElement.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-93] (3139 chars, max_tokens=6000, json)
+    [openai] usage: in=2602 (cached=0) out=9
+    [s4] spec-logic-bug-93 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-93: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-94 (medium, rank 266, lens=logic-bug): logic-bug specialist sweep over module 'modules/isEmpty.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-94] (3754 chars, max_tokens=6000, json)
+    [openai] usage: in=2799 (cached=0) out=9
+    [s4] spec-logic-bug-94 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-94: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-95 (medium, rank 267, lens=logic-bug): logic-bug specialist sweep over module 'modules/isEqual.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-95] (10252 chars, max_tokens=6000, json)
+    [openai] usage: in=4977 (cached=0) out=9
+    [s4] spec-logic-bug-95 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-95: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-96 (medium, rank 268, lens=logic-bug): logic-bug specialist sweep over module 'modules/isError.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-96] (3087 chars, max_tokens=6000, json)
+    [openai] usage: in=2586 (cached=0) out=9
+    [s4] spec-logic-bug-96 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-96: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-97 (medium, rank 269, lens=logic-bug): logic-bug specialist sweep over module 'modules/isFinite.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-97] (3270 chars, max_tokens=6000, json)
+    [openai] usage: in=2643 (cached=0) out=2
+    [s4] spec-logic-bug-97 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-97: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-98 (medium, rank 270, lens=logic-bug): logic-bug specialist sweep over module 'modules/isFunction.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-98] (3628 chars, max_tokens=6000, json)
+    [openai] usage: in=2770 (cached=0) out=9
+    [s4] spec-logic-bug-98 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-98: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-99 (medium, rank 271, lens=logic-bug): logic-bug specialist sweep over module 'modules/isMap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-99] (3251 chars, max_tokens=6000, json)
+    [openai] usage: in=2643 (cached=0) out=9
+    [s4] spec-logic-bug-99 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-99: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-100 (medium, rank 272, lens=logic-bug): logic-bug specialist sweep over module 'modules/isMatch.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-100] (3490 chars, max_tokens=6000, json)
+    [openai] usage: in=2729 (cached=0) out=9
+    [s4] spec-logic-bug-100 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-100: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-101 (medium, rank 273, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNaN.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-101] (3219 chars, max_tokens=6000, json)
+    [openai] usage: in=2634 (cached=0) out=2
+    [s4] spec-logic-bug-101 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-101: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-102 (medium, rank 274, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNull.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-102] (3114 chars, max_tokens=6000, json)
+    [openai] usage: in=2597 (cached=0) out=9
+    [s4] spec-logic-bug-102 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-102: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-103 (medium, rank 275, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNumber.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-103] (3091 chars, max_tokens=6000, json)
+    [openai] usage: in=2587 (cached=0) out=9
+    [s4] spec-logic-bug-103 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-103: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-104 (medium, rank 276, lens=logic-bug): logic-bug specialist sweep over module 'modules/isObject.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-104] (3190 chars, max_tokens=6000, json)
+    [openai] usage: in=2619 (cached=0) out=9
+    [s4] spec-logic-bug-104 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-104: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-105 (medium, rank 277, lens=logic-bug): logic-bug specialist sweep over module 'modules/isRegExp.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-105] (3091 chars, max_tokens=6000, json)
+    [openai] usage: in=2587 (cached=0) out=9
+    [s4] spec-logic-bug-105 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-105: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-106 (medium, rank 278, lens=logic-bug): logic-bug specialist sweep over module 'modules/isSet.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-106] (3252 chars, max_tokens=6000, json)
+    [openai] usage: in=2644 (cached=0) out=9
+    [s4] spec-logic-bug-106 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-106: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-107 (medium, rank 279, lens=logic-bug): logic-bug specialist sweep over module 'modules/isString.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-107] (3091 chars, max_tokens=6000, json)
+    [openai] usage: in=2587 (cached=0) out=9
+    [s4] spec-logic-bug-107 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-107: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-108 (medium, rank 280, lens=logic-bug): logic-bug specialist sweep over module 'modules/isSymbol.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-108] (3091 chars, max_tokens=6000, json)
+    [openai] usage: in=2587 (cached=0) out=9
+    [s4] spec-logic-bug-108 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-108: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-109 (medium, rank 281, lens=logic-bug): logic-bug specialist sweep over module 'modules/isTypedArray.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-109] (3831 chars, max_tokens=6000, json)
+    [openai] usage: in=2822 (cached=0) out=2
+    [s4] spec-logic-bug-109 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-109: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-110 (medium, rank 282, lens=logic-bug): logic-bug specialist sweep over module 'modules/isUndefined.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-110] (3130 chars, max_tokens=6000, json)
+    [openai] usage: in=2597 (cached=0) out=309
+    [s4] spec-logic-bug-110 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-110: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-111 (medium, rank 283, lens=logic-bug): logic-bug specialist sweep over module 'modules/isWeakMap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-111] (3272 chars, max_tokens=6000, json)
+    [openai] usage: in=2650 (cached=0) out=9
+    [s4] spec-logic-bug-111 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-111: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-112 (medium, rank 284, lens=logic-bug): logic-bug specialist sweep over module 'modules/isWeakSet.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-112] (3094 chars, max_tokens=6000, json)
+    [openai] usage: in=2590 (cached=0) out=2
+    [s4] spec-logic-bug-112 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-112: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-113 (medium, rank 285, lens=logic-bug): logic-bug specialist sweep over module 'modules/iteratee.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-113] (3478 chars, max_tokens=6000, json)
+    [openai] usage: in=2691 (cached=0) out=2
+    [s4] spec-logic-bug-113 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-113: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-114 (medium, rank 286, lens=logic-bug): logic-bug specialist sweep over module 'modules/keys.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-114] (3661 chars, max_tokens=6000, json)
+    [openai] usage: in=2783 (cached=0) out=9
+    [s4] spec-logic-bug-114 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-114: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-115 (medium, rank 287, lens=logic-bug): logic-bug specialist sweep over module 'modules/last.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-115] (3419 chars, max_tokens=6000, json)
+    [openai] usage: in=2695 (cached=0) out=361
+    [s4] spec-logic-bug-115 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-115: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-116 (medium, rank 288, lens=logic-bug): logic-bug specialist sweep over module 'modules/lastIndexOf.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-116] (3320 chars, max_tokens=6000, json)
+    [openai] usage: in=2648 (cached=0) out=331
+    [s4] spec-logic-bug-116 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-116: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-117 (medium, rank 289, lens=logic-bug): logic-bug specialist sweep over module 'modules/map.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-117] (3655 chars, max_tokens=6000, json)
+    [openai] usage: in=2771 (cached=0) out=7
+    [s4] spec-logic-bug-117 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-117: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-118 (medium, rank 290, lens=logic-bug): logic-bug specialist sweep over module 'modules/mapObject.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-118] (3636 chars, max_tokens=6000, json)
+    [openai] usage: in=2766 (cached=0) out=408
+    [s4] spec-logic-bug-118 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-118: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-119 (medium, rank 291, lens=logic-bug): logic-bug specialist sweep over module 'modules/matcher.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-119] (3376 chars, max_tokens=6000, json)
+    [openai] usage: in=2676 (cached=0) out=9
+    [s4] spec-logic-bug-119 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-119: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-120 (medium, rank 292, lens=logic-bug): logic-bug specialist sweep over module 'modules/max.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-120] (4143 chars, max_tokens=6000, json)
+    [openai] usage: in=2937 (cached=0) out=8
+    [s4] spec-logic-bug-120 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-120: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-121 (medium, rank 293, lens=logic-bug): logic-bug specialist sweep over module 'modules/memoize.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-121] (3500 chars, max_tokens=6000, json)
+    [openai] usage: in=2720 (cached=0) out=388
+    [s4] spec-logic-bug-121 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-121: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-122 (medium, rank 294, lens=logic-bug): logic-bug specialist sweep over module 'modules/min.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-122] (4139 chars, max_tokens=6000, json)
+    [openai] usage: in=2933 (cached=0) out=9
+    [s4] spec-logic-bug-122 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-122: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-123 (medium, rank 295, lens=logic-bug): logic-bug specialist sweep over module 'modules/mixin.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-123] (3655 chars, max_tokens=6000, json)
+    [openai] usage: in=2767 (cached=0) out=384
+    [s4] spec-logic-bug-123 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-123: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-124 (medium, rank 296, lens=logic-bug): logic-bug specialist sweep over module 'modules/negate.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-124] (3206 chars, max_tokens=6000, json)
+    [openai] usage: in=2619 (cached=0) out=9
+    [s4] spec-logic-bug-124 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-124: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-125 (medium, rank 297, lens=logic-bug): logic-bug specialist sweep over module 'modules/noop.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-125] (3101 chars, max_tokens=6000, json)
+    [openai] usage: in=2585 (cached=0) out=9
+    [s4] spec-logic-bug-125 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-125: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-126 (medium, rank 298, lens=logic-bug): logic-bug specialist sweep over module 'modules/now.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-126] (3155 chars, max_tokens=6000, json)
+    [openai] usage: in=2605 (cached=0) out=326
+    [s4] spec-logic-bug-126 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-126: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-127 (medium, rank 299, lens=logic-bug): logic-bug specialist sweep over module 'modules/object.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-127] (3637 chars, max_tokens=6000, json)
+    [openai] usage: in=2769 (cached=0) out=9
+    [s4] spec-logic-bug-127 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-127: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-128 (medium, rank 300, lens=logic-bug): logic-bug specialist sweep over module 'modules/omit.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-128] (3846 chars, max_tokens=6000, json)
+    [openai] usage: in=2829 (cached=0) out=9
+    [s4] spec-logic-bug-128 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-128: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-129 (medium, rank 301, lens=logic-bug): logic-bug specialist sweep over module 'modules/once.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-129] (3262 chars, max_tokens=6000, json)
+    [openai] usage: in=2632 (cached=0) out=357
+    [s4] spec-logic-bug-129 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-129: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-130 (medium, rank 302, lens=logic-bug): logic-bug specialist sweep over module 'modules/pairs.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-130] (3436 chars, max_tokens=6000, json)
+    [openai] usage: in=2716 (cached=0) out=9
+    [s4] spec-logic-bug-130 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-130: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-131 (medium, rank 303, lens=logic-bug): logic-bug specialist sweep over module 'modules/partial.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-131] (4135 chars, max_tokens=6000, json)
+    [openai] usage: in=2890 (cached=0) out=391
+    [s4] spec-logic-bug-131 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-131: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-132 (medium, rank 304, lens=logic-bug): logic-bug specialist sweep over module 'modules/partition.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-132] (3323 chars, max_tokens=6000, json)
+    [openai] usage: in=2654 (cached=0) out=400
+    [s4] spec-logic-bug-132 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-132: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-133 (medium, rank 305, lens=logic-bug): logic-bug specialist sweep over module 'modules/pick.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-133] (4021 chars, max_tokens=6000, json)
+    [openai] usage: in=2905 (cached=0) out=305
+    [s4] spec-logic-bug-133 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-133: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-134 (medium, rank 306, lens=logic-bug): logic-bug specialist sweep over module 'modules/pluck.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-134] (3257 chars, max_tokens=6000, json)
+    [openai] usage: in=2636 (cached=0) out=365
+    [s4] spec-logic-bug-134 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-134: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-135 (medium, rank 307, lens=logic-bug): logic-bug specialist sweep over module 'modules/property.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-135] (3427 chars, max_tokens=6000, json)
+    [openai] usage: in=2689 (cached=0) out=374
+    [s4] spec-logic-bug-135 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-135: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-136 (medium, rank 308, lens=logic-bug): logic-bug specialist sweep over module 'modules/propertyOf.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-136] (3333 chars, max_tokens=6000, json)
+    [openai] usage: in=2663 (cached=0) out=2
+    [s4] spec-logic-bug-136 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-136: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-137 (medium, rank 309, lens=logic-bug): logic-bug specialist sweep over module 'modules/random.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-137] (3266 chars, max_tokens=6000, json)
+    [openai] usage: in=2652 (cached=0) out=9
+    [s4] spec-logic-bug-137 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-137: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-138 (medium, rank 310, lens=logic-bug): logic-bug specialist sweep over module 'modules/range.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-138] (3706 chars, max_tokens=6000, json)
+    [openai] usage: in=2814 (cached=0) out=352
+    [s4] spec-logic-bug-138 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-138: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-139 (medium, rank 311, lens=logic-bug): logic-bug specialist sweep over module 'modules/reduce.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-139] (3195 chars, max_tokens=6000, json)
+    [openai] usage: in=2620 (cached=0) out=9
+    [s4] spec-logic-bug-139 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-139: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-140 (medium, rank 312, lens=logic-bug): logic-bug specialist sweep over module 'modules/reduceRight.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-140] (3174 chars, max_tokens=6000, json)
+    [openai] usage: in=2610 (cached=0) out=363
+    [s4] spec-logic-bug-140 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-140: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-141 (medium, rank 313, lens=logic-bug): logic-bug specialist sweep over module 'modules/reject.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-141] (3311 chars, max_tokens=6000, json)
+    [openai] usage: in=2648 (cached=0) out=316
+    [s4] spec-logic-bug-141 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-141: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-142 (medium, rank 314, lens=logic-bug): logic-bug specialist sweep over module 'modules/rest.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-142] (3356 chars, max_tokens=6000, json)
+    [openai] usage: in=2668 (cached=0) out=9
+    [s4] spec-logic-bug-142 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-142: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-143 (medium, rank 315, lens=logic-bug): logic-bug specialist sweep over module 'modules/restArguments.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-143] (4313 chars, max_tokens=6000, json)
+    [openai] usage: in=2949 (cached=0) out=2
+    [s4] spec-logic-bug-143 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-143: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-144 (medium, rank 316, lens=logic-bug): logic-bug specialist sweep over module 'modules/result.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-144] (3887 chars, max_tokens=6000, json)
+    [openai] usage: in=2859 (cached=0) out=9
+    [s4] spec-logic-bug-144 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-144: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-145 (medium, rank 317, lens=logic-bug): logic-bug specialist sweep over module 'modules/sample.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-145] (4153 chars, max_tokens=6000, json)
+    [openai] usage: in=2934 (cached=0) out=9
+    [s4] spec-logic-bug-145 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-145: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-146 (medium, rank 318, lens=logic-bug): logic-bug specialist sweep over module 'modules/shuffle.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-146] (3165 chars, max_tokens=6000, json)
+    [openai] usage: in=2609 (cached=0) out=373
+    [s4] spec-logic-bug-146 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-146: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-147 (medium, rank 319, lens=logic-bug): logic-bug specialist sweep over module 'modules/size.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-147] (3292 chars, max_tokens=6000, json)
+    [openai] usage: in=2651 (cached=0) out=9
+    [s4] spec-logic-bug-147 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-147: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-148 (medium, rank 320, lens=logic-bug): logic-bug specialist sweep over module 'modules/some.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-148] (3630 chars, max_tokens=6000, json)
+    [openai] usage: in=2761 (cached=0) out=377
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['for (var index = 0; ind...bj)) return true;', '}'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] spec-logic-bug-148 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-148: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-149 (medium, rank 321, lens=logic-bug): logic-bug specialist sweep over module 'modules/sortBy.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-149] (3836 chars, max_tokens=6000, json)
+    [openai] usage: in=2861 (cached=0) out=9
+    [s4] spec-logic-bug-149 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-149: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-150 (medium, rank 322, lens=logic-bug): logic-bug specialist sweep over module 'modules/sortedIndex.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-150] (3654 chars, max_tokens=6000, json)
+    [openai] usage: in=2776 (cached=0) out=9
+    [s4] spec-logic-bug-150 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-150: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-151 (medium, rank 323, lens=logic-bug): logic-bug specialist sweep over module 'modules/tap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-151] (3326 chars, max_tokens=6000, json)
+    [openai] usage: in=2652 (cached=0) out=373
+    [s4] spec-logic-bug-151 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-151: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-152 (medium, rank 324, lens=logic-bug): logic-bug specialist sweep over module 'modules/template.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-152] (6982 chars, max_tokens=6000, json)
+    [openai] usage: in=3918 (cached=0) out=397
+    [s4] dropped malformed finding: 1 validation error for Finding
+code_snippet
+  Input should be a valid string [type=string_type, input_value=['(71) if (!bareIdentifie...rgument, '_', source);"], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/string_type
+    [s4] spec-logic-bug-152 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-152: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-153 (medium, rank 325, lens=logic-bug): logic-bug specialist sweep over module 'modules/templateSettings.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-153] (3376 chars, max_tokens=6000, json)
+    [openai] usage: in=2682 (cached=0) out=384
+    [s4] spec-logic-bug-153 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-153: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-154 (medium, rank 326, lens=logic-bug): logic-bug specialist sweep over module 'modules/throttle.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-154] (4782 chars, max_tokens=6000, json)
+    [openai] usage: in=3139 (cached=0) out=8
+    [s4] spec-logic-bug-154 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-154: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-155 (medium, rank 327, lens=logic-bug): logic-bug specialist sweep over module 'modules/times.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-155] (3334 chars, max_tokens=6000, json)
+    [openai] usage: in=2679 (cached=0) out=9
+    [s4] spec-logic-bug-155 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-155: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-156 (medium, rank 328, lens=logic-bug): logic-bug specialist sweep over module 'modules/toArray.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-156] (3824 chars, max_tokens=6000, json)
+    [openai] usage: in=2833 (cached=0) out=330
+    [s4] spec-logic-bug-156 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-156: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-157 (medium, rank 329, lens=logic-bug): logic-bug specialist sweep over module 'modules/toPath.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-157] (3324 chars, max_tokens=6000, json)
+    [openai] usage: in=2661 (cached=0) out=9
+    [s4] spec-logic-bug-157 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-157: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-158 (medium, rank 330, lens=logic-bug): logic-bug specialist sweep over module 'modules/underscore-array-methods.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-158] (4166 chars, max_tokens=6000, json)
+    [openai] usage: in=2951 (cached=0) out=9
+    [s4] spec-logic-bug-158 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-158: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-159 (medium, rank 331, lens=logic-bug): logic-bug specialist sweep over module 'modules/underscore.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-159] (3962 chars, max_tokens=6000, json)
+    [openai] usage: in=2853 (cached=0) out=9
+    [s4] spec-logic-bug-159 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-159: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-160 (medium, rank 332, lens=logic-bug): logic-bug specialist sweep over module 'modules/unescape.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-160] (3225 chars, max_tokens=6000, json)
+    [openai] usage: in=2624 (cached=0) out=376
+    [s4] spec-logic-bug-160 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-160: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-161 (medium, rank 333, lens=logic-bug): logic-bug specialist sweep over module 'modules/union.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-161] (3365 chars, max_tokens=6000, json)
+    [openai] usage: in=2662 (cached=0) out=9
+    [s4] spec-logic-bug-161 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-161: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-162 (medium, rank 334, lens=logic-bug): logic-bug specialist sweep over module 'modules/uniq.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-162] (4451 chars, max_tokens=6000, json)
+    [openai] usage: in=3035 (cached=0) out=9
+    [s4] spec-logic-bug-162 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-162: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-163 (medium, rank 335, lens=logic-bug): logic-bug specialist sweep over module 'modules/uniqueId.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-163] (3278 chars, max_tokens=6000, json)
+    [openai] usage: in=2643 (cached=0) out=2
+    [s4] spec-logic-bug-163 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-163: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-164 (medium, rank 336, lens=logic-bug): logic-bug specialist sweep over module 'modules/unzip.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-164] (3547 chars, max_tokens=6000, json)
+    [openai] usage: in=2742 (cached=0) out=9
+    [s4] spec-logic-bug-164 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-164: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-165 (medium, rank 337, lens=logic-bug): logic-bug specialist sweep over module 'modules/values.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-165] (3366 chars, max_tokens=6000, json)
+    [openai] usage: in=2687 (cached=0) out=9
+    [s4] spec-logic-bug-165 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-165: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-166 (medium, rank 338, lens=logic-bug): logic-bug specialist sweep over module 'modules/where.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-166] (3321 chars, max_tokens=6000, json)
+    [openai] usage: in=2648 (cached=0) out=9
+    [s4] spec-logic-bug-166 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-166: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-167 (medium, rank 339, lens=logic-bug): logic-bug specialist sweep over module 'modules/without.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-167] (3314 chars, max_tokens=6000, json)
+    [openai] usage: in=2638 (cached=0) out=9
+    [s4] spec-logic-bug-167 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-167: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-168 (medium, rank 340, lens=logic-bug): logic-bug specialist sweep over module 'modules/wrap.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-168] (3341 chars, max_tokens=6000, json)
+    [openai] usage: in=2650 (cached=0) out=9
+    [s4] spec-logic-bug-168 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-168: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-169 (medium, rank 341, lens=logic-bug): logic-bug specialist sweep over module 'modules/zip.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-169] (3241 chars, max_tokens=6000, json)
+    [openai] usage: in=2626 (cached=0) out=9
+    [s4] spec-logic-bug-169 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-169: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-170 (medium, rank 342, lens=logic-bug): logic-bug specialist sweep over module 'test-treeshake/map.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-170] (3055 chars, max_tokens=6000, json)
+    [openai] usage: in=2579 (cached=0) out=9
+    [s4] spec-logic-bug-170 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-170: 0 high-confidence findings
+  [s4] chunk spec-logic-bug-171 (medium, rank 343, lens=logic-bug): logic-bug specialist sweep over module 'test-treeshake/rollup.config.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-171] (3357 chars, max_tokens=6000, json)
+    [openai] usage: in=2711 (cached=0) out=234
+    [s4] spec-logic-bug-171 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-171: 1 high-confidence findings
+  [s4] chunk spec-logic-bug-172 (medium, rank 344, lens=logic-bug): logic-bug specialist sweep over module 'test-treeshake/template.js'.
+    [openai] prompt -> qwen2.5-coder-14b-32k [s4 spec-logic-bug-172] (3065 chars, max_tokens=6000, json)
+    [openai] usage: in=2578 (cached=0) out=9
+    [s4] spec-logic-bug-172 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-172: 0 high-confidence findings
+  ✓ [4/9] Step 4 — Deep-dive (qwen2.5-coder-14b-32k [openai]; 1 runs, vote≥3, parallel=1) (3667.0s)
+  [ckpt] saved s4
+  ▶ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) …
+  [s5-prefilter] 40 survivors ≥ pre_verify_threshold 25 → running semantic dedup ahead of s6
+  [s5-prefilter] pre-filter: 0 trivial dups, 40 unresolved
+    [openai] prompt -> qwen2.5-coder-14b-32k [s7 dedup] (30774 chars, max_tokens=6000)
+    [openai] usage: in=7234 (cached=0) out=1974
+  [s5-prefilter] done: 27 canonical, 13 duplicates collapsed
+  [s5-prefilter] 53 → 27 (13 duplicate, 2 excluded, 11 unconfirmed)
+  ✓ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) (144.2s)
+  ▶ [6/9] Step 6 — Verify (qwen2.5-coder-14b-32k [openai]) …
+  [s6-verify] verifying 27 findings (1 parallel, gate≥7/10)...
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#0] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #0 UNPARSEABLE raw[:200]='```json\n{"name": "Read", "arguments": {"path": "rollup.common.js"}}\n```\n```json\n{"name": "Grep", "arguments": {"pattern": "readFileSync\\\\(.+modules/index\\\\.js\',", "context": 2}}\n```'
+    [s6-verify] #0 rollup.common.js:4 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#1] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #1 underscore-esm.js:578 → FALSE_POSITIVE (9/10) cvss=0.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#2] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #2 UNPARSEABLE raw[:200]='{"name": "Read", "arguments": {"path": "modules/_chainResult.js"}}\n\n# Please review the output of the Read function to verify the code in question and determine if it is indeed a TRUE_POSITIVE or FALS'
+    [s6-verify] #2 modules/_chainResult.js:5 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#3] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #3 UNPARSEABLE raw[:200]='```json\n{"name": "Read", "arguments": {"path": "modules/_deepGet.js"}}\n```'
+    [s6-verify] #3 modules/_deepGet.js:2 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#4] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #4 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/_keyInObj.js"\n  }\n}\n```\n\nThis task requires reading the file `modules/_keyInObj.js` to verify the actual implementation and context in'
+    [s6-verify] #4 modules/_keyInObj.js:1 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#5] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #5 modules/_stringTagBug.js:11 → FALSE_POSITIVE (8/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#6] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #6 UNPARSEABLE raw[:200]='{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/_stringTagBug.js"\n  }\n}'
+    [s6-verify] #6 modules/_stringTagBug.js:4 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#7] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #7 UNPARSEABLE raw[:200]='{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/findLastIndex.js"\n  }\n}'
+    [s6-verify] #7 modules/findLastIndex.js:4 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#8] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #8 modules/isEmpty.js:7 → TRUE_POSITIVE (8/10) cvss=10.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#9] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #9 UNPARSEABLE raw[:200]='1. Verify the actual file content:\n\n{"name": "Read", "arguments": {"path": "modules/isNumber.js"}}\n\n2. Search for callers of this function to determine if it is reachable from an external entry point:'
+    [s6-verify] #9 modules/isNumber.js:1 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#10] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #10 modules/matcher.js:6 → FALSE_POSITIVE (6/10) cvss=0.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#11] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #11 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/min.js"\n  }\n}\n```'
+    [s6-verify] #11 modules/min.js:10 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#12] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #12 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/_createEscaper.js"\n  }\n}\n```\n\nThe output of the `Read` function will be used to verify the actual code and its context. Based on the d'
+    [s6-verify] #12 modules/_createEscaper.js:10 → FALSE_POSITIVE (0/10) cvss=0.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#13] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #13 UNPARSEABLE raw[:200]='```json\n{"name": "Read", "arguments": {"path": "modules/_executeBound.js"}}\n```\n\nThe output of `Read` will help us verify the exact code in `_executeBound.js`. Please proceed with reading the file, an'
+    [s6-verify] #13 modules/_executeBound.js:8 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#14] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #14 UNPARSEABLE raw[:200]='```json\n{"name": "Read", "arguments": {"path": "modules/before.js", "limit": 20}}\n```'
+    [s6-verify] #14 modules/before.js:3 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#15] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #15 UNPARSEABLE raw[:200]='```\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/findWhere.js"\n  }\n}\n```'
+    [s6-verify] #15 modules/findWhere.js:2 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#16] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #16 UNPARSEABLE raw[:200]='{"name": "Read", "arguments": {"path": "modules/first.js"}}'
+    [s6-verify] #16 modules/first.js:1 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#17] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #17 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/has.js"\n  }\n}\n```'
+    [s6-verify] #17 modules/has.js:7 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#18] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #18 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/invoke.js"\n  }\n}\n```'
+    [s6-verify] #18 modules/invoke.js:17 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#19] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #19 UNPARSEABLE raw[:200]='```json\n{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/mapObject.js"\n  }\n}\n```'
+    [s6-verify] #19 modules/mapObject.js:7 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#20] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #20 UNPARSEABLE raw[:200]='```json\n{"name": "Read", "arguments": {"path": "modules/mixin.js"}}\n```'
+    [s6-verify] #20 modules/mixin.js:10 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#21] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #21 modules/partial.js:10 → FALSE_POSITIVE (8/10) cvss=10.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#22] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #22 modules/partition.js:4 → FALSE_POSITIVE (7/10) cvss=0.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#23] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #23 UNPARSEABLE raw[:200]='{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/pluck.js"\n  }\n}'
+    [s6-verify] #23 modules/pluck.js:5 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#24] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #24 UNPARSEABLE raw[:200]='{"name": "Read", "arguments": {"path": "modules/reduceRight.js"}}\n\nPlease provide the output of the above function call to proceed with further investigation.'
+    [s6-verify] #24 modules/reduceRight.js:3 → FALSE_POSITIVE (0/10) cvss=-
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#25] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #25 modules/shuffle.js:4 → FALSE_POSITIVE (8/10) cvss=0.0
+    [openai] agentic -> qwen2.5-coder-14b-32k [s6 verify#26] (tools=['Read', 'Glob', 'Grep'], cwd=/home/higgs/workspace/cyness/underscore)
+    [openai] agentic done in 1 turn(s), 0 tool call(s)
+    [s6-verify] #26 UNPARSEABLE raw[:200]='{\n  "name": "Read",\n  "arguments": {\n    "path": "modules/toArray.js"\n  }\n}'
+    [s6-verify] #26 modules/toArray.js:16 → FALSE_POSITIVE (0/10) cvss=-
+  [s6-verify] done: 1 TRUE_POSITIVE, 6 FALSE_POSITIVE, 0 UNCONFIRMED, 0 GUARDRAIL_BLOCKED, 20 errors
+  ✓ [6/9] Step 6 — Verify (qwen2.5-coder-14b-32k [openai]) (213.0s)
+  ▶ [7/9] Step 7 — Dedup (qwen2.5-coder-14b-32k [openai]) …
+  ✓ [7/9] Step 7 — Dedup (qwen2.5-coder-14b-32k [openai]) (0.0s)
+  [ckpt] saved s7
+  ▶ [8/9] Step 8 — Chain (qwen2.5-coder-14b-32k [openai]) …
+    [openai] prompt -> qwen2.5-coder-14b-32k [s8 chain] (1334 chars, max_tokens=6000)
+    [openai] usage: in=1068 (cached=0) out=148
+  [s8] done: 1 ranked findings, 0 chains
+  ✓ [8/9] Step 8 — Chain (qwen2.5-coder-14b-32k [openai]) (8.2s)
+  [ckpt] saved s8
+  [out] wrote /home/higgs/workspace/cyness/underscore/security-scan/underscore_20260615T035316Z_report.md
+  ▶ [9/9] Step 9 — SARIF (app_id=bench-underscore) …
+  SARIF written: /home/higgs/workspace/cyness/underscore/security-scan/underscore_20260615T035316Z_report.sarif (1 results)
+  ✓ [9/9] Step 9 — SARIF (app_id=bench-underscore) (0.0s)
+  [out] wrote /home/higgs/workspace/cyness/underscore/security-scan/underscore_20260615T035316Z_report.sarif
+  [ckpt] saved s9
+
+Done in 4086s. 1 verified findings (52 dropped), 0 chains.
+Tokens: prompt=1315192, completion=33857, total=1349049
+Report: /home/higgs/workspace/cyness/underscore/security-scan/underscore_20260615T035316Z_report.md
+# Agentic SAST — underscore
+
+## Summary
+The analysis of the findings reveals a logic flaw in the isEmpty function that can lead to denial-of-service conditions due to infinite recursion when handling circular references. Given the unauthenticated nature and the potential for affecting availability, this finding is rated as HIGH.
+
+## Scan Metrics
+
+- Scan ID: 2026-06-15T03:53:16Z__underscore
+- Module: underscore
+- Start: 2026-06-15T03:53:16Z
+- End: 2026-06-15T05:01:13Z
+- Duration (sec): 4077
+- Files in scope: 188
+- Files analyzed (unique): 187
+- Coverage: 99.5%
+- Chunks: 344 (risk=1, catch-all=171, specialist=172)
+- Tokens (prompt): 1315192
+- Tokens (completion): 33857
+- Tokens (total): 1349049
+
+- Folders scanned: 4
+### Tokens by Phase
+
+_Prompt = fresh + cache-write (billable). Cache-read shown separately, NOT included in totals._
+
+| Phase | Calls | Prompt | Completion | Total | % | Cache-read (excl.) |
+|---|---:|---:|---:|---:|---:|---:|
+| s4-deepdive | 344 | 1,248,462 | 26,989 | 1,275,451 | 94.5 | 0 |
+| s6-verify | 27 | 50,426 | 4,061 | 54,487 | 4.0 | 0 |
+| s5-prefilter | 1 | 7,234 | 1,974 | 9,208 | 0.7 | 0 |
+| s2-threatmodel | 1 | 3,381 | 409 | 3,790 | 0.3 | 0 |
+| s1-autoexclude | 1 | 2,351 | 118 | 2,469 | 0.2 | 0 |
+| s3-decompose | 1 | 1,998 | 220 | 2,218 | 0.2 | 0 |
+| s1-preprocess | 1 | 940 | 41 | 981 | 0.1 | 0 |
+| unlabeled | 2 | 400 | 45 | 445 | 0.0 | 0 |
+
+### Language LOC Coverage
+
+| Language | LOC in scope | LOC scanned | Coverage % |
+|---|---:|---:|---:|
+| javascript | 9989 | 9989 | 100.0 |
+| other | 21597 | 210 | 1.0 |
+| web-template | 4140 | 4140 | 100.0 |
+
+## Scan Health
+
+- Recoverable errors logged by stage: s4=18, s6-verify=20
+- Full error log: `underscore_20260615T035316Z_errors.jsonl`
+
+## Threat Model
+
+### System context
+
+Underscore.js is a JavaScript utility library that provides functional programming support, such as map, reduce, filter, etc. It does not extend core JavaScript objects and can be used in various environments like servers, clients, and browsers. The repository contains common build tools like npm, rollup, and terser for development. The library does not have explicit API contracts, entry points, or modules mapping.
+
+### Assets
+
+| Asset | Sensitivity | Description |
+|---|---|---|
+| Underscore.js Source | low | The core library source code with functional utilities. |
+
+### Trust boundaries
+
+- **_.template(...)** — un trusted input to JavaScript execution engine → Underscore.js Source
+
+### Open questions
+
+- Are there any other entry points or surfaces where untrusted inputs can be provided?
+- Is the library used in environments that might allow executing arbitrary JavaScript code?
+
+## Verification
+- Raw findings (pre-verification): 53
+- True positives (verified): 1
+- False positives (dropped): 6
+- Verifier errors (excluded — undetermined, not confirmed clean): 20
+- Duplicates collapsed (all passes): 13
+- Verification precision: 1.9%
+
+## Findings (1)
+
+### 1. [CRITICAL] Incorrectly handles circular references in objects
+**Class:** CWE-690
+**CWE:** CWE-690 - https://cwe.mitre.org/data/definitions/690.html
+**File:** `modules/isEmpty.js:7-18`
+**CVSS 3.1:** **10.0** (Critical) — `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:H`
+**OffensivePriority:** **P3** - Internal Network / Privileged Position | *exposure unverified — no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*
+**Confidence:** 0.95 (1 run agreed)
+
+#### Description
+The `isEmpty` function does not handle circular references correctly. When passed an object with circular references, it falls into an infinite recursion, leading to a potential denial-of-service condition.
+
+#### Impact
+An attacker can create a large number of circular references, causing the `isEmpty` function to hang indefinitely. This blocks further execution and potentially leads to a denial-of-service attack.
+
+#### Exploit scenario
+An attacker can craft a JavaScript object with circular references and pass it to the `isEmpty` function. The function will be unable to terminate its loop and will hang indefinitely, causing performance degradation or complete blockage.
+
+#### Preconditions
+- The attacker can control the input to the `isEmpty` function
+
+```
+// Check for circular references
+let seen = new Set();
+function isEmpty(obj) {
+  if (obj == null || seen.has(obj)) return true;
+  seen.add(obj);
+  // Rest of the function remains unchanged except for adding seen checks.
+}
+```
+
+#### How to fix
+Modify the `isEmpty` function to handle circular references by using a visited set of objects. Ensure deep iteration does not lead to infinite loops.
+
+**Exploitability:** The `isEmpty` function does not handle circular references correctly, leading to an infinite recursion and denial-of-service condition. The attack does not require any preconditions or authentication, making it highly exploitable in both client and server environments.
+
+#### Adversarial verification
+**Verdict:** TRUE_POSITIVE (confidence: 8/10) — The code allows an object with circular references to pass the initial check, leading to infinite recursion.
+
+{"name": "Read", "arguments": {"path": "modules/isEmpty.js"}}
+
+## Exploit Chains
+
+No exploit chains were identified — the findings above are independent and do not combine into a multi-step path.
+
+
+## Dropped Findings
+
+- **[EXCLUDED]** `./src/modules/_createPredicateIndexFinder.js:6` other (catchall-18) — file not in repo inventory
+- **[UNCONFIRMED]** `modules/_shallowProperty.js:2` other (catchall-36) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `modules/find.js:6` other (catchall-65) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/functions.js:6` other (catchall-72) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/indexOf.js:2` other (catchall-81) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/map.js:7` other (catchall-116) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/chunk.js:6` logic-flaw (spec-logic-bug-47) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/contains.js:6` logic-flaw (spec-logic-bug-52) — missing source_ref/sink_ref — data flow unproven
+- **[EXCLUDED]** `src/modules/initial.js:6` logic-flaw (spec-logic-bug-83) — file not in repo inventory
+- **[UNCONFIRMED]** `modules/last.js:1` other (spec-logic-bug-115) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/lastIndexOf.js:6` logic-flaw (spec-logic-bug-116) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `modules/pick.js:8` logic-flaw (spec-logic-bug-133) — missing source_ref/sink_ref — data flow unproven
+- **[UNCONFIRMED]** `test-treeshake/rollup.config.js:2` logic-flaw (spec-logic-bug-171) — missing source_ref/sink_ref — data flow unproven
+- **[DUP (pre-verify)]** `modules/groupBy.js:6` other (catchall-74) — pre-verify semantic: Untrusted key manipulation via _.template (index=8) and Untrusted path leads to OS command injection through 'path' parameter. (index=13) trace back to issues with `get` function that could lead to injection, although each affects a different aspect of the issue.
+- **[DUP (pre-verify)]** `modules/propertyOf.js:8` injection (catchall-136) — pre-verify semantic: 'Potential OS command injection' at index 13 and 'Untrusted path leads to OS command injection' at index 8 both trace back to the same logical flaw, specifically untrusted input use, which could be addressed in `get` function or similar utility.
+- **[DUP (pre-verify)]** `modules/_hasObjectTag.js:1` other (spec-logic-bug-28) — pre-verify semantic: Template injection via _.template(...) and Regex Injection via Untrusted template map both stem from dynamic JavaScript function creation issues within _.template(), leading their fix to be consolidated at common entry points or utility functions used within the templating workflow.
+- **[DUP (pre-verify)]** `modules/isUndefined.js:1` logic-flaw (spec-logic-bug-110) — pre-verify semantic: Improper input validation in _.template and Information Leakage via Property Enumeration both trace back to untrusted input used in templating functions, which can be fixed through more robust validation or escaping mechanisms.
+- **[DUP (pre-verify)]** `modules/memoize.js:6` race-condition (spec-logic-bug-121) — pre-verify semantic: Race Condition in Memoization Cache and Untrusted Input leads to authorized access via deepGet both face vulnerabilities involving potentially manipulated shared resources (cache or global properties), which could be addressed by fixing the core functions that cause data races across these shared states.
+- **[DUP (pre-verify)]** `modules/now.js:1` other (spec-logic-bug-126) — pre-verify semantic: Potential integer overflow in Date.now timestamp handling (index 26) and File reading without validation (index 4) both relate to potential timing issues that could lead to unexpected behavior, though they are resolved via different methods such as checking timestamps vs file access.
+- **[DUP (pre-verify)]** `modules/once.js:1` logic-flaw (spec-logic-bug-129) — pre-verify semantic: 'Partial before function does not enforce one-time execution' and 'Potential OS command injection' (both trace back to untrusted input handling vulnerabilities in the same function calls, thus consolidating their fixes improves efficiency by addressing shared roots.
+- **[DUP (pre-verify)]** `modules/property.js:7` other (spec-logic-bug-135) — pre-verify semantic: Unsanitized path traversal in property function (index 31) traces back to untrusted input handling similar to file reading without validation (index 0), making these duplicate concerns that require a common, robust fix.
+- **[DUP (pre-verify)]** `modules/range.js:3` integer-overflow (spec-logic-bug-138) — pre-verify semantic: 'Potential integer overflow in range function' (index 32) and 'File reading without validation' (index 4): both handle out-of-bound values and could be consolidated as they stem from the same category of numerical input handling concerns.
+- **[DUP (pre-verify)]** `modules/reject.js:6` logic-flaw (spec-logic-bug-141) — pre-verify semantic: Misinterpreted Trust Boundary and Partition Logic Flaw both pertain to validating untrusted inputs that may lead to changes in program behavior, and consolidating their fixes through robust input sanitization routines would address both concerns efficiently.
+- **[DUP (pre-verify)]** `modules/tap.js:4` other (spec-logic-bug-151) — pre-verify semantic: Potential Use After Free in tap Function (index 36) and Instance check bypass via null or undefined share the context of post-execution resource management concerns; consolidating their fixes through improved interceptor validations can address both.
+- **[DUP (pre-verify)]** `modules/templateSettings.js:6` injection (spec-logic-bug-153) — pre-verify semantic: 'Template injection vulnerability in _.templateSettings' shares root causes with other input handling vulnerabilities traced back to same file, allowing for a consolidated fix of input validation at common entry points or utility functions used by the templating workflows.
+- **[DUP (pre-verify)]** `modules/unescape.js:1` other (spec-logic-bug-160) — pre-verify semantic: Unescaped output in unescapeMap at index 39 shares issues with improper input validation for template escaping (mentioned at index 22): both require similar changes in terms of ensuring proper encoding/escaping mechanisms to prevent XSS and other injection attacks.
+- **[VERIFY-ERR]** `rollup.common.js:4` other (catchall-03) — verifier output unparseable
+- **[FP]** `underscore-esm.js:578` other (catchall-04) — The input is properly validated before being passed to _.template.
+- **[VERIFY-ERR]** `modules/_chainResult.js:5` logic-flaw (catchall-14) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/_deepGet.js:2` other (catchall-21) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/_keyInObj.js:1` other (catchall-32) — verifier output unparseable
+- **[FP]** `modules/_stringTagBug.js:11` logic-flaw (catchall-37) — The function `hasObjectTag` likely checks for the correct internal tag of the object, which isn't necessarily indicative of IE11. The code snippet provided doesn't show any clear evidence of an exploitable vulnerability.
+- **[VERIFY-ERR]** `modules/_stringTagBug.js:4` logic-flaw (catchall-37) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/findLastIndex.js:4` other (catchall-68) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/isNumber.js:1` other (catchall-102) — verifier output unparseable
+- **[FP]** `modules/matcher.js:6` other (catchall-118) — No external caller found, and no evidence of the `matcher` function being called with untrusted input.
+- **[VERIFY-ERR]** `modules/min.js:10` other (catchall-121) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/_createEscaper.js:10` injection (spec-logic-bug-15) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/_executeBound.js:8` logic-flaw (spec-logic-bug-22) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/before.js:3` other (spec-logic-bug-43) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/findWhere.js:2` logic-flaw (spec-logic-bug-70) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/first.js:1` logic-flaw (spec-logic-bug-71) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/has.js:7` logic-flaw (spec-logic-bug-76) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/invoke.js:17` injection (spec-logic-bug-86) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/mapObject.js:7` logic-flaw (spec-logic-bug-118) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/mixin.js:10` logic-flaw (spec-logic-bug-123) — verifier output unparseable
+- **[FP]** `modules/partial.js:10` other (spec-logic-bug-131) — the placeholder is hardcoded and cannot be injected via untrusted input.
+- **[FP]** `modules/partition.js:4` logic-flaw (spec-logic-bug-132) — no evident upstream control fully neutralizes the input.
+- **[VERIFY-ERR]** `modules/pluck.js:5` logic-flaw (spec-logic-bug-134) — verifier output unparseable
+- **[VERIFY-ERR]** `modules/reduceRight.js:3` logic-flaw (spec-logic-bug-140) — verifier output unparseable
+- **[FP]** `modules/shuffle.js:4` logic-flaw (spec-logic-bug-146) — The `shuffle` function is not reachable from any external entry point and is primarily used internally. Even if an input is passed, it does not cross any security boundaries or lead to resource exhaustion in a way that would cause a DoS attack.
+- **[VERIFY-ERR]** `modules/toArray.js:16` other (spec-logic-bug-156) — verifier output unparseable
+
+
+---
+
+## Appendix: Scan Scope
+
+### Folders scanned (4)
+
+- `./`
+- `modules/`
+- `patches/`
+- `test-treeshake/`
+
+### Excluded from scan (241 files)
+
+**Folders** (matched `exclude_dirs`):
+
+- `docs/` — 179 files
+- `.git/` — 28 files
+- `test/` — 14 files
+- `.github/` — 3 files
+- `checkpoints/` — 1 files
+
+**File types** (matched `exclude_exts`):
+
+- `*.map` — 8 files
+- `*.md` — 4 files
+- `*.ico` — 1 files
+
+**Patterns** (matched `exclude_globs`):
+
+- `**/LICENSE` — 1 files
+- `**/.gitignore` — 1 files
+- `**/.editorconfig` — 1 files
+  [manifest] wrote /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/run_manifest.json
+

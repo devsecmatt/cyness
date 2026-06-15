@@ -1,0 +1,23 @@
+# vvaharness — Qwen3.6 (36B MoE, thinking) large-context variant.
+#
+# WHY: Ollama's runtime num_ctx defaults to ~4k regardless of the model's
+# 262144 native capability, and the OpenAI /v1 endpoint can't set it per
+# request — so it must be baked in here, same as the 14B variant.
+#
+# BUILD:
+#   ollama create qwen3.6-36b-128k -f ./Modelfile.qwen3.6
+# Then point the Model-B benchmark runs at it:
+#   OLLAMA_MODEL=qwen3.6-36b-128k  +  --config ./config.qwen3.6.yaml
+# (Name matches the num_ctx below. If you raise num_ctx to 262144, rebuild as
+#  qwen3.6-36b-256k so the label stays honest.)
+#
+# ⚠ RAM/VRAM: a 36B MoE at a huge num_ctx allocates a very large KV cache
+# (tens of GB). 131072 (128k) is the default below as a practical "max". If the
+# model OOMs or eval crawls, lower to 65536; if you have the headroom and want
+# the true native max, raise to 262144 AND bump the budgets in
+# config.qwen3.6.yaml to match. Keep (chunk_token_budget + max output) < num_ctx.
+
+FROM qwen3.6
+
+PARAMETER num_ctx 131072
+PARAMETER temperature 0.2
