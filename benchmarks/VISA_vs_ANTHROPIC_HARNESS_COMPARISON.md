@@ -2,7 +2,7 @@
 
 The two SAST harnesses on the three shared targets. Visa from `visa/.../security-scan/`; Anthropic from `anthropics/.../{VULN-FINDINGS,TRIAGE}.json`. Compiled 2026-06-17.
 
-> Model-matched cells available now: **nokogiri** (opus, qwen3.6) and **juice-shop** (opus). underscore + Visa·qwen3.6 on the larger repos still pending.
+> **opus is now fully model-matched** across all three repos (Visa·opus complete). qwen3.6 is matched on nokogiri only (Visa·qwen3.6 juice-shop/underscore pending).
 
 ## 1. Methodology — why raw counts are NOT comparable
 
@@ -19,11 +19,11 @@ The two SAST harnesses on the three shared targets. Visa from `visa/.../security
 |---|---|---|---|---|---|
 | nokogiri | 4 | 1 | 2 | 3 | 2 |
 | juice-shop | 19 | _pending_ | 64 | 27 | 11 |
-| underscore | 1 | _pending_ | _pending_ | 1 | 1 |
+| underscore | 1 | _pending_ | 0 | 1 | 1 |
 
-**Agreement is repo-size dependent — the key cross-harness finding:**
-- **nokogiri (small lib): the two harnesses land close** on the same model — Visa·opus **2** vs Anthropic·opus **2**; Visa·qwen3.6 1 vs Anthropic·qwen3.6 3.
-- **juice-shop (large app): they diverge hard** — Visa·opus **64** vs Anthropic·opus **11** (~6×). Visa's exhaustive 9-stage decomposition scales with app size and surfaces far more confirmed issues; the Anthropic skills' curated `/vuln-scan` shortlist stays in the tens regardless. So on a big attack surface the *pipeline* design matters more than the model.
+**The key cross-harness finding — agreement is repo-size dependent (now confirmed on the full opus row):**
+- **Small repos: the two harnesses agree closely** on the same model. nokogiri: Visa·opus **2** vs Anthropic·opus **2**. underscore: Visa·opus **0** vs Anthropic·opus **1** — both essentially 'nothing exploitable here.'
+- **Large app: they diverge ~6×** — juice-shop Visa·opus **64** vs Anthropic·opus **11**. Visa's exhaustive 9-stage decomposition scales with attack surface and surfaces far more confirmed issues; the Anthropic skills' curated `/vuln-scan` shortlist stays in the tens regardless of repo size. **On a big attack surface the pipeline design matters more than the model.**
 
 ## 3. Raw-candidate volume (context only — NOT comparable)
 
@@ -35,7 +35,7 @@ The two SAST harnesses on the three shared targets. Visa from `visa/.../security
 
 ## Caveats
 
-- Model-matched only on nokogiri (opus, qwen3.6) + juice-shop (opus) so far.
+- opus fully model-matched; qwen3.6 matched on nokogiri only (Visa B juice-shop/underscore pending).
 - Raw counts not comparable across harnesses (different definitions).
 - Both harnesses' 'confirmed' verdicts are model-generated (self-consistency, not a verified gold set).
-- Visa·opus ran on **AWS Bedrock** (subscription was token-bound — see `visa/VISA_HARNESS_MODEL_COMPARISON.md`); juice-shop on a path-copy to run parallel to Model B.
+- Visa·opus ran on **AWS Bedrock** (subscription was token-bound — see `visa/VISA_HARNESS_MODEL_COMPARISON.md`); juice-shop/underscore on path-copies to run parallel to Model B.

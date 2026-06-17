@@ -1,0 +1,1303 @@
+  [env] loaded /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.env
+  config: config.opus.yaml
+  step1 overlay: --auto-step1 (per-target checkpoints/step1.yaml will be derived)
+  WARN: no CMDB file (/home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/inputs/cmdb.csv) — VulContextSeverity environmental scoring skipped (CVSS + OffensivePriority still computed).
+  [auth] active backends: cli
+  [auth] cli: delegated to configured CLI; live probe verifies login
+  [cli] claude found on PATH ✓
+  [probe] live model connectivity (1 unique model/backend pair(s)):
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [preflight] (4 chars, max_tokens=4)
+    ✓ [cli   ] global.anthropic.claude-opus-4-8 ( 6.7s)  roles: autoexclude,preprocess,threatmodel,decompose,deepdive,verify,dedup,chain  (reachable; reply exceeded preflight token cap)
+  [probe] agentic backend path (1 agentic role/backend pair(s)):
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [preflight-agentic], cwd=/tmp/vva-preflight-ch43ag0c
+    [cli] usage: in=19887 (cache_read=0, cache_write=17505) out=4
+    ✓ [cli   ] global.anthropic.claude-opus-4-8 ( 4.6s)  agentic roles: preprocess,verify
+  [probe] all model backends reachable ✓
+  [auto-step1] surveying /home/higgs/workspace/cyness/underscore-opus (362 files, prompt 7143 chars)
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s1 autoexclude] (7143 chars, max_tokens=8000)
+    [cli] usage: in=4011 out=540
+  [auto-step1] wrote /home/higgs/workspace/cyness/underscore-opus/checkpoints/step1.yaml  (+3 dirs, +3 exts, +0 globs)
+  [auto-step1] applied overlay  (exclude_dirs=8 exts=23 globs=1)
+Agentic SAST  repo=/home/higgs/workspace/cyness/underscore-opus  module=underscore  app_id=bench-underscore  run_id=_home_higgs_workspace_cyness_underscore_opus
+  models:
+    autoexclude -> global.anthropic.claude-opus-4-8 [cli]
+    preprocess  -> global.anthropic.claude-opus-4-8 [cli]
+    threatmodel -> global.anthropic.claude-opus-4-8 [cli]
+    decompose   -> global.anthropic.claude-opus-4-8 [cli]
+    deepdive    -> global.anthropic.claude-opus-4-8 [cli]
+    verify      -> global.anthropic.claude-opus-4-8 [cli]
+    dedup       -> global.anthropic.claude-opus-4-8 [cli]
+    chain       -> global.anthropic.claude-opus-4-8 [cli]
+  [cmdb] application_id bench-underscore not found
+  injected: 0 CVEs, 0 controls, app_profile=no
+  ▶ [1/9] Step 1 — Pre-process (global.anthropic.claude-opus-4-8 [cli]) …
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8, cwd=/home/higgs/workspace/cyness/underscore-opus
+    [cli] usage: in=160580 (cache_read=140425, cache_write=17481) out=4048
+  [s1] call-graph: agent=17 edges → validate -15 hallucinated → supplement +1417 regex = 1441 qualified edges over 346 nodes, 64 located fns (175 source files scanned)
+  [s1] file inventory: 429 on disk -> 190 in scope (excluded: 226 dir, 10 ext, 3 glob, 0 oversize, 0 config-dedup)
+  [s1] done: 10 modules, 3 entry points, 2 sinks, 190 files in scope
+  ✓ [1/9] Step 1 — Pre-process (global.anthropic.claude-opus-4-8 [cli]) (66.2s)
+  [ckpt] saved s1
+  ▶ [2/9] Step 2 — Threat model (global.anthropic.claude-opus-4-8 [cli]) …
+  [s2] evidence: 190 files, 10 modules, 3 entry points, 6 config reps, 0 api artefacts, 2 docs, 1 manifests
+  [s2] baseline=auto repo_kind=['library']
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s2 threatmodel] (12203 chars, max_tokens=64000)
+    [cli] usage: in=6656 (cache_read=0, cache_write=6654) out=2482
+  [s2] done: 4 assets, 3 trust boundaries, 6 threats
+  ✓ [2/9] Step 2 — Threat model (global.anthropic.claude-opus-4-8 [cli]) (33.0s)
+  [ckpt] saved s2
+  ▶ [3/9] Step 3 — Decompose (global.anthropic.claude-opus-4-8 [cli]) …
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s3 decompose] (67973 chars, max_tokens=64000)
+    [cli] usage: in=31608 (cache_read=0, cache_write=31606) out=3213
+    [s3] pack_by=loc  (legacy *_chunk_loc caps active)
+    [s3] taint reachability: 2/2 sinks (100%) on ≥1 entry→sink path
+    [s3] taint: 2 entry→sink path chunks (3 entries × 2 sinks, graph=346 nodes)
+    [s3] coverage: 155 uncovered → 150 eligible → 65 catch-all chunks
+    [s3] specialist 'crypto' gated OFF — no matching surface in repo
+    [s3] specialist 'batch-etl' gated OFF — no matching surface in repo
+    [s3] specialist 'iac': scoped to 1 IaC file(s) → 1 shard(s)
+    [s3] specialists: logic-bug, access-control, iac -> 131 chunks (176/190 source files)
+    [s3] threat coverage: 6/6 threats have ≥1 chunk
+    [s3] chunk LOC: n=204 min=2 p50=7 p90=117 max=9.4k  (0 over risk_chunk_loc=10000)
+  [s3] done: 204 chunks (2 taint, 65 catch-all, 131 specialist), top risk = taint-01
+  ✓ [3/9] Step 3 — Decompose (global.anthropic.claude-opus-4-8 [cli]) (41.5s)
+  [ckpt] saved s3
+  ▶ [4/9] Step 4 — Deep-dive (global.anthropic.claude-opus-4-8 [cli]; 1 runs, vote≥3, parallel=5) …
+  [s4] WARN: vote_threshold=3 exceeds runs=1; no finding could survive the vote — clamping vote_threshold to 1.
+  [s4] processing 204 chunks (5 parallel)...
+  [s4] chunk taint-01 (small, rank 1, lens=javascript): Taint path: other input at template() [modules/template.js] flows via template -> template to sink template() [modules/t…
+  [s4] chunk taint-02 (small, rank 2, lens=javascript): Taint path: other input at (module load)() [modules/_setup.js] flows via (module load) -> (module init) to sink (module …
+  [s4] chunk chunk-01 (small, rank 61, lens=javascript): Hunt for any path that lets template *body* or settings.escape/interpolate/evaluate regexes reach the `new Function(argu…
+  [s4] chunk chunk-02 (small, rank 62, lens=javascript): Caller-supplied custom escape/interpolate/evaluate regexes are run against arbitrary template text inside the matcher lo…
+  [s4] chunk chunk-03 (small, rank 63, lens=javascript): Hunt for prototype-pollution and unintended host-object mutation when attacker-controlled key names ('__proto__','constr…
+  [s4] chunk chunk-04 (small, rank 64, lens=javascript): Deep-equality recursion on large or cyclic attacker-supplied structures could blow the stack or stall synchronously (DoS…
+  [s4] chunk chunk-05 (small, rank 65, lens=javascript): Supply-chain integrity check of the published artifact assembly: confirm there are no install/postinstall scripts in eit…
+  [s4] chunk chunk-06 (small, rank 66, lens=javascript): Examine the global-root detection bootstrap: confirm the `Function('return this')()` fallback uses only a constant strin…
+  [s4] chunk catchall-01 (medium, rank 67, lens=javascript): Coverage sweep of 'html-escaping' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-02 (medium, rank 68, lens=javascript): Coverage sweep of 'iteratee/cb' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-03 (medium, rank 69, lens=javascript): Coverage sweep of 'collections' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-04 (medium, rank 70, lens=javascript): Coverage sweep of 'functions' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-05 (medium, rank 71, lens=javascript): Coverage sweep of 'cg:karma.conf-sauce [shard 1/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+  [s4] chunk catchall-06 (medium, rank 72, lens=javascript): Coverage sweep of 'cg:karma.conf-sauce [shard 2/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+  [s4] chunk catchall-07 (medium, rank 73, lens=javascript): Coverage sweep of 'cg:karma.conf-sauce [shard 3/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+  [s4] chunk catchall-08 (medium, rank 74, lens=javascript): Coverage sweep of 'cg:karma.conf-sauce [shard 4/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerab…
+  [s4] chunk catchall-09 (medium, rank 75, lens=javascript): Coverage sweep of '.' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-10 (medium, rank 76, lens=generic): Coverage sweep of '.github/FUNDING.yml' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-11 (medium, rank 77, lens=generic): Coverage sweep of '.github/config' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-12 (medium, rank 78, lens=github-actions): Coverage sweep of '.github/workflows' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-13 (medium, rank 79, lens=generic): Coverage sweep of 'modules/.eslintrc' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-14 (medium, rank 80, lens=javascript): Coverage sweep of 'modules/_baseCreate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+  [s4] chunk catchall-15 (medium, rank 81, lens=javascript): Coverage sweep of 'modules/_chainResult.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+  [s4] chunk catchall-16 (medium, rank 82, lens=javascript): Coverage sweep of 'modules/_createSizePropertyCheck.js' — files not assigned to any risk-ranked chunk. Hunt for any vuln…
+  [s4] chunk catchall-17 (medium, rank 83, lens=javascript): Coverage sweep of 'modules/_getByteLength.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability …
+  [s4] chunk catchall-18 (medium, rank 84, lens=javascript): Coverage sweep of 'modules/_getLength.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+  [s4] chunk catchall-19 (medium, rank 85, lens=javascript): Coverage sweep of 'modules/_hasObjectTag.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-20 (medium, rank 86, lens=javascript): Coverage sweep of 'modules/_isArrayLike.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+  [s4] chunk catchall-21 (medium, rank 87, lens=javascript): Coverage sweep of 'modules/_isBufferLike.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-22 (medium, rank 88, lens=javascript): Coverage sweep of 'modules/_stringTagBug.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-23 (medium, rank 89, lens=javascript): Coverage sweep of 'modules/_toBufferView.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-24 (medium, rank 90, lens=javascript): Coverage sweep of 'modules/after.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-25 (medium, rank 91, lens=javascript): Coverage sweep of 'modules/before.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-26 (medium, rank 92, lens=javascript): Coverage sweep of 'modules/chain.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-27 (medium, rank 93, lens=javascript): Coverage sweep of 'modules/chunk.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-28 (medium, rank 94, lens=javascript): Coverage sweep of 'modules/clone.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-29 (medium, rank 95, lens=javascript): Coverage sweep of 'modules/constant.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-30 (medium, rank 96, lens=javascript): Coverage sweep of 'modules/create.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-31 (medium, rank 97, lens=javascript): Coverage sweep of 'modules/findIndex.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-32 (medium, rank 98, lens=javascript): Coverage sweep of 'modules/findLastIndex.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-33 (medium, rank 99, lens=javascript): Coverage sweep of 'modules/functions.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-34 (medium, rank 100, lens=javascript): Coverage sweep of 'modules/identity.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-35 (medium, rank 101, lens=javascript): Coverage sweep of 'modules/indexOf.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-36 (medium, rank 102, lens=javascript): Coverage sweep of 'modules/isArrayBuffer.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-37 (medium, rank 103, lens=javascript): Coverage sweep of 'modules/isBoolean.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-38 (medium, rank 104, lens=javascript): Coverage sweep of 'modules/isDataView.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+  [s4] chunk catchall-39 (medium, rank 105, lens=javascript): Coverage sweep of 'modules/isDate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-40 (medium, rank 106, lens=javascript): Coverage sweep of 'modules/isElement.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-41 (medium, rank 107, lens=javascript): Coverage sweep of 'modules/isError.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-42 (medium, rank 108, lens=javascript): Coverage sweep of 'modules/isFinite.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-43 (medium, rank 109, lens=javascript): Coverage sweep of 'modules/isMap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-44 (medium, rank 110, lens=javascript): Coverage sweep of 'modules/isNaN.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-45 (medium, rank 111, lens=javascript): Coverage sweep of 'modules/isNull.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 taint-02] (4555 chars, max_tokens=64000)
+  [s4] chunk catchall-46 (medium, rank 112, lens=javascript): Coverage sweep of 'modules/isNumber.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-47 (medium, rank 113, lens=javascript): Coverage sweep of 'modules/isObject.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-48 (medium, rank 114, lens=javascript): Coverage sweep of 'modules/isRegExp.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-49 (medium, rank 115, lens=javascript): Coverage sweep of 'modules/isSet.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-50 (medium, rank 116, lens=javascript): Coverage sweep of 'modules/isString.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-51 (medium, rank 117, lens=javascript): Coverage sweep of 'modules/isSymbol.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-52 (medium, rank 118, lens=javascript): Coverage sweep of 'modules/isTypedArray.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cl…
+  [s4] chunk catchall-53 (medium, rank 119, lens=javascript): Coverage sweep of 'modules/isUndefined.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+  [s4] chunk catchall-54 (medium, rank 120, lens=javascript): Coverage sweep of 'modules/isWeakMap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-55 (medium, rank 121, lens=javascript): Coverage sweep of 'modules/isWeakSet.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-56 (medium, rank 122, lens=javascript): Coverage sweep of 'modules/lastIndexOf.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability cla…
+  [s4] chunk catchall-57 (medium, rank 123, lens=javascript): Coverage sweep of 'modules/negate.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-58 (medium, rank 124, lens=javascript): Coverage sweep of 'modules/noop.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-59 (medium, rank 125, lens=javascript): Coverage sweep of 'modules/object.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-60 (medium, rank 126, lens=javascript): Coverage sweep of 'modules/once.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-61 (medium, rank 127, lens=javascript): Coverage sweep of 'modules/rest.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-62 (medium, rank 128, lens=javascript): Coverage sweep of 'modules/tap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-63 (medium, rank 129, lens=javascript): Coverage sweep of 'modules/uniqueId.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-64 (medium, rank 130, lens=javascript): Coverage sweep of 'modules/wrap.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-65 (medium, rank 131, lens=javascript): Coverage sweep of 'modules/zip.js' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk spec-logic-bug-01 (medium, rank 132, lens=logic-bug): logic-bug specialist sweep over module 'template'.
+  [s4] chunk spec-logic-bug-02 (medium, rank 133, lens=logic-bug): logic-bug specialist sweep over module 'setup/core'.
+  [s4] chunk spec-logic-bug-03 (medium, rank 134, lens=logic-bug): logic-bug specialist sweep over module 'html-escaping'.
+  [s4] chunk spec-logic-bug-04 (medium, rank 135, lens=logic-bug): logic-bug specialist sweep over module 'property-access'.
+  [s4] chunk spec-logic-bug-05 (medium, rank 136, lens=logic-bug): logic-bug specialist sweep over module 'iteratee/cb'.
+  [s4] chunk spec-logic-bug-06 (medium, rank 137, lens=logic-bug): logic-bug specialist sweep over module 'object-ops'.
+  [s4] chunk spec-logic-bug-07 (medium, rank 138, lens=logic-bug): logic-bug specialist sweep over module 'collections'.
+  [s4] chunk spec-logic-bug-08 (medium, rank 139, lens=logic-bug): logic-bug specialist sweep over module 'functions'.
+  [s4] chunk spec-logic-bug-09 (medium, rank 140, lens=logic-bug): logic-bug specialist sweep over module 'type-checks'.
+  [s4] chunk spec-logic-bug-10 (medium, rank 141, lens=logic-bug): logic-bug specialist sweep over module 'entry/bundles'.
+  [s4] chunk spec-logic-bug-11 (medium, rank 142, lens=logic-bug): logic-bug specialist sweep over module 'cg:karma.conf-sauce'.
+  [s4] chunk spec-logic-bug-12 (medium, rank 143, lens=logic-bug): logic-bug specialist sweep over module '.'.
+  [s4] chunk spec-logic-bug-13 (medium, rank 144, lens=logic-bug): logic-bug specialist sweep over module '.github/workflows'.
+  [s4] chunk spec-logic-bug-14 (medium, rank 145, lens=logic-bug): logic-bug specialist sweep over module 'modules/_baseCreate.js'.
+  [s4] chunk spec-logic-bug-15 (medium, rank 146, lens=logic-bug): logic-bug specialist sweep over module 'modules/_chainResult.js'.
+  [s4] chunk spec-logic-bug-16 (medium, rank 147, lens=logic-bug): logic-bug specialist sweep over module 'modules/_createSizePropertyCheck.js'.
+  [s4] chunk spec-logic-bug-17 (medium, rank 148, lens=logic-bug): logic-bug specialist sweep over module 'modules/_getByteLength.js'.
+  [s4] chunk spec-logic-bug-18 (medium, rank 149, lens=logic-bug): logic-bug specialist sweep over module 'modules/_getLength.js'.
+  [s4] chunk spec-logic-bug-19 (medium, rank 150, lens=logic-bug): logic-bug specialist sweep over module 'modules/_hasObjectTag.js'.
+  [s4] chunk spec-logic-bug-20 (medium, rank 151, lens=logic-bug): logic-bug specialist sweep over module 'modules/_isArrayLike.js'.
+  [s4] chunk spec-logic-bug-21 (medium, rank 152, lens=logic-bug): logic-bug specialist sweep over module 'modules/_isBufferLike.js'.
+  [s4] chunk spec-logic-bug-22 (medium, rank 153, lens=logic-bug): logic-bug specialist sweep over module 'modules/_stringTagBug.js'.
+  [s4] chunk spec-logic-bug-23 (medium, rank 154, lens=logic-bug): logic-bug specialist sweep over module 'modules/_toBufferView.js'.
+  [s4] chunk spec-logic-bug-24 (medium, rank 155, lens=logic-bug): logic-bug specialist sweep over module 'modules/after.js'.
+  [s4] chunk spec-logic-bug-25 (medium, rank 156, lens=logic-bug): logic-bug specialist sweep over module 'modules/before.js'.
+  [s4] chunk spec-logic-bug-26 (medium, rank 157, lens=logic-bug): logic-bug specialist sweep over module 'modules/chain.js'.
+  [s4] chunk spec-logic-bug-27 (medium, rank 158, lens=logic-bug): logic-bug specialist sweep over module 'modules/chunk.js'.
+  [s4] chunk spec-logic-bug-28 (medium, rank 159, lens=logic-bug): logic-bug specialist sweep over module 'modules/clone.js'.
+  [s4] chunk spec-logic-bug-29 (medium, rank 160, lens=logic-bug): logic-bug specialist sweep over module 'modules/constant.js'.
+  [s4] chunk spec-logic-bug-30 (medium, rank 161, lens=logic-bug): logic-bug specialist sweep over module 'modules/create.js'.
+  [s4] chunk spec-logic-bug-31 (medium, rank 162, lens=logic-bug): logic-bug specialist sweep over module 'modules/findIndex.js'.
+  [s4] chunk spec-logic-bug-32 (medium, rank 163, lens=logic-bug): logic-bug specialist sweep over module 'modules/findLastIndex.js'.
+  [s4] chunk spec-logic-bug-33 (medium, rank 164, lens=logic-bug): logic-bug specialist sweep over module 'modules/functions.js'.
+  [s4] chunk spec-logic-bug-34 (medium, rank 165, lens=logic-bug): logic-bug specialist sweep over module 'modules/identity.js'.
+  [s4] chunk spec-logic-bug-35 (medium, rank 166, lens=logic-bug): logic-bug specialist sweep over module 'modules/indexOf.js'.
+  [s4] chunk spec-logic-bug-36 (medium, rank 167, lens=logic-bug): logic-bug specialist sweep over module 'modules/isArrayBuffer.js'.
+  [s4] chunk spec-logic-bug-37 (medium, rank 168, lens=logic-bug): logic-bug specialist sweep over module 'modules/isBoolean.js'.
+  [s4] chunk spec-logic-bug-38 (medium, rank 169, lens=logic-bug): logic-bug specialist sweep over module 'modules/isDataView.js'.
+  [s4] chunk spec-logic-bug-39 (medium, rank 170, lens=logic-bug): logic-bug specialist sweep over module 'modules/isDate.js'.
+  [s4] chunk spec-logic-bug-40 (medium, rank 171, lens=logic-bug): logic-bug specialist sweep over module 'modules/isElement.js'.
+  [s4] chunk spec-logic-bug-41 (medium, rank 172, lens=logic-bug): logic-bug specialist sweep over module 'modules/isError.js'.
+  [s4] chunk spec-logic-bug-42 (medium, rank 173, lens=logic-bug): logic-bug specialist sweep over module 'modules/isFinite.js'.
+  [s4] chunk spec-logic-bug-43 (medium, rank 174, lens=logic-bug): logic-bug specialist sweep over module 'modules/isMap.js'.
+  [s4] chunk spec-logic-bug-44 (medium, rank 175, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNaN.js'.
+  [s4] chunk spec-logic-bug-45 (medium, rank 176, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNull.js'.
+  [s4] chunk spec-logic-bug-46 (medium, rank 177, lens=logic-bug): logic-bug specialist sweep over module 'modules/isNumber.js'.
+  [s4] chunk spec-logic-bug-47 (medium, rank 178, lens=logic-bug): logic-bug specialist sweep over module 'modules/isObject.js'.
+  [s4] chunk spec-logic-bug-48 (medium, rank 179, lens=logic-bug): logic-bug specialist sweep over module 'modules/isRegExp.js'.
+  [s4] chunk spec-logic-bug-49 (medium, rank 180, lens=logic-bug): logic-bug specialist sweep over module 'modules/isSet.js'.
+  [s4] chunk spec-logic-bug-50 (medium, rank 181, lens=logic-bug): logic-bug specialist sweep over module 'modules/isString.js'.
+  [s4] chunk spec-logic-bug-51 (medium, rank 182, lens=logic-bug): logic-bug specialist sweep over module 'modules/isSymbol.js'.
+  [s4] chunk spec-logic-bug-52 (medium, rank 183, lens=logic-bug): logic-bug specialist sweep over module 'modules/isTypedArray.js'.
+  [s4] chunk spec-logic-bug-53 (medium, rank 184, lens=logic-bug): logic-bug specialist sweep over module 'modules/isUndefined.js'.
+  [s4] chunk spec-logic-bug-54 (medium, rank 185, lens=logic-bug): logic-bug specialist sweep over module 'modules/isWeakMap.js'.
+  [s4] chunk spec-logic-bug-55 (medium, rank 186, lens=logic-bug): logic-bug specialist sweep over module 'modules/isWeakSet.js'.
+  [s4] chunk spec-logic-bug-56 (medium, rank 187, lens=logic-bug): logic-bug specialist sweep over module 'modules/lastIndexOf.js'.
+  [s4] chunk spec-logic-bug-57 (medium, rank 188, lens=logic-bug): logic-bug specialist sweep over module 'modules/negate.js'.
+  [s4] chunk spec-logic-bug-58 (medium, rank 189, lens=logic-bug): logic-bug specialist sweep over module 'modules/noop.js'.
+  [s4] chunk spec-logic-bug-59 (medium, rank 190, lens=logic-bug): logic-bug specialist sweep over module 'modules/object.js'.
+  [s4] chunk spec-logic-bug-60 (medium, rank 191, lens=logic-bug): logic-bug specialist sweep over module 'modules/once.js'.
+  [s4] chunk spec-logic-bug-61 (medium, rank 192, lens=logic-bug): logic-bug specialist sweep over module 'modules/rest.js'.
+  [s4] chunk spec-logic-bug-62 (medium, rank 193, lens=logic-bug): logic-bug specialist sweep over module 'modules/tap.js'.
+  [s4] chunk spec-logic-bug-63 (medium, rank 194, lens=logic-bug): logic-bug specialist sweep over module 'modules/uniqueId.js'.
+  [s4] chunk spec-logic-bug-64 (medium, rank 195, lens=logic-bug): logic-bug specialist sweep over module 'modules/wrap.js'.
+  [s4] chunk spec-logic-bug-65 (medium, rank 196, lens=logic-bug): logic-bug specialist sweep over module 'modules/zip.js'.
+  [s4] chunk spec-access-control-01 (medium, rank 197, lens=access-control): access-control specialist sweep over module 'template'.
+  [s4] chunk spec-access-control-02 (medium, rank 198, lens=access-control): access-control specialist sweep over module 'setup/core'.
+  [s4] chunk spec-access-control-03 (medium, rank 199, lens=access-control): access-control specialist sweep over module 'html-escaping'.
+  [s4] chunk spec-access-control-04 (medium, rank 200, lens=access-control): access-control specialist sweep over module 'property-access'.
+  [s4] chunk spec-access-control-05 (medium, rank 201, lens=access-control): access-control specialist sweep over module 'iteratee/cb'.
+  [s4] chunk spec-access-control-06 (medium, rank 202, lens=access-control): access-control specialist sweep over module 'object-ops'.
+  [s4] chunk spec-access-control-07 (medium, rank 203, lens=access-control): access-control specialist sweep over module 'collections'.
+  [s4] chunk spec-access-control-08 (medium, rank 204, lens=access-control): access-control specialist sweep over module 'functions'.
+  [s4] chunk spec-access-control-09 (medium, rank 205, lens=access-control): access-control specialist sweep over module 'type-checks'.
+  [s4] chunk spec-access-control-10 (medium, rank 206, lens=access-control): access-control specialist sweep over module 'entry/bundles'.
+  [s4] chunk spec-access-control-11 (medium, rank 207, lens=access-control): access-control specialist sweep over module 'cg:karma.conf-sauce'.
+  [s4] chunk spec-access-control-12 (medium, rank 208, lens=access-control): access-control specialist sweep over module '.'.
+  [s4] chunk spec-access-control-13 (medium, rank 209, lens=access-control): access-control specialist sweep over module '.github/workflows'.
+  [s4] chunk spec-access-control-14 (medium, rank 210, lens=access-control): access-control specialist sweep over module 'modules/_baseCreate.js'.
+  [s4] chunk spec-access-control-15 (medium, rank 211, lens=access-control): access-control specialist sweep over module 'modules/_chainResult.js'.
+  [s4] chunk spec-access-control-16 (medium, rank 212, lens=access-control): access-control specialist sweep over module 'modules/_createSizePropertyCheck.js'.
+  [s4] chunk spec-access-control-17 (medium, rank 213, lens=access-control): access-control specialist sweep over module 'modules/_getByteLength.js'.
+  [s4] chunk spec-access-control-18 (medium, rank 214, lens=access-control): access-control specialist sweep over module 'modules/_getLength.js'.
+  [s4] chunk spec-access-control-19 (medium, rank 215, lens=access-control): access-control specialist sweep over module 'modules/_hasObjectTag.js'.
+  [s4] chunk spec-access-control-20 (medium, rank 216, lens=access-control): access-control specialist sweep over module 'modules/_isArrayLike.js'.
+  [s4] chunk spec-access-control-21 (medium, rank 217, lens=access-control): access-control specialist sweep over module 'modules/_isBufferLike.js'.
+  [s4] chunk spec-access-control-22 (medium, rank 218, lens=access-control): access-control specialist sweep over module 'modules/_stringTagBug.js'.
+  [s4] chunk spec-access-control-23 (medium, rank 219, lens=access-control): access-control specialist sweep over module 'modules/_toBufferView.js'.
+  [s4] chunk spec-access-control-24 (medium, rank 220, lens=access-control): access-control specialist sweep over module 'modules/after.js'.
+  [s4] chunk spec-access-control-25 (medium, rank 221, lens=access-control): access-control specialist sweep over module 'modules/before.js'.
+  [s4] chunk spec-access-control-26 (medium, rank 222, lens=access-control): access-control specialist sweep over module 'modules/chain.js'.
+  [s4] chunk spec-access-control-27 (medium, rank 223, lens=access-control): access-control specialist sweep over module 'modules/chunk.js'.
+  [s4] chunk spec-access-control-28 (medium, rank 224, lens=access-control): access-control specialist sweep over module 'modules/clone.js'.
+  [s4] chunk spec-access-control-29 (medium, rank 225, lens=access-control): access-control specialist sweep over module 'modules/constant.js'.
+  [s4] chunk spec-access-control-30 (medium, rank 226, lens=access-control): access-control specialist sweep over module 'modules/create.js'.
+  [s4] chunk spec-access-control-31 (medium, rank 227, lens=access-control): access-control specialist sweep over module 'modules/findIndex.js'.
+  [s4] chunk spec-access-control-32 (medium, rank 228, lens=access-control): access-control specialist sweep over module 'modules/findLastIndex.js'.
+  [s4] chunk spec-access-control-33 (medium, rank 229, lens=access-control): access-control specialist sweep over module 'modules/functions.js'.
+  [s4] chunk spec-access-control-34 (medium, rank 230, lens=access-control): access-control specialist sweep over module 'modules/identity.js'.
+  [s4] chunk spec-access-control-35 (medium, rank 231, lens=access-control): access-control specialist sweep over module 'modules/indexOf.js'.
+  [s4] chunk spec-access-control-36 (medium, rank 232, lens=access-control): access-control specialist sweep over module 'modules/isArrayBuffer.js'.
+  [s4] chunk spec-access-control-37 (medium, rank 233, lens=access-control): access-control specialist sweep over module 'modules/isBoolean.js'.
+  [s4] chunk spec-access-control-38 (medium, rank 234, lens=access-control): access-control specialist sweep over module 'modules/isDataView.js'.
+  [s4] chunk spec-access-control-39 (medium, rank 235, lens=access-control): access-control specialist sweep over module 'modules/isDate.js'.
+  [s4] chunk spec-access-control-40 (medium, rank 236, lens=access-control): access-control specialist sweep over module 'modules/isElement.js'.
+  [s4] chunk spec-access-control-41 (medium, rank 237, lens=access-control): access-control specialist sweep over module 'modules/isError.js'.
+  [s4] chunk spec-access-control-42 (medium, rank 238, lens=access-control): access-control specialist sweep over module 'modules/isFinite.js'.
+  [s4] chunk spec-access-control-43 (medium, rank 239, lens=access-control): access-control specialist sweep over module 'modules/isMap.js'.
+  [s4] chunk spec-access-control-44 (medium, rank 240, lens=access-control): access-control specialist sweep over module 'modules/isNaN.js'.
+  [s4] chunk spec-access-control-45 (medium, rank 241, lens=access-control): access-control specialist sweep over module 'modules/isNull.js'.
+  [s4] chunk spec-access-control-46 (medium, rank 242, lens=access-control): access-control specialist sweep over module 'modules/isNumber.js'.
+  [s4] chunk spec-access-control-47 (medium, rank 243, lens=access-control): access-control specialist sweep over module 'modules/isObject.js'.
+  [s4] chunk spec-access-control-48 (medium, rank 244, lens=access-control): access-control specialist sweep over module 'modules/isRegExp.js'.
+  [s4] chunk spec-access-control-49 (medium, rank 245, lens=access-control): access-control specialist sweep over module 'modules/isSet.js'.
+  [s4] chunk spec-access-control-50 (medium, rank 246, lens=access-control): access-control specialist sweep over module 'modules/isString.js'.
+  [s4] chunk spec-access-control-51 (medium, rank 247, lens=access-control): access-control specialist sweep over module 'modules/isSymbol.js'.
+  [s4] chunk spec-access-control-52 (medium, rank 248, lens=access-control): access-control specialist sweep over module 'modules/isTypedArray.js'.
+  [s4] chunk spec-access-control-53 (medium, rank 249, lens=access-control): access-control specialist sweep over module 'modules/isUndefined.js'.
+  [s4] chunk spec-access-control-54 (medium, rank 250, lens=access-control): access-control specialist sweep over module 'modules/isWeakMap.js'.
+  [s4] chunk spec-access-control-55 (medium, rank 251, lens=access-control): access-control specialist sweep over module 'modules/isWeakSet.js'.
+  [s4] chunk spec-access-control-56 (medium, rank 252, lens=access-control): access-control specialist sweep over module 'modules/lastIndexOf.js'.
+  [s4] chunk spec-access-control-57 (medium, rank 253, lens=access-control): access-control specialist sweep over module 'modules/negate.js'.
+  [s4] chunk spec-access-control-58 (medium, rank 254, lens=access-control): access-control specialist sweep over module 'modules/noop.js'.
+  [s4] chunk spec-access-control-59 (medium, rank 255, lens=access-control): access-control specialist sweep over module 'modules/object.js'.
+  [s4] chunk spec-access-control-60 (medium, rank 256, lens=access-control): access-control specialist sweep over module 'modules/once.js'.
+  [s4] chunk spec-access-control-61 (medium, rank 257, lens=access-control): access-control specialist sweep over module 'modules/rest.js'.
+  [s4] chunk spec-access-control-62 (medium, rank 258, lens=access-control): access-control specialist sweep over module 'modules/tap.js'.
+  [s4] chunk spec-access-control-63 (medium, rank 259, lens=access-control): access-control specialist sweep over module 'modules/uniqueId.js'.
+  [s4] chunk spec-access-control-64 (medium, rank 260, lens=access-control): access-control specialist sweep over module 'modules/wrap.js'.
+  [s4] chunk spec-access-control-65 (medium, rank 261, lens=access-control): access-control specialist sweep over module 'modules/zip.js'.
+  [s4] chunk spec-iac-01 (medium, rank 262, lens=iac): iac specialist sweep over module '.github/workflows'.
+    [s4] chunk-01: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-01] (14084 chars, max_tokens=64000)
+    [s4] chunk-02: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-02] (13875 chars, max_tokens=64000)
+    [s4] taint-01: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 taint-01] (13233 chars, max_tokens=64000)
+    [s4] chunk-03: +50 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-03] (72645 chars, max_tokens=64000)
+    [cli] usage: in=5300 (cache_read=0, cache_write=5298) out=216
+    [s4] taint-02 run 1/1: 0 raw findings
+  [s4] chunk taint-02: 0 high-confidence findings
+    [s4] chunk-04: +18 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-04] (34410 chars, max_tokens=64000)
+    [cli] usage: in=8882 (cache_read=0, cache_write=8880) out=654
+    [s4] taint-01 run 1/1: 0 raw findings
+  [s4] chunk taint-01: 0 high-confidence findings
+    [s4] chunk-05: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-05] (26571 chars, max_tokens=64000)
+    [cli] usage: in=13845 (cache_read=0, cache_write=13843) out=571
+    [s4] chunk-05 run 1/1: 0 raw findings
+  [s4] chunk chunk-05: 0 high-confidence findings
+    [s4] chunk-06: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-06] (13114 chars, max_tokens=64000)
+    [cli] usage: in=9144 (cache_read=0, cache_write=9142) out=2049
+    [s4] chunk-02 run 1/1: 1 raw findings
+  [s4] chunk chunk-02: 1 high-confidence findings
+    [s4] catchall-01: +9 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-01] (13970 chars, max_tokens=64000)
+    [cli] usage: in=8779 (cache_read=0, cache_write=8777) out=380
+    [s4] chunk-06 run 1/1: 0 raw findings
+  [s4] chunk chunk-06: 0 high-confidence findings
+    [s4] catchall-02: +22 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-02] (33733 chars, max_tokens=64000)
+    [cli] usage: in=9292 (cache_read=0, cache_write=9290) out=488
+    [s4] catchall-01 run 1/1: 0 raw findings
+  [s4] chunk catchall-01: 0 high-confidence findings
+    [s4] catchall-03: +36 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-03] (49667 chars, max_tokens=64000)
+    [cli] usage: in=33019 (cache_read=0, cache_write=33017) out=3623
+    [s4] chunk-03 run 1/1: 1 raw findings
+  [s4] chunk chunk-03: 1 high-confidence findings
+    [s4] catchall-04: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-04] (26971 chars, max_tokens=64000)
+    [cli] usage: in=16411 (cache_read=0, cache_write=16409) out=603
+    [s4] catchall-02 run 1/1: 0 raw findings
+  [s4] chunk catchall-02: 0 high-confidence findings
+    [s4] catchall-05: +50 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-05] (197806 chars, max_tokens=64000)
+    [cli] usage: in=23675 (cache_read=0, cache_write=23673) out=872
+    [s4] catchall-03 run 1/1: 0 raw findings
+  [s4] chunk catchall-03: 0 high-confidence findings
+    [s4] catchall-06: +24 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-06] (117808 chars, max_tokens=64000)
+    [cli] usage: in=14042 (cache_read=0, cache_write=14040) out=654
+    [s4] catchall-04 run 1/1: 0 raw findings
+  [s4] chunk catchall-04: 0 high-confidence findings
+    [s4] catchall-07: +11 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-07] (94634 chars, max_tokens=64000)
+    [cli] usage: in=9229 (cache_read=0, cache_write=9227) out=4754
+    [s4] chunk-01 run 1/1: 0 raw findings
+  [s4] chunk chunk-01: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-08] (86531 chars, max_tokens=64000)
+    [cli] usage: in=54114 (cache_read=0, cache_write=54112) out=2360
+    [s4] catchall-06 run 1/1: 1 raw findings
+  [s4] chunk catchall-06: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-09] (8796 chars, max_tokens=64000)
+    [cli] usage: in=87109 (cache_read=0, cache_write=87107) out=3105
+    [s4] catchall-05 run 1/1: 1 raw findings
+  [s4] chunk catchall-05: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-10] (1433 chars, max_tokens=64000)
+    [cli] usage: in=4035 out=9
+    [s4] catchall-10 run 1/1: 0 raw findings
+  [s4] chunk catchall-10: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-11] (1478 chars, max_tokens=64000)
+    [cli] usage: in=7458 (cache_read=0, cache_write=7456) out=793
+    [s4] catchall-09 run 1/1: 0 raw findings
+  [s4] chunk catchall-09: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-12] (4520 chars, max_tokens=64000)
+    [cli] usage: in=4056 out=50
+    [s4] catchall-11 run 1/1: 0 raw findings
+  [s4] chunk catchall-11: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-13] (1828 chars, max_tokens=64000)
+    [cli] usage: in=4212 (cache_read=0, cache_write=4210) out=111
+    [s4] catchall-13 run 1/1: 0 raw findings
+  [s4] chunk catchall-13: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-14] (2986 chars, max_tokens=64000)
+    [cli] usage: in=4654 (cache_read=0, cache_write=4652) out=9
+    [s4] catchall-14 run 1/1: 0 raw findings
+  [s4] chunk catchall-14: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-15] (2569 chars, max_tokens=64000)
+    [cli] usage: in=17583 (cache_read=0, cache_write=17581) out=7241
+    [s4] chunk-04 run 1/1: 1 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-16] (2782 chars, max_tokens=64000)
+  [s4] chunk chunk-04: 1 high-confidence findings
+    [cli] usage: in=5224 (cache_read=0, cache_write=5222) out=393
+    [s4] catchall-12 run 1/1: 0 raw findings
+  [s4] chunk catchall-12: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-17] (2528 chars, max_tokens=64000)
+    [cli] usage: in=4481 (cache_read=0, cache_write=4479) out=52
+    [s4] catchall-15 run 1/1: 0 raw findings
+  [s4] chunk catchall-15: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-18] (2512 chars, max_tokens=64000)
+    [cli] usage: in=4597 (cache_read=0, cache_write=4595) out=60
+    [s4] catchall-16 run 1/1: 0 raw findings
+  [s4] chunk catchall-16: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-19] (2428 chars, max_tokens=64000)
+    [cli] usage: in=38811 (cache_read=0, cache_write=38809) out=3288
+    [s4] catchall-08 run 1/1: 1 raw findings
+  [s4] chunk catchall-08: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-20] (2805 chars, max_tokens=64000)
+    [cli] usage: in=4465 (cache_read=0, cache_write=4463) out=59
+    [s4] catchall-17 run 1/1: 0 raw findings
+  [s4] chunk catchall-17: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-21] (2650 chars, max_tokens=64000)
+    [cli] usage: in=4455 (cache_read=0, cache_write=4453) out=77
+    [s4] catchall-18 run 1/1: 0 raw findings
+  [s4] chunk catchall-18: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-22] (3114 chars, max_tokens=64000)
+    [cli] usage: in=4518 (cache_read=0, cache_write=4516) out=71
+    [s4] catchall-21 run 1/1: 0 raw findings
+  [s4] chunk catchall-21: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-23] (2771 chars, max_tokens=64000)
+    [cli] usage: in=4585 (cache_read=0, cache_write=4583) out=9
+    [s4] catchall-20 run 1/1: 0 raw findings
+  [s4] chunk catchall-20: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-24] (2590 chars, max_tokens=64000)
+    [cli] usage: in=4717 (cache_read=0, cache_write=4715) out=127
+    [s4] catchall-22 run 1/1: 0 raw findings
+  [s4] chunk catchall-22: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-25] (2699 chars, max_tokens=64000)
+    [cli] usage: in=4435 (cache_read=0, cache_write=4433) out=9
+    [s4] catchall-19 run 1/1: 0 raw findings
+  [s4] chunk catchall-19: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-26] (2559 chars, max_tokens=64000)
+    [cli] usage: in=4577 (cache_read=0, cache_write=4575) out=139
+    [s4] catchall-23 run 1/1: 0 raw findings
+  [s4] chunk catchall-23: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-27] (2774 chars, max_tokens=64000)
+    [cli] usage: in=4525 (cache_read=0, cache_write=4523) out=9
+    [s4] catchall-25 run 1/1: 0 raw findings
+  [s4] chunk catchall-25: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-28] (2666 chars, max_tokens=64000)
+    [cli] usage: in=4481 (cache_read=0, cache_write=4479) out=87
+    [s4] catchall-26 run 1/1: 0 raw findings
+  [s4] chunk catchall-26: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-29] (2520 chars, max_tokens=64000)
+    [cli] usage: in=4561 (cache_read=0, cache_write=4559) out=154
+    [s4] catchall-27 run 1/1: 0 raw findings
+  [s4] chunk catchall-27: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-30] (2782 chars, max_tokens=64000)
+    [cli] usage: in=4452 (cache_read=0, cache_write=4450) out=9
+    [s4] catchall-29 run 1/1: 0 raw findings
+  [s4] chunk catchall-29: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-31] (2541 chars, max_tokens=64000)
+    [cli] usage: in=4479 (cache_read=0, cache_write=4477) out=47
+    [s4] catchall-24 run 1/1: 0 raw findings
+  [s4] chunk catchall-24: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-32] (2549 chars, max_tokens=64000)
+    [cli] usage: in=4471 (cache_read=0, cache_write=4469) out=9
+    [s4] catchall-31 run 1/1: 0 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-33] (2665 chars, max_tokens=64000)
+  [s4] chunk catchall-31: 0 high-confidence findings
+    [cli] usage: in=4476 (cache_read=0, cache_write=4474) out=9
+    [s4] catchall-32 run 1/1: 0 raw findings
+  [s4] chunk catchall-32: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-34] (2467 chars, max_tokens=64000)
+    [cli] usage: in=4545 (cache_read=0, cache_write=4543) out=110
+    [s4] catchall-30 run 1/1: 0 raw findings
+  [s4] chunk catchall-30: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-35] (2811 chars, max_tokens=64000)
+    [cli] usage: in=4513 (cache_read=0, cache_write=4511) out=68
+    [s4] catchall-33 run 1/1: 0 raw findings
+  [s4] chunk catchall-33: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-36] (2433 chars, max_tokens=64000)
+    [cli] usage: in=4431 (cache_read=0, cache_write=4429) out=9
+    [s4] catchall-34 run 1/1: 0 raw findings
+  [s4] chunk catchall-34: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-37] (2563 chars, max_tokens=64000)
+    [cli] usage: in=4530 (cache_read=0, cache_write=4528) out=117
+    [s4] catchall-28 run 1/1: 0 raw findings
+  [s4] chunk catchall-28: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-38] (3046 chars, max_tokens=64000)
+    [cli] usage: in=4569 (cache_read=0, cache_write=4567) out=95
+    [s4] catchall-35 run 1/1: 0 raw findings
+  [s4] chunk catchall-35: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-39] (2412 chars, max_tokens=64000)
+    [cli] usage: in=4484 (cache_read=0, cache_write=4482) out=9
+    [s4] catchall-37 run 1/1: 0 raw findings
+  [s4] chunk catchall-37: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-40] (2467 chars, max_tokens=64000)
+    [cli] usage: in=4425 (cache_read=0, cache_write=4423) out=9
+    [s4] catchall-39 run 1/1: 0 raw findings
+  [s4] chunk catchall-39: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-41] (2415 chars, max_tokens=64000)
+    [cli] usage: in=4694 (cache_read=0, cache_write=4692) out=54
+    [s4] catchall-38 run 1/1: 0 raw findings
+  [s4] chunk catchall-38: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-42] (2598 chars, max_tokens=64000)
+    [cli] usage: in=4446 (cache_read=0, cache_write=4444) out=26
+    [s4] catchall-40 run 1/1: 0 raw findings
+  [s4] chunk catchall-40: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-43] (2579 chars, max_tokens=64000)
+    [cli] usage: in=4441 (cache_read=0, cache_write=4439) out=49
+    [s4] catchall-36 run 1/1: 0 raw findings
+  [s4] chunk catchall-36: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-44] (2546 chars, max_tokens=64000)
+    [cli] usage: in=4423 (cache_read=0, cache_write=4421) out=9
+    [s4] catchall-41 run 1/1: 0 raw findings
+  [s4] chunk catchall-41: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-45] (2441 chars, max_tokens=64000)
+    [cli] usage: in=4512 (cache_read=0, cache_write=4510) out=9
+    [s4] catchall-42 run 1/1: 0 raw findings
+  [s4] chunk catchall-42: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-46] (2418 chars, max_tokens=64000)
+    [cli] usage: in=4507 (cache_read=0, cache_write=4505) out=9
+    [s4] catchall-43 run 1/1: 0 raw findings
+  [s4] chunk catchall-43: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-47] (2517 chars, max_tokens=64000)
+    [cli] usage: in=4433 (cache_read=0, cache_write=4431) out=9
+    [s4] catchall-45 run 1/1: 0 raw findings
+  [s4] chunk catchall-45: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-48] (2418 chars, max_tokens=64000)
+    [cli] usage: in=4493 (cache_read=0, cache_write=4491) out=9
+    [s4] catchall-44 run 1/1: 0 raw findings
+  [s4] chunk catchall-44: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-49] (2579 chars, max_tokens=64000)
+    [cli] usage: in=4505 (cache_read=0, cache_write=4503) out=9
+    [s4] catchall-49 run 1/1: 0 raw findings
+  [s4] chunk catchall-49: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-50] (2418 chars, max_tokens=64000)
+    [cli] usage: in=4461 (cache_read=0, cache_write=4459) out=71
+    [s4] catchall-47 run 1/1: 0 raw findings
+  [s4] chunk catchall-47: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-51] (2418 chars, max_tokens=64000)
+    [cli] usage: in=4422 (cache_read=0, cache_write=4420) out=42
+    [s4] catchall-50 run 1/1: 0 raw findings
+  [s4] chunk catchall-50: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-52] (3158 chars, max_tokens=64000)
+    [cli] usage: in=4427 (cache_read=0, cache_write=4425) out=9
+    [s4] catchall-46 run 1/1: 0 raw findings
+  [s4] chunk catchall-46: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-53] (2457 chars, max_tokens=64000)
+    [cli] usage: in=4441 (cache_read=0, cache_write=4439) out=9
+    [s4] catchall-53 run 1/1: 0 raw findings
+  [s4] chunk catchall-53: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-54] (2599 chars, max_tokens=64000)
+    [cli] usage: in=4760 (cache_read=0, cache_write=4758) out=168
+    [s4] catchall-52 run 1/1: 0 raw findings
+  [s4] chunk catchall-52: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-55] (2421 chars, max_tokens=64000)
+    [cli] usage: in=4431 (cache_read=0, cache_write=4429) out=35
+    [s4] catchall-48 run 1/1: 0 raw findings
+  [s4] chunk catchall-48: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-56] (2647 chars, max_tokens=64000)
+    [cli] usage: in=4513 (cache_read=0, cache_write=4511) out=9
+    [s4] catchall-56 run 1/1: 0 raw findings
+  [s4] chunk catchall-56: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-57] (2533 chars, max_tokens=64000)
+    [cli] usage: in=4520 (cache_read=0, cache_write=4518) out=9
+    [s4] catchall-54 run 1/1: 0 raw findings
+  [s4] chunk catchall-54: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-58] (2428 chars, max_tokens=64000)
+    [cli] usage: in=4431 (cache_read=0, cache_write=4429) out=9
+    [s4] catchall-51 run 1/1: 0 raw findings
+  [s4] chunk catchall-51: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-59] (2964 chars, max_tokens=64000)
+    [cli] usage: in=4434 (cache_read=0, cache_write=4432) out=58
+    [s4] catchall-55 run 1/1: 0 raw findings
+  [s4] chunk catchall-55: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-60] (2589 chars, max_tokens=64000)
+    [cli] usage: in=4462 (cache_read=0, cache_write=4460) out=9
+    [s4] catchall-57 run 1/1: 0 raw findings
+  [s4] chunk catchall-57: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-61] (2683 chars, max_tokens=64000)
+    [cli] usage: in=4423 (cache_read=0, cache_write=4421) out=33
+    [s4] catchall-58 run 1/1: 0 raw findings
+  [s4] chunk catchall-58: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-62] (2653 chars, max_tokens=64000)
+    [cli] usage: in=4522 (cache_read=0, cache_write=4520) out=48
+    [s4] catchall-61 run 1/1: 0 raw findings
+  [s4] chunk catchall-61: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-63] (2605 chars, max_tokens=64000)
+    [cli] usage: in=4510 (cache_read=0, cache_write=4508) out=63
+    [s4] catchall-62 run 1/1: 0 raw findings
+  [s4] chunk catchall-62: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-64] (2668 chars, max_tokens=64000)
+    [cli] usage: in=4473 (cache_read=0, cache_write=4471) out=41
+    [s4] catchall-60 run 1/1: 0 raw findings
+  [s4] chunk catchall-60: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-65] (2568 chars, max_tokens=64000)
+    [cli] usage: in=4506 (cache_read=0, cache_write=4504) out=53
+    [s4] catchall-64 run 1/1: 0 raw findings
+  [s4] chunk catchall-64: 0 high-confidence findings
+    [s4] spec-logic-bug-01: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-01] (14312 chars, max_tokens=64000)
+    [cli] usage: in=4633 (cache_read=0, cache_write=4631) out=496
+    [s4] catchall-59 run 1/1: 0 raw findings
+  [s4] chunk catchall-59: 0 high-confidence findings
+    [s4] spec-logic-bug-02: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-02] (13619 chars, max_tokens=64000)
+    [cli] usage: in=4473 (cache_read=0, cache_write=4471) out=70
+    [s4] catchall-65 run 1/1: 0 raw findings
+  [s4] chunk catchall-65: 0 high-confidence findings
+    [s4] spec-logic-bug-03: +9 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-03] (14744 chars, max_tokens=64000)
+    [cli] usage: in=4505 (cache_read=0, cache_write=4503) out=64
+    [s4] catchall-63 run 1/1: 0 raw findings
+  [s4] chunk catchall-63: 0 high-confidence findings
+    [s4] spec-logic-bug-04: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-04] (24218 chars, max_tokens=64000)
+    [cli] usage: in=8893 (cache_read=0, cache_write=8891) out=545
+    [s4] spec-logic-bug-02 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-02: 0 high-confidence findings
+    [s4] spec-logic-bug-05: +22 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-05] (34507 chars, max_tokens=64000)
+    [cli] usage: in=9482 (cache_read=0, cache_write=9480) out=630
+    [s4] spec-logic-bug-03 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-03: 0 high-confidence findings
+    [cli] usage: in=12745 (cache_read=0, cache_write=12743) out=516
+    [s4] spec-logic-bug-04 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-04: 0 high-confidence findings
+    [s4] spec-logic-bug-06: +39 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-06] (56487 chars, max_tokens=64000)
+    [cli] usage: in=42146 (cache_read=0, cache_write=42144) out=8294
+    [s4] catchall-07 run 1/1: 1 raw findings
+  [s4] chunk catchall-07: 1 high-confidence findings
+    [s4] spec-logic-bug-07: +36 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-07] (50441 chars, max_tokens=64000)
+    [s4] spec-logic-bug-08: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-08] (27745 chars, max_tokens=64000)
+    [cli] usage: in=16601 (cache_read=0, cache_write=16599) out=649
+    [s4] spec-logic-bug-05 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-05: 0 high-confidence findings
+    [s4] spec-logic-bug-09: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-09] (30276 chars, max_tokens=64000)
+    [cli] usage: in=14232 (cache_read=0, cache_write=14230) out=552
+    [s4] spec-logic-bug-08 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-08: 0 high-confidence findings
+    [s4] spec-logic-bug-10: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-10] (21315 chars, max_tokens=64000)
+    [cli] usage: in=23865 (cache_read=0, cache_write=23863) out=673
+    [s4] spec-logic-bug-07 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-07: 0 high-confidence findings
+    [s4] spec-logic-bug-11: +8 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-11] (407551 chars, max_tokens=64000)
+    [cli] usage: in=26395 (cache_read=0, cache_write=26393) out=945
+    [s4] spec-logic-bug-06 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-06: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-12] (7388 chars, max_tokens=64000)
+    [cli] usage: in=11350 (cache_read=0, cache_write=11348) out=198
+    [s4] spec-logic-bug-10 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-10: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-13] (6273 chars, max_tokens=64000)
+    [cli] usage: in=5816 (cache_read=0, cache_write=5814) out=346
+    [s4] spec-logic-bug-13 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-13: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-14] (3760 chars, max_tokens=64000)
+    [cli] usage: in=4844 (cache_read=0, cache_write=4842) out=82
+    [s4] spec-logic-bug-14 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-14: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-15] (3343 chars, max_tokens=64000)
+    [cli] usage: in=9235 (cache_read=0, cache_write=9233) out=3232
+    [s4] spec-logic-bug-01 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-01: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-16] (3556 chars, max_tokens=64000)
+    [cli] usage: in=4671 (cache_read=0, cache_write=4669) out=79
+    [s4] spec-logic-bug-15 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-15: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-17] (3302 chars, max_tokens=64000)
+    [cli] usage: in=4787 (cache_read=0, cache_write=4785) out=52
+    [s4] spec-logic-bug-16 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-16: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-18] (3286 chars, max_tokens=64000)
+    [cli] usage: in=175256 (cache_read=0, cache_write=175254) out=1008
+    [s4] spec-logic-bug-11 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-11: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-19] (3202 chars, max_tokens=64000)
+    [cli] usage: in=4655 (cache_read=0, cache_write=4653) out=35
+    [s4] spec-logic-bug-17 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-17: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-20] (3579 chars, max_tokens=64000)
+    [cli] usage: in=4625 (cache_read=0, cache_write=4623) out=78
+    [s4] spec-logic-bug-19 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-19: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-21] (3424 chars, max_tokens=64000)
+    [cli] usage: in=4645 (cache_read=0, cache_write=4643) out=33
+    [s4] spec-logic-bug-18 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-18: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-22] (3888 chars, max_tokens=64000)
+    [cli] usage: in=4775 (cache_read=0, cache_write=4773) out=33
+    [s4] spec-logic-bug-20 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-20: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-23] (3545 chars, max_tokens=64000)
+    [cli] usage: in=6430 (cache_read=0, cache_write=6428) out=728
+    [s4] spec-logic-bug-12 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-12: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-24] (3364 chars, max_tokens=64000)
+    [cli] usage: in=4708 (cache_read=0, cache_write=4706) out=68
+    [s4] spec-logic-bug-21 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-21: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-25] (3473 chars, max_tokens=64000)
+    [cli] usage: in=4669 (cache_read=0, cache_write=4667) out=51
+    [s4] spec-logic-bug-24 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-24: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-26] (3333 chars, max_tokens=64000)
+    [cli] usage: in=4767 (cache_read=0, cache_write=4765) out=138
+    [s4] spec-logic-bug-23 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-23: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-27] (3548 chars, max_tokens=64000)
+    [cli] usage: in=4907 (cache_read=0, cache_write=4905) out=65
+    [s4] spec-logic-bug-22 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-22: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-28] (3440 chars, max_tokens=64000)
+    [cli] usage: in=4715 (cache_read=0, cache_write=4713) out=155
+    [s4] spec-logic-bug-25 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-25: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-29] (3294 chars, max_tokens=64000)
+    [cli] usage: in=4642 (cache_read=0, cache_write=4640) out=9
+    [s4] spec-logic-bug-29 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-29: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-30] (3556 chars, max_tokens=64000)
+    [cli] usage: in=4671 (cache_read=0, cache_write=4669) out=54
+    [s4] spec-logic-bug-26 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-26: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-31] (3315 chars, max_tokens=64000)
+    [cli] usage: in=4720 (cache_read=0, cache_write=4718) out=90
+    [s4] spec-logic-bug-28 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-28: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-32] (3323 chars, max_tokens=64000)
+    [cli] usage: in=4735 (cache_read=0, cache_write=4733) out=53
+    [s4] spec-logic-bug-30 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-30: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-33] (3439 chars, max_tokens=64000)
+    [cli] usage: in=4751 (cache_read=0, cache_write=4749) out=280
+    [s4] spec-logic-bug-27 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-27: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-34] (3241 chars, max_tokens=64000)
+    [cli] usage: in=4661 (cache_read=0, cache_write=4659) out=88
+    [s4] spec-logic-bug-31 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-31: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-35] (3585 chars, max_tokens=64000)
+    [cli] usage: in=4666 (cache_read=0, cache_write=4664) out=9
+    [s4] spec-logic-bug-32 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-32: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-36] (3207 chars, max_tokens=64000)
+    [cli] usage: in=4621 (cache_read=0, cache_write=4619) out=9
+    [s4] spec-logic-bug-34 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-34: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-37] (3337 chars, max_tokens=64000)
+    [cli] usage: in=4759 (cache_read=0, cache_write=4757) out=94
+    [s4] spec-logic-bug-35 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-35: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-38] (3820 chars, max_tokens=64000)
+    [cli] usage: in=4631 (cache_read=0, cache_write=4629) out=36
+    [s4] spec-logic-bug-36 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-36: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-39] (3186 chars, max_tokens=64000)
+    [cli] usage: in=4703 (cache_read=0, cache_write=4701) out=113
+    [s4] spec-logic-bug-33 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-33: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-40] (3241 chars, max_tokens=64000)
+    [cli] usage: in=4674 (cache_read=0, cache_write=4672) out=63
+    [s4] spec-logic-bug-37 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-37: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-41] (3189 chars, max_tokens=64000)
+    [cli] usage: in=4615 (cache_read=0, cache_write=4613) out=35
+    [s4] spec-logic-bug-39 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-39: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-42] (3372 chars, max_tokens=64000)
+    [cli] usage: in=4884 (cache_read=0, cache_write=4882) out=89
+    [s4] spec-logic-bug-38 run 1/1: 0 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-43] (3353 chars, max_tokens=64000)
+  [s4] chunk spec-logic-bug-38: 0 high-confidence findings
+    [cli] usage: in=4702 (cache_read=0, cache_write=4700) out=73
+    [s4] spec-logic-bug-42 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-42: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-44] (3320 chars, max_tokens=64000)
+    [cli] usage: in=4613 (cache_read=0, cache_write=4611) out=9
+    [s4] spec-logic-bug-41 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-41: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-45] (3215 chars, max_tokens=64000)
+    [cli] usage: in=4636 (cache_read=0, cache_write=4634) out=9
+    [s4] spec-logic-bug-40 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-40: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-46] (3192 chars, max_tokens=64000)
+    [cli] usage: in=4697 (cache_read=0, cache_write=4695) out=64
+    [s4] spec-logic-bug-43 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-43: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-47] (3291 chars, max_tokens=64000)
+    [cli] usage: in=4617 (cache_read=0, cache_write=4615) out=35
+    [s4] spec-logic-bug-46 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-46: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-48] (3192 chars, max_tokens=64000)
+    [cli] usage: in=4683 (cache_read=0, cache_write=4681) out=66
+    [s4] spec-logic-bug-44 run 1/1: 0 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-49] (3353 chars, max_tokens=64000)
+  [s4] chunk spec-logic-bug-44: 0 high-confidence findings
+    [cli] usage: in=4621 (cache_read=0, cache_write=4619) out=68
+    [s4] spec-logic-bug-48 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-48: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-50] (3192 chars, max_tokens=64000)
+    [cli] usage: in=4623 (cache_read=0, cache_write=4621) out=26
+    [s4] spec-logic-bug-45 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-45: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-51] (3192 chars, max_tokens=64000)
+    [cli] usage: in=4651 (cache_read=0, cache_write=4649) out=69
+    [s4] spec-logic-bug-47 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-47: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-52] (3932 chars, max_tokens=64000)
+    [cli] usage: in=4695 (cache_read=0, cache_write=4693) out=45
+    [s4] spec-logic-bug-49 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-49: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-53] (3231 chars, max_tokens=64000)
+    [cli] usage: in=4621 (cache_read=0, cache_write=4619) out=9
+    [s4] spec-logic-bug-51 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-51: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-54] (3373 chars, max_tokens=64000)
+    [cli] usage: in=4612 (cache_read=0, cache_write=4610) out=36
+    [s4] spec-logic-bug-50 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-50: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-55] (3195 chars, max_tokens=64000)
+    [cli] usage: in=4710 (cache_read=0, cache_write=4708) out=92
+    [s4] spec-logic-bug-54 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-54: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-56] (3421 chars, max_tokens=64000)
+    [cli] usage: in=4950 (cache_read=0, cache_write=4948) out=63
+    [s4] spec-logic-bug-52 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-52: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-57] (3307 chars, max_tokens=64000)
+    [cli] usage: in=4631 (cache_read=0, cache_write=4629) out=9
+    [s4] spec-logic-bug-53 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-53: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-58] (3202 chars, max_tokens=64000)
+    [cli] usage: in=4703 (cache_read=0, cache_write=4701) out=101
+    [s4] spec-logic-bug-56 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-56: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-59] (3738 chars, max_tokens=64000)
+    [cli] usage: in=4613 (cache_read=0, cache_write=4611) out=9
+    [s4] spec-logic-bug-58 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-58: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-60] (3363 chars, max_tokens=64000)
+    [cli] usage: in=4652 (cache_read=0, cache_write=4650) out=75
+    [s4] spec-logic-bug-57 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-57: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-61] (3457 chars, max_tokens=64000)
+    [cli] usage: in=4712 (cache_read=0, cache_write=4710) out=65
+    [s4] spec-logic-bug-61 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-61: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-62] (3427 chars, max_tokens=64000)
+    [cli] usage: in=4624 (cache_read=0, cache_write=4622) out=9
+    [s4] spec-logic-bug-55 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-55: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-63] (3379 chars, max_tokens=64000)
+    [cli] usage: in=4663 (cache_read=0, cache_write=4661) out=77
+    [s4] spec-logic-bug-60 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-60: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-64] (3442 chars, max_tokens=64000)
+    [cli] usage: in=4700 (cache_read=0, cache_write=4698) out=77
+    [s4] spec-logic-bug-62 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-62: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-65] (3342 chars, max_tokens=64000)
+    [cli] usage: in=4696 (cache_read=0, cache_write=4694) out=60
+    [s4] spec-logic-bug-64 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-64: 0 high-confidence findings
+    [s4] spec-access-control-01: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-01] (14992 chars, max_tokens=64000)
+    [cli] usage: in=4695 (cache_read=0, cache_write=4693) out=91
+    [s4] spec-logic-bug-63 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-63: 0 high-confidence findings
+    [s4] spec-access-control-02: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-02] (14299 chars, max_tokens=64000)
+    [cli] usage: in=4663 (cache_read=0, cache_write=4661) out=55
+    [s4] spec-logic-bug-65 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-65: 0 high-confidence findings
+    [s4] spec-access-control-03: +9 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-03] (15424 chars, max_tokens=64000)
+    [cli] usage: in=4823 (cache_read=0, cache_write=4821) out=450
+    [s4] spec-logic-bug-59 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-59: 0 high-confidence findings
+    [s4] spec-access-control-04: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-04] (24898 chars, max_tokens=64000)
+    [cli] usage: in=9195 (cache_read=0, cache_write=9193) out=333
+    [s4] spec-access-control-02 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-02: 0 high-confidence findings
+    [cli] usage: in=9784 (cache_read=0, cache_write=9782) out=279
+    [s4] spec-access-control-03 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-03: 0 high-confidence findings
+    [s4] spec-access-control-05: +22 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-05] (35187 chars, max_tokens=64000)
+    [s4] spec-access-control-06: +39 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-06] (57167 chars, max_tokens=64000)
+    [cli] usage: in=9537 (cache_read=0, cache_write=9535) out=690
+    [s4] spec-access-control-01 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-01: 0 high-confidence findings
+    [cli] usage: in=13047 (cache_read=0, cache_write=13045) out=503
+    [s4] spec-access-control-04 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-04: 0 high-confidence findings
+    [s4] spec-access-control-08: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-08] (28425 chars, max_tokens=64000)
+    [s4] spec-access-control-07: +36 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-07] (51121 chars, max_tokens=64000)
+    [cli] usage: in=26697 (cache_read=0, cache_write=26695) out=564
+    [s4] spec-access-control-06 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-06: 0 high-confidence findings
+    [s4] spec-access-control-09: +15 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-09] (30956 chars, max_tokens=64000)
+    [cli] usage: in=14534 (cache_read=0, cache_write=14532) out=365
+    [s4] spec-access-control-08 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-08: 0 high-confidence findings
+    [s4] spec-access-control-10: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-10] (21995 chars, max_tokens=64000)
+    [cli] usage: in=16903 (cache_read=0, cache_write=16901) out=486
+    [s4] spec-access-control-05 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-05: 0 high-confidence findings
+    [s4] spec-access-control-11: +8 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-11] (408231 chars, max_tokens=64000)
+    [cli] usage: in=11652 (cache_read=0, cache_write=11650) out=235
+    [s4] spec-access-control-10 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-10: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-12] (8068 chars, max_tokens=64000)
+    [cli] usage: in=175558 (cache_read=0, cache_write=175556) out=423
+    [s4] spec-access-control-11 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-11: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-13] (6953 chars, max_tokens=64000)
+    [cli] usage: in=24167 (cache_read=0, cache_write=24165) out=585
+    [s4] spec-access-control-07 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-07: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-14] (4440 chars, max_tokens=64000)
+    [cli] usage: in=6118 (cache_read=0, cache_write=6116) out=231
+    [s4] spec-access-control-13 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-13: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-15] (4023 chars, max_tokens=64000)
+    [cli] usage: in=4973 (cache_read=0, cache_write=4971) out=9
+    [s4] spec-access-control-15 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-15: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-16] (4236 chars, max_tokens=64000)
+    [cli] usage: in=5089 (cache_read=0, cache_write=5087) out=9
+    [s4] spec-access-control-16 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-16: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-17] (3982 chars, max_tokens=64000)
+    [cli] usage: in=5146 (cache_read=0, cache_write=5144) out=98
+    [s4] spec-access-control-14 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-14: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-18] (3966 chars, max_tokens=64000)
+    [cli] usage: in=4957 (cache_read=0, cache_write=4955) out=39
+    [s4] spec-access-control-17 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-17: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-19] (3882 chars, max_tokens=64000)
+    [cli] usage: in=4947 (cache_read=0, cache_write=4945) out=9
+    [s4] spec-access-control-18 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-18: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-20] (4259 chars, max_tokens=64000)
+    [cli] usage: in=4927 (cache_read=0, cache_write=4925) out=9
+    [s4] spec-access-control-19 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-19: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-21] (4104 chars, max_tokens=64000)
+    [cli] usage: in=5077 (cache_read=0, cache_write=5075) out=9
+    [s4] spec-access-control-20 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-20: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-22] (4568 chars, max_tokens=64000)
+    [cli] usage: in=6732 (cache_read=0, cache_write=6730) out=341
+    [s4] spec-access-control-12 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-12: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-23] (4225 chars, max_tokens=64000)
+    [cli] usage: in=5010 (cache_read=0, cache_write=5008) out=90
+    [s4] spec-access-control-21 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-21: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-24] (4044 chars, max_tokens=64000)
+    [cli] usage: in=4971 (cache_read=0, cache_write=4969) out=56
+    [s4] spec-access-control-24 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-24: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-25] (4153 chars, max_tokens=64000)
+    [cli] usage: in=5069 (cache_read=0, cache_write=5067) out=114
+    [s4] spec-access-control-23 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-23: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-26] (4013 chars, max_tokens=64000)
+    [cli] usage: in=5209 (cache_read=0, cache_write=5207) out=71
+    [s4] spec-access-control-22 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-22: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-27] (4228 chars, max_tokens=64000)
+    [cli] usage: in=5017 (cache_read=0, cache_write=5015) out=9
+    [s4] spec-access-control-25 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-25: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-28] (4120 chars, max_tokens=64000)
+    [cli] usage: in=4973 (cache_read=0, cache_write=4971) out=78
+    [s4] spec-access-control-26 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-26: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-29] (3974 chars, max_tokens=64000)
+    [cli] usage: in=5053 (cache_read=0, cache_write=5051) out=9
+    [s4] spec-access-control-27 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-27: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-30] (4236 chars, max_tokens=64000)
+    [cli] usage: in=5022 (cache_read=0, cache_write=5020) out=59
+    [s4] spec-access-control-28 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-28: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-31] (3995 chars, max_tokens=64000)
+    [cli] usage: in=4944 (cache_read=0, cache_write=4942) out=9
+    [s4] spec-access-control-29 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-29: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-32] (4003 chars, max_tokens=64000)
+    [cli] usage: in=4963 (cache_read=0, cache_write=4961) out=9
+    [s4] spec-access-control-31 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-31: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-33] (4119 chars, max_tokens=64000)
+    [cli] usage: in=15886 (cache_read=0, cache_write=15884) out=2819
+    [s4] spec-access-control-09 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-09: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-34] (3921 chars, max_tokens=64000)
+    [cli] usage: in=5037 (cache_read=0, cache_write=5035) out=75
+    [s4] spec-access-control-30 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-30: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-35] (4265 chars, max_tokens=64000)
+    [cli] usage: in=5061 (cache_read=0, cache_write=5059) out=57
+    [s4] spec-access-control-35 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-35: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-36] (3887 chars, max_tokens=64000)
+    [cli] usage: in=4968 (cache_read=0, cache_write=4966) out=9
+    [s4] spec-access-control-32 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-32: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-37] (4017 chars, max_tokens=64000)
+    [cli] usage: in=4976 (cache_read=0, cache_write=4974) out=9
+    [s4] spec-access-control-37 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-37: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-38] (4500 chars, max_tokens=64000)
+    [cli] usage: in=5005 (cache_read=0, cache_write=5003) out=67
+    [s4] spec-access-control-33 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-33: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-39] (3866 chars, max_tokens=64000)
+    [cli] usage: in=4933 (cache_read=0, cache_write=4931) out=64
+    [s4] spec-access-control-36 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-36: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-40] (3921 chars, max_tokens=64000)
+    [cli] usage: in=5186 (cache_read=0, cache_write=5184) out=69
+    [s4] spec-access-control-38 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-38: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-41] (3869 chars, max_tokens=64000)
+    [cli] usage: in=4917 (cache_read=0, cache_write=4915) out=38
+    [s4] spec-access-control-39 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-39: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-42] (4052 chars, max_tokens=64000)
+    [cli] usage: in=4923 (cache_read=0, cache_write=4921) out=57
+    [s4] spec-access-control-34 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-34: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-43] (4033 chars, max_tokens=64000)
+    [cli] usage: in=4915 (cache_read=0, cache_write=4913) out=48
+    [s4] spec-access-control-41 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-41: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-44] (4000 chars, max_tokens=64000)
+    [cli] usage: in=4938 (cache_read=0, cache_write=4936) out=39
+    [s4] spec-access-control-40 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-40: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-45] (3895 chars, max_tokens=64000)
+    [cli] usage: in=4985 (cache_read=0, cache_write=4983) out=9
+    [s4] spec-access-control-44 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-44: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-46] (3872 chars, max_tokens=64000)
+    [cli] usage: in=5004 (cache_read=0, cache_write=5002) out=47
+    [s4] spec-access-control-42 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-42: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-47] (3971 chars, max_tokens=64000)
+    [cli] usage: in=4953 (cache_read=0, cache_write=4951) out=9
+    [s4] spec-access-control-47 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-47: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-48] (3872 chars, max_tokens=64000)
+    [cli] usage: in=4999 (cache_read=0, cache_write=4997) out=9
+    [s4] spec-access-control-43 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-43: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-49] (4033 chars, max_tokens=64000)
+    [cli] usage: in=4925 (cache_read=0, cache_write=4923) out=9
+    [s4] spec-access-control-45 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-45: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-50] (3872 chars, max_tokens=64000)
+    [cli] usage: in=4919 (cache_read=0, cache_write=4917) out=9
+    [s4] spec-access-control-46 run 1/1: 0 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-51] (3872 chars, max_tokens=64000)
+  [s4] chunk spec-access-control-46: 0 high-confidence findings
+    [cli] usage: in=4997 (cache_read=0, cache_write=4995) out=9
+    [s4] spec-access-control-49 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-49: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-52] (4612 chars, max_tokens=64000)
+    [cli] usage: in=4914 (cache_read=0, cache_write=4912) out=51
+    [s4] spec-access-control-50 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-50: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-53] (3911 chars, max_tokens=64000)
+    [cli] usage: in=4923 (cache_read=0, cache_write=4921) out=53
+    [s4] spec-access-control-48 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-48: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-54] (4053 chars, max_tokens=64000)
+    [cli] usage: in=5252 (cache_read=0, cache_write=5250) out=90
+    [s4] spec-access-control-52 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-52: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-55] (3875 chars, max_tokens=64000)
+    [cli] usage: in=15584 (cache_read=0, cache_write=15582) out=12218
+    [s4] spec-logic-bug-09 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-09: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-56] (4101 chars, max_tokens=64000)
+    [cli] usage: in=4923 (cache_read=0, cache_write=4921) out=48
+    [s4] spec-access-control-51 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-51: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-57] (3987 chars, max_tokens=64000)
+    [cli] usage: in=5012 (cache_read=0, cache_write=5010) out=9
+    [s4] spec-access-control-54 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-54: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-58] (3882 chars, max_tokens=64000)
+    [cli] usage: in=5005 (cache_read=0, cache_write=5003) out=9
+    [s4] spec-access-control-56 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-56: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-59] (4418 chars, max_tokens=64000)
+    [cli] usage: in=4954 (cache_read=0, cache_write=4952) out=9
+    [s4] spec-access-control-57 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-57: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-60] (4043 chars, max_tokens=64000)
+    [cli] usage: in=4926 (cache_read=0, cache_write=4924) out=50
+    [s4] spec-access-control-55 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-55: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-61] (4137 chars, max_tokens=64000)
+    [cli] usage: in=4915 (cache_read=0, cache_write=4913) out=9
+    [s4] spec-access-control-58 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-58: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-62] (4107 chars, max_tokens=64000)
+    [cli] usage: in=4933 (cache_read=0, cache_write=4931) out=9
+    [s4] spec-access-control-53 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-53: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-63] (4059 chars, max_tokens=64000)
+    [cli] usage: in=4965 (cache_read=0, cache_write=4963) out=9
+    [s4] spec-access-control-60 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-60: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-64] (4122 chars, max_tokens=64000)
+    [cli] usage: in=5014 (cache_read=0, cache_write=5012) out=76
+    [s4] spec-access-control-61 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-61: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-65] (4022 chars, max_tokens=64000)
+    [cli] usage: in=5002 (cache_read=0, cache_write=5000) out=63
+    [s4] spec-access-control-62 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-62: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-iac-01] (9029 chars, max_tokens=64000)
+    [cli] usage: in=4998 (cache_read=0, cache_write=4996) out=42
+    [s4] spec-access-control-64 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-64: 0 high-confidence findings
+    [cli] usage: in=4965 (cache_read=0, cache_write=4963) out=40
+    [s4] spec-access-control-65 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-65: 0 high-confidence findings
+    [cli] usage: in=4997 (cache_read=0, cache_write=4995) out=9
+    [s4] spec-access-control-63 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-63: 0 high-confidence findings
+    [cli] usage: in=5125 (cache_read=0, cache_write=5123) out=501
+    [s4] spec-access-control-59 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-59: 0 high-confidence findings
+    [cli] usage: in=7058 (cache_read=0, cache_write=7056) out=1477
+    [s4] spec-iac-01 run 1/1: 1 raw findings
+  [s4] chunk spec-iac-01: 1 high-confidence findings
+  ✓ [4/9] Step 4 — Deep-dive (global.anthropic.claude-opus-4-8 [cli]; 1 runs, vote≥3, parallel=5) (383.4s)
+  [ckpt] saved s4
+  ▶ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) …
+  [s5-prefilter] 8 → 2 (6 unconfirmed)
+  ✓ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) (0.0s)
+  ▶ [6/9] Step 6 — Verify (global.anthropic.claude-opus-4-8 [cli]) …
+  [s6-verify] verifying 2 findings (5 parallel, gate≥7/10)...
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#0], cwd=/home/higgs/workspace/cyness/underscore-opus
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#1], cwd=/home/higgs/workspace/cyness/underscore-opus
+    [cli] usage: in=69177 (cache_read=41926, cache_write=24793) out=2532
+    [s6-verify] #1 underscore-node-f.cjs:905 → FALSE_POSITIVE (9/10) cvss=9.8
+    [cli] usage: in=90050 (cache_read=81589, cache_write=5968) out=3121
+    [s6-verify] #0 modules/template.js:52 → FALSE_POSITIVE (9/10) cvss=10.0
+  [s6-verify] done: 0 TRUE_POSITIVE, 2 FALSE_POSITIVE, 0 UNCONFIRMED, 0 GUARDRAIL_BLOCKED, 0 errors
+  ✓ [6/9] Step 6 — Verify (global.anthropic.claude-opus-4-8 [cli]) (49.5s)
+  ▶ [7/9] Step 7 — Dedup (global.anthropic.claude-opus-4-8 [cli]) …
+  ✓ [7/9] Step 7 — Dedup (global.anthropic.claude-opus-4-8 [cli]) (0.0s)
+  [ckpt] saved s7
+  ▶ [8/9] Step 8 — Chain (global.anthropic.claude-opus-4-8 [cli]) …
+  ✓ [8/9] Step 8 — Chain (global.anthropic.claude-opus-4-8 [cli]) (0.0s)
+  [ckpt] saved s8
+  [out] wrote /home/higgs/workspace/cyness/underscore-opus/security-scan/underscore_20260617T120307Z_report.md
+  ▶ [9/9] Step 9 — SARIF (app_id=bench-underscore) …
+  SARIF written: /home/higgs/workspace/cyness/underscore-opus/security-scan/underscore_20260617T120307Z_report.sarif (0 results)
+  ✓ [9/9] Step 9 — SARIF (app_id=bench-underscore) (0.0s)
+  [out] wrote /home/higgs/workspace/cyness/underscore-opus/security-scan/underscore_20260617T120307Z_report.sarif
+  [ckpt] saved s9
+
+Done in 584s. 0 verified findings (8 dropped), 0 chains.
+Tokens: prompt=1955292, completion=96880, total=2052172
+Report: /home/higgs/workspace/cyness/underscore-opus/security-scan/underscore_20260617T120307Z_report.md
+# Agentic SAST — underscore
+
+## Summary
+No findings survived adversarial verification.
+
+## Scan Metrics
+
+- Scan ID: 2026-06-17T12:03:07Z__underscore
+- Module: underscore
+- Start: 2026-06-17T12:03:07Z
+- End: 2026-06-17T12:12:52Z
+- Duration (sec): 585
+- Files in scope: 190
+- Files analyzed (unique): 185
+- Coverage: 97.4%
+- Chunks: 204 (risk=8, catch-all=65, specialist=131)
+- Tokens (prompt): 1955292
+- Tokens (completion): 96880
+- Tokens (total): 2052172
+
+- Folders scanned: 5
+### Tokens by Phase
+
+_Prompt = fresh + cache-write (billable). Cache-read shown separately, NOT included in totals._
+
+| Phase | Calls | Prompt | Completion | Total | % | Cache-read (excl.) |
+|---|---:|---:|---:|---:|---:|---:|
+| s4-deepdive | 204 | 1,837,263 | 80,940 | 1,918,203 | 93.5 | 0 |
+| s6-verify | 2 | 35,712 | 5,653 | 41,365 | 2.0 | 123,515 |
+| s3-decompose | 1 | 31,608 | 3,213 | 34,821 | 1.7 | 0 |
+| s1-preprocess | 1 | 20,155 | 4,048 | 24,203 | 1.2 | 140,425 |
+| unlabeled | 1 | 19,887 | 4 | 19,891 | 1.0 | 0 |
+| s2-threatmodel | 1 | 6,656 | 2,482 | 9,138 | 0.4 | 0 |
+| s1-autoexclude | 1 | 4,011 | 540 | 4,551 | 0.2 | 0 |
+
+### Language LOC Coverage
+
+| Language | LOC in scope | LOC scanned | Coverage % |
+|---|---:|---:|---:|
+| javascript | 9972 | 9972 | 100.0 |
+| other | 21814 | 278 | 1.3 |
+
+## Threat Model
+
+### System context
+
+Underscore.js v1.13.8 is a widely-used functional-programming utility library for JavaScript, distributed as an npm/bower package and consumed both in Node.js servers and browsers. It provides collection, object, function, and type helpers, plus a micro-templating engine (_.template). It has NO network, IPC, socket, filesystem, or CLI entry points — it is purely a library invoked in-process by host application code. As such it has no independent privilege context: it runs with whatever trust the embedding application grants its inputs.
+
+The security-relevant surfaces are therefore the public API functions whose behavior depends on caller-supplied data, and the module-load/global-detection bootstrap. The single dynamic-code sink is _.template, which compiles template text into a JS function via `new Function`. CVE-2021-23358 (variable-name injection) is already mitigated via a bareIdentifier regex check, but compiling untrusted template *body* text remains arbitrary JS execution by design (documented hazard).
+
+The realistic attacker model is an upstream application that forwards untrusted input into Underscore APIs (template text, iteratee strings, deeply-nested objects, or regex-bearing settings), and the supply-chain risk of a compromised package being pulled into thousands of downstream builds.
+
+### Assets
+
+| Asset | Sensitivity | Description |
+|---|---|---|
+| host process integrity | critical | The Node.js or browser execution context of the application embedding Underscore; arbitrary JS execution here means full compromise of that process. |
+| service availability | medium | Responsiveness of the host application; library calls run synchronously in-process and can block the event loop. |
+| downstream consumer integrity | critical | The thousands of packages/applications depending on Underscore via npm/bower; integrity of the published artifact protects them. |
+| object/prototype integrity | high | Integrity of JS object prototypes and host-application data structures manipulated by object/collection helpers. |
+
+### Trust boundaries
+
+- **modules/template.js::template** — untrusted caller input (template text / settings regexes) → in-process dynamic code compilation → host process integrity, service availability, downstream consumer integrity
+- **modules/index-all.js::(module exports)** — untrusted caller data → library API logic (iteratees, deep object keys, deep equality) → object/prototype integrity, service availability, host process integrity
+- **modules/_setup.js::(module load)** — package registry / build pipeline → module load & global-object detection at import time → downstream consumer integrity, host process integrity
+
+### Ranked threats
+
+| ID | Threat | Actor | Surface | Asset | Impact | Likelihood | Controls |
+|---|---|---|---|---|---|---|---|
+| T1 | Arbitrary JavaScript execution in the host process when an application compiles attacker-controlled template text through _.template. | remote_unauth | modules/template.js::template | host process integrity | critical | likely | bareIdentifier regex blocks CVE-2021-23358 variable-injection vector; SECURITY.md documents that untrusted template input must never be passed; this is by-design behavior of the Function-constructor contract. |
+| T2 | Malicious or compromised published artifact executes attacker code in every downstream build/runtime that installs the package (supply-chain compromise). | supply_chain | modules/_setup.js::(module load) | downstream consumer integrity | critical | rare | MIT-licensed, well-maintained project with documented security policy and supported-versions list; no install scripts in package.json; module load uses constant-string Function('return this') fallback, not user input. |
+| T3 | Prototype pollution or unintended host-object mutation when object helpers (extend/defaults/keys assignment) process attacker-controlled key names from a parsed payload. | remote_unauth | modules/index-all.js::(module exports) | object/prototype integrity | high | possible | library does not deep-merge by default and uses own-property enumeration in most paths; behavior depends on how the embedding application feeds data. |
+| T4 | Regular-expression / algorithmic-complexity denial of service when attacker-supplied custom template settings regexes or pathological inputs are evaluated, blocking the host event loop. | remote_unauth | modules/template.js::template | service availability | medium | possible | default escape/interpolate/evaluate regexes are fixed and non-catastrophic; custom settings regexes are caller-supplied. |
+| T5 | Denial of service via algorithmic blowup in deep equality or recursive object traversal on large/cyclic attacker-supplied structures, stalling the synchronous library call. | remote_unauth | modules/index-all.js::(module exports) | service availability | medium | possible | isEqual implements cycle detection via traversal stacks; exposure depends on input size limits enforced by the host application. |
+| T6 | Tampering of the global root object or shared prototypes detected at module load, allowing a hostile co-loaded module to shadow Underscore internals. | local_user | modules/_setup.js::(module load) | host process integrity | low | rare | root detection uses standard self/global/globalThis checks with a constant-string Function fallback; same-realm threat requires an already-compromised process. |
+
+### Open questions
+
+- Do any downstream applications pass externally-sourced strings (user input, DB, HTTP) directly into _.template as template text?
+- Are custom template settings (interpolate/evaluate/escape regexes) ever derived from untrusted configuration?
+- Do consumers feed attacker-controlled JSON/object key names into extend/defaults/assignment helpers without sanitization?
+- What input-size or timeout limits does the embedding application enforce around synchronous Underscore calls?
+- Is the npm publishing pipeline (maintainer credentials, 2FA, provenance/signing) hardened against artifact tampering?
+
+## Verification
+- Raw findings (pre-verification): 8
+- True positives (verified): 0
+- False positives (dropped): 2
+- Verifier errors (excluded — undetermined, not confirmed clean): 0
+- Duplicates collapsed (all passes): 0
+- Verification precision: 0.0%
+
+## Findings (0)
+
+## Exploit Chains
+
+No exploit chains were identified — the findings above are independent and do not combine into a multi-step path.
+
+
+## Dropped Findings
+
+- **[UNCONFIRMED]** `modules/_createAssigner.js:11` logic-flaw (chunk-03) — s4 confidence 0.35 < gate 0.60
+- **[UNCONFIRMED]** `modules/isEqual.js:115` logic-flaw (chunk-04) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `underscore-esm.js:903` injection (catchall-05) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `underscore-umd.js:926` injection (catchall-07) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `underscore.js:926` injection (catchall-08) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `.github/workflows/codeql-analysis.yml:48` logic-flaw (spec-iac-01) — s4 confidence 0.30 < gate 0.60
+- **[FP]** `underscore-node-f.cjs:905` injection (catchall-06) — sink is real and correctly read, but it's a library API working as designed; no external/untrusted caller exists in this repo (only tests + demo), and the documented hazard belongs to consuming apps, not this code.
+- **[FP]** `modules/template.js:52` injection (chunk-02) — `_.template` is a library API with no in-scope caller; compiling template text to code is its documented, intended function (working-as-designed), and the one real injection variant (CVE-2021-23358) is already mitigated by the bareIdentifier check.
+
+
+---
+
+## Appendix: Scan Scope
+
+### Folders scanned (5)
+
+- `./`
+- `.github/`
+- `.github/config/`
+- `.github/workflows/`
+- `modules/`
+
+### Excluded from scan (239 files)
+
+**Folders** (matched `exclude_dirs`):
+
+- `docs/` — 179 files
+- `.git/` — 28 files
+- `test/` — 14 files
+- `test-treeshake/` — 3 files
+- `checkpoints/` — 1 files
+- `patches/` — 1 files
+
+**File types** (matched `exclude_exts`):
+
+- `*.map` — 8 files
+- `*.ico` — 1 files
+- `*.html` — 1 files
+
+**Patterns** (matched `exclude_globs`):
+
+- `**/LICENSE` — 1 files
+- `**/.gitignore` — 1 files
+- `**/.editorconfig` — 1 files
+  [manifest] wrote /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/run_manifest.json
+
