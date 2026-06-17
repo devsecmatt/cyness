@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Agentic SAST",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "CWE-918: Server-Side Request Forgery (SSRF)",
+              "name": "CWE-918: Server-Side Request Forgery (SSRF)",
+              "shortDescription": {
+                "text": "Server-Side Request Forgery (SSRF)"
+              }
+            }
+          ],
+          "supportedTaxonomies": [
+            {
+              "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+            }
+          ]
+        }
+      },
+      "taxonomies": [
+        {
+          "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3",
+          "name": "CWE",
+          "organization": "MITRE",
+          "shortDescription": {
+            "text": "The MITRE Common Weakness Enumeration"
+          },
+          "informationUri": "https://cwe.mitre.org/",
+          "taxa": [
+            {
+              "id": "CWE-918",
+              "helpUri": "https://cwe.mitre.org/data/definitions/918.html",
+              "name": "Server-Side Request Forgery (SSRF)",
+              "shortDescription": {
+                "text": "Server-Side Request Forgery (SSRF)"
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "applicationId": "bench-nokogiri",
+        "scanDegraded": false,
+        "unrankedFallback": false
+      },
+      "results": [
+        {
+          "ruleId": "CWE-918: Server-Side Request Forgery (SSRF)",
+          "level": "warning",
+          "message": {
+            "text": "Unmitigated SSRF via external schema resolution in RelaxNG.new  [CVSS 6.5: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/nokogiri/xml/relax_ng.rb"
+                },
+                "region": {
+                  "startLine": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "security-severity": "6.5",
+            "cvssRating": "Medium",
+            "category": "CWE-918: Server-Side Request Forgery (SSRF)",
+            "cvssVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "cwe": "CWE-918 - Server-Side Request Forgery (SSRF)",
+            "cweId": "CWE-918",
+            "cweName": "Server-Side Request Forgery (SSRF)",
+            "cvssScore": 6.5,
+            "offensivePriority": "P3",
+            "offensivePriorityLabel": "Internal Network / Privileged Position",
+            "offensivePriorityReason": "Internal Network / Privileged Position | *exposure unverified \u2014 no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*",
+            "confidence": 0.9,
+            "description": "#### Description\nThe RelaxNG.new method at line 61 passes the unvalidated 'input' directly to Nokogiri::XML::Document.parse, which then routes it to the underlying C-level RelaxNG parser. As explicitly documented in the class header (lines 18-21), RELAX NG input is fundamentally treated as trusted by the underlying libraries, causing them to automatically dereference external schema references (e.g., <externalRef> or XInclude directives) without restriction. The Ruby wrapper performs zero sanitization, allow-listing, or network sandboxing, meaning any untrusted schema content triggers unrestricted resource resolution before validation even begins.\n\n#### Impact\nAn attacker supplying a crafted RELAX NG schema can force the server to make arbitrary outbound HTTP requests or read local files via libxml2's schema resolution, leaking internal network topology or sensitive data.\n\n#### Exploit scenario\nAn attacker submits an HTTP payload containing a RELAX NG schema with an <externalRef href=\"http://169.254.169.254/latest/meta-data/iam/security-credentials/\"/> pointer to a cloud-metadata endpoint. The application instantiates Nokogiri::XML::RelaxNG.new(attached_schema), causing libxml2 to automatically fetch the pointer, initiate an SSRF request to the internal metadata service, and return the exposed IAM credentials in the response.\n\n#### Preconditions\n- Application must instantiate Nokogiri::XML::RelaxNG.new (or read_memory) with attacker-controlled input\n- Underlying system's libxml2 is compiled with default external entity resolution enabled\n\n```\n      def self.new(input, parse_options_ = ParseOptions::DEFAULT_SCHEMA, options: parse_options_)\n        from_document(Nokogiri::XML::Document.parse(input), options)\n      end\n```\n\n#### How to fix\nNever instantiate Nokogiri::XML::RelaxNG with untrusted content. Enforce a strict allow-list of trusted, local schema paths before parsing, or process schema validation in a network-isolated environment with no outbound connectivity.\n\n**Exploitability:** CVSS 6.5 falls within the Medium band (4.0-6.9) per the authoritative mapping rule. Pre-auth reachability (AV:N/PR:N/UI:N/AC:L) and zero preconditions would normally qualify for the HIGH tier, but the explicit CVSS band takes precedence. The Ruby wrapper delegates unvalidated input directly to the C-level RelaxNG parser, which treats schemas as trusted and automatically dereferences external URIs (XInclude/externalRef) without network sandboxing or allow-listing. Impact is limited to C:L/I:L for a single request process, bounded by the host's actual network exposure. No downgrade triggers apply (not debug/test, does not require a second vuln).\n\n#### Adversarial verification\n**Verdict:** TRUE_POSITIVE (confidence: 8/10) \u2014 Scanner confirmed: RelaxNG.new passes input to C-layer which treats schemas as fully trusted with no NONET enforcement; documented explicitly in code header as an intentional exception to Nokogiri's trust model\n\nNow I have the full picture. The scanner's claim is that `RelaxNG.new(input)` allows unrestricted external network access when parsing RELAX NG schemas containing `<externalRef>` or XInclude directives. Let me verify:\n\n**Line 61 of `relax_ng.rb`:** `from_document(Nokogiri::XML::Document.parse(input), options)`\n- `input` goes through `Document.parse` (uses `DEFAULT_XML` which includes NONET)\n- But the resulting document is then passed to the C-level RelaxNG constructor via `from_document`\n\n**The critical evidence is in the class header (lines 16-21 of `relax_ng.rb`):**\n```\n\ud83d\udee1 <b>Do not use this class for untrusted schema documents.</b> RELAX NG input is always\ntreated as *trusted*, meaning that the underlying parsing libraries <b>will access network\nresources</b>. This is counter to Nokogiri's \"untrusted by default\" security policy, but is an\nunfortunate limitation of the underlying libraries.\n```\n\nAnd lines 52, 56-57 confirm `parse_options` is **unused**:\n```\n- +options:+ (Nokogiri::XML::ParseOptions)\n  Defaults to Parse\u2026"
+          },
+          "taxa": [
+            {
+              "toolComponent": {
+                "name": "CWE",
+                "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+              },
+              "id": "CWE-918"
+            }
+          ],
+          "rank": 65.0
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": [
+            {
+              "level": "warning",
+              "message": {
+                "text": "s2: 1 recoverable error(s) logged"
+              }
+            },
+            {
+              "level": "warning",
+              "message": {
+                "text": "s4: 11 recoverable error(s) logged"
+              }
+            },
+            {
+              "level": "warning",
+              "message": {
+                "text": "s6-verify: 16 recoverable error(s) logged"
+              }
+            },
+            {
+              "level": "warning",
+              "message": {
+                "text": "4 deep-dive chunk(s) failed or timed out; their findings are absent"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

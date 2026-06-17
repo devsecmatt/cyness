@@ -1,0 +1,5 @@
+{"ts": "2026-06-17T01:24:12+00:00", "stage": "s4", "unit": "catchall-01", "error": "dropped non-object finding: int", "scope": "item"}
+{"ts": "2026-06-17T01:24:12+00:00", "stage": "s4", "unit": "catchall-01", "error": "dropped non-object finding: int", "scope": "item"}
+{"ts": "2026-06-17T01:26:54+00:00", "stage": "s4", "unit": "catchall-16", "error": "dropped non-object finding: int", "scope": "item"}
+{"ts": "2026-06-17T01:30:19+00:00", "stage": "s4", "unit": "spec-crypto-02", "error": "dropped non-object finding: int", "scope": "item"}
+{"ts": "2026-06-17T01:40:40+00:00", "stage": "s4", "unit": "spec-access-control-02", "error": "dropped non-object finding: int", "scope": "item"}

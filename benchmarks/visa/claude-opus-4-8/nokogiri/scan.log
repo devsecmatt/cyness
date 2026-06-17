@@ -1,0 +1,1148 @@
+
+===== bedrock run  2026-06-16T21:13:54-0400 =====
+  [env] loaded /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/.env
+  config: config.opus.yaml
+  step1 overlay: --auto-step1 (per-target checkpoints/step1.yaml will be derived)
+  WARN: no CMDB file (/home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/inputs/cmdb.csv) — VulContextSeverity environmental scoring skipped (CVSS + OffensivePriority still computed).
+  [auth] active backends: cli
+  [auth] cli: delegated to configured CLI; live probe verifies login
+  [cli] claude found on PATH ✓
+  [probe] live model connectivity (1 unique model/backend pair(s)):
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [preflight] (4 chars, max_tokens=4)
+    ✓ [cli   ] global.anthropic.claude-opus-4-8 ( 5.6s)  roles: autoexclude,preprocess,threatmodel,decompose,deepdive,verify,dedup,chain  (reachable; reply exceeded preflight token cap)
+  [probe] agentic backend path (1 agentic role/backend pair(s)):
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [preflight-agentic], cwd=/tmp/vva-preflight-uaybq6z0
+    [cli] usage: in=19887 (cache_read=15379, cache_write=2126) out=4
+    ✓ [cli   ] global.anthropic.claude-opus-4-8 ( 2.1s)  agentic roles: preprocess,verify
+  [probe] all model backends reachable ✓
+  [auto-step1] surveying /home/higgs/workspace/cyness/nokogiri (344 files, prompt 11272 chars)
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s1 autoexclude] (11272 chars, max_tokens=8000)
+    [cli] usage: in=6343 (cache_read=0, cache_write=6341) out=1644
+  [auto-step1] wrote /home/higgs/workspace/cyness/nokogiri/checkpoints/step1.yaml  (+8 dirs, +7 exts, +1 globs)
+  [auto-step1] applied overlay  (exclude_dirs=13 exts=27 globs=2)
+Agentic SAST  repo=/home/higgs/workspace/cyness/nokogiri  module=nokogiri  app_id=bench-nokogiri  run_id=_home_higgs_workspace_cyness_nokogiri
+  models:
+    autoexclude -> global.anthropic.claude-opus-4-8 [cli]
+    preprocess  -> global.anthropic.claude-opus-4-8 [cli]
+    threatmodel -> global.anthropic.claude-opus-4-8 [cli]
+    decompose   -> global.anthropic.claude-opus-4-8 [cli]
+    deepdive    -> global.anthropic.claude-opus-4-8 [cli]
+    verify      -> global.anthropic.claude-opus-4-8 [cli]
+    dedup       -> global.anthropic.claude-opus-4-8 [cli]
+    chain       -> global.anthropic.claude-opus-4-8 [cli]
+  [cmdb] application_id bench-nokogiri not found
+  injected: 0 CVEs, 0 controls, app_profile=no
+  ▶ [1/9] Step 1 — Pre-process (global.anthropic.claude-opus-4-8 [cli]) …
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8, cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] usage: in=384630 (cache_read=355328, cache_write=26315) out=6694
+  [s1] call-graph: agent=22 edges → validate -18 hallucinated → supplement +443 regex = 447 qualified edges over 199 nodes, 192 located fns (240 source files scanned)
+  [s1] file inventory: 546 on disk -> 259 in scope (excluded: 249 dir, 32 ext, 6 glob, 0 oversize, 0 config-dedup)
+  [s1] done: 5 modules, 10 entry points, 8 sinks, 259 files in scope
+  ✓ [1/9] Step 1 — Pre-process (global.anthropic.claude-opus-4-8 [cli]) (89.6s)
+  [ckpt] saved s1
+  ▶ [2/9] Step 2 — Threat model (global.anthropic.claude-opus-4-8 [cli]) …
+  [s2] evidence: 259 files, 5 modules, 10 entry points, 6 config reps, 0 api artefacts, 3 docs, 1 manifests
+  [s2] baseline=auto repo_kind=['native']
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s2 threatmodel] (25788 chars, max_tokens=64000)
+    [cli] usage: in=12710 (cache_read=0, cache_write=12708) out=5478
+  [s2] done: 5 assets, 9 trust boundaries, 12 threats
+  ✓ [2/9] Step 2 — Threat model (global.anthropic.claude-opus-4-8 [cli]) (64.1s)
+  [ckpt] saved s2
+  ▶ [3/9] Step 3 — Decompose (global.anthropic.claude-opus-4-8 [cli]) …
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s3 decompose] (60234 chars, max_tokens=64000)
+    [cli] usage: in=31505 (cache_read=0, cache_write=31503) out=6123
+    [s3] pack_by=loc  (legacy *_chunk_loc caps active)
+    [s3] taint reachability: 0/8 sinks (0%) on ≥1 entry→sink path; ORPHANED: ext/nokogiri/nokogiri.c:89, gumbo-parser/src/parser.c:2001, gumbo-parser/src/tokenizer.c:763, gumbo-parser/src/util.c:52, gumbo-parser/src/string_buffer.c:86, gumbo-parser/src/string_buffer.c:92, …(+2)
+    [s3] taint: 0 reachable entry→sink paths in call graph
+    [s3] chunk-03: 23473 LOC / 6 files > cap (10000 LOC / 80 files) → split into 4
+    [s3] coverage: 203 uncovered → 202 eligible → 18 catch-all chunks
+    [s3] specialist 'batch-etl' gated OFF — no matching surface in repo
+    [s3] specialist 'iac' gated OFF — no matching surface in repo
+    [s3] specialists: crypto, logic-bug, access-control -> 54 chunks (240/259 source files)
+    [s3] threat coverage: 10/12 threats have ≥1 chunk; UNCOVERED: T4, T8
+    [s3] chunk LOC: n=87 min=27 p50=2.2k p90=8.8k max=22.2k  (4 over risk_chunk_loc=10000)
+  [s3] done: 87 chunks (0 taint, 18 catch-all, 54 specialist), top risk = chunk-01
+  ✓ [3/9] Step 3 — Decompose (global.anthropic.claude-opus-4-8 [cli]) (71.4s)
+  [ckpt] saved s3
+  ▶ [4/9] Step 4 — Deep-dive (global.anthropic.claude-opus-4-8 [cli]; 1 runs, vote≥3, parallel=5) …
+  [s4] WARN: vote_threshold=3 exceeds runs=1; no finding could survive the vote — clamping vote_threshold to 1.
+  [s4] processing 87 chunks (5 parallel)...
+  [s4] chunk chunk-01 (medium, rank 1, lens=c-cpp): Untrusted HTML5 bytes flow from noko_gumbo_s_parse/fragment straight into the tokenizer's tag/attribute buffer machinery…
+  [s4] chunk chunk-02 (medium, rank 2, lens=c-cpp): adjust_svg_tag at parser.c:2001 does strcpy((char*)token->v.start_tag.name, replacement->to) in place — verify replaceme…
+  [s4] chunk chunk-03-a (small, rank 3, lens=c-cpp): Character-reference decoding and the UTF-8 iterator parse attacker-chosen byte sequences. Hunt for OOB reads in the rage…
+  [s4] chunk chunk-03-b (large, rank 3, lens=c-cpp): Character-reference decoding and the UTF-8 iterator parse attacker-chosen byte sequences. Hunt for OOB reads in the rage…
+  [s4] chunk chunk-03-c (small, rank 3, lens=c-cpp): Character-reference decoding and the UTF-8 iterator parse attacker-chosen byte sequences. Hunt for OOB reads in the rage…
+  [s4] chunk chunk-03-d (small, rank 3, lens=c-cpp): Character-reference decoding and the UTF-8 iterator parse attacker-chosen byte sequences. Hunt for OOB reads in the rage…
+  [s4] chunk chunk-04 (medium, rank 4, lens=c-cpp+ruby): Primary libxml2 ingestion path. Confirm noko_io_read's safe_len clamp truly bounds the memcpy under all encodings/short-…
+  [s4] chunk chunk-05 (small, rank 5, lens=ruby+c-cpp): Streaming reader processes unbounded untrusted input incrementally. Hunt for entity-expansion / quadratic-blowup (billio…
+  [s4] chunk chunk-06 (medium, rank 6, lens=c-cpp): Fragment-in-context (xmlParseInNodeContext) and SAX/push parsing have a history of UAF (#3395). Verify the parser contex…
+  [s4] chunk chunk-07 (small, rank 7, lens=c-cpp+ruby): HTML4 path routes attacker markup into libxml2's lenient HTML parser. Hunt for memory-corruption/crash in encoding detec…
+  [s4] chunk chunk-08 (small, rank 8, lens=ruby+c-cpp): Untrusted XSLT can use document()/external entities/extension functions to read local files or SSRF. Verify whether libx…
+  [s4] chunk chunk-09 (medium, rank 9, lens=ruby+c-cpp): Two threats here: (T7) the CSS tokenizer regexes (tokenizer.rex) — hunt for any remaining exponential/quadratic backtrac…
+  [s4] chunk chunk-10 (small, rank 10, lens=ruby+c-cpp): Focused query-injection variant: trace how user-controlled CSS/XPath fragments are interpolated through xpath_visitor in…
+  [s4] chunk chunk-11 (medium, rank 11, lens=java): C14N output feeds signature-verification consumers (ruby-saml). Hunt for unchecked failure paths and namespace/attribute…
+  [s4] chunk chunk-12 (small, rank 12, lens=ruby): Supply-chain review: confirm pinned upstream versions (libxml2 2.14.6, libxslt, gumbo, Saxon-HE) are current against kno…
+  [s4] chunk catchall-01 (medium, rank 13, lens=ruby): Coverage sweep of 'ruby-lib' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-02 (medium, rank 14, lens=java): Coverage sweep of 'jruby-ext' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-03 (medium, rank 15, lens=java+ruby): Coverage sweep of 'cg:NokogiriService [shard 1/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabi…
+  [s4] chunk catchall-04 (medium, rank 16, lens=ruby): Coverage sweep of 'cg:NokogiriService [shard 2/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerabi…
+  [s4] chunk catchall-05 (medium, rank 17, lens=ruby+c-cpp): Coverage sweep of 'cg:extconf' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-06 (medium, rank 18, lens=c-cpp): Coverage sweep of 'cg:nokogiri_gumbo' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-07 (medium, rank 19, lens=generic): Coverage sweep of '.' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-08 (medium, rank 20, lens=generic): Coverage sweep of 'bin/nokogiri' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-09 (medium, rank 21, lens=java): Coverage sweep of 'ext/java [shard 1/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-10 (medium, rank 22, lens=java): Coverage sweep of 'ext/java [shard 2/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-11 (medium, rank 23, lens=java): Coverage sweep of 'ext/java [shard 3/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-12 (medium, rank 24, lens=java): Coverage sweep of 'ext/java [shard 4/4]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class…
+  [s4] chunk catchall-13 (medium, rank 25, lens=c-cpp): Coverage sweep of 'ext/nokogiri' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-14 (medium, rank 26, lens=generic): Coverage sweep of 'gumbo-parser/Makefile' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability clas…
+  [s4] chunk catchall-15 (medium, rank 27, lens=generic): Coverage sweep of 'gumbo-parser/THANKS' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-16 (medium, rank 28, lens=c-cpp): Coverage sweep of 'gumbo-parser/src' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability class.
+  [s4] chunk catchall-17 (medium, rank 29, lens=ruby): Coverage sweep of 'lib/nokogiri [shard 1/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk catchall-18 (medium, rank 30, lens=ruby): Coverage sweep of 'lib/nokogiri [shard 2/2]' — files not assigned to any risk-ranked chunk. Hunt for any vulnerability c…
+  [s4] chunk spec-crypto-01 (medium, rank 31, lens=crypto): crypto specialist sweep over module 'nokogiri-c-ext'.
+  [s4] chunk spec-crypto-02 (medium, rank 32, lens=crypto): crypto specialist sweep over module 'gumbo-parser [shard 1/3]'.
+  [s4] chunk spec-crypto-03 (medium, rank 33, lens=crypto): crypto specialist sweep over module 'gumbo-parser [shard 2/3]'.
+  [s4] chunk spec-crypto-04 (medium, rank 34, lens=crypto): crypto specialist sweep over module 'gumbo-parser [shard 3/3]'.
+  [s4] chunk spec-crypto-05 (medium, rank 35, lens=crypto): crypto specialist sweep over module 'nokogiri-gumbo-binding'.
+  [s4] chunk spec-crypto-06 (medium, rank 36, lens=crypto): crypto specialist sweep over module 'ruby-lib'.
+  [s4] chunk spec-crypto-07 (medium, rank 37, lens=crypto): crypto specialist sweep over module 'jruby-ext'.
+  [s4] chunk spec-crypto-08 (medium, rank 38, lens=crypto): crypto specialist sweep over module 'cg:NokogiriService'.
+  [s4] chunk spec-crypto-09 (medium, rank 39, lens=crypto): crypto specialist sweep over module 'cg:extconf'.
+  [s4] chunk spec-crypto-10 (medium, rank 40, lens=crypto): crypto specialist sweep over module 'cg:error'.
+  [s4] chunk spec-crypto-11 (medium, rank 41, lens=crypto): crypto specialist sweep over module 'cg:string_buffer'.
+  [s4] chunk spec-crypto-12 (medium, rank 42, lens=crypto): crypto specialist sweep over module 'cg:util'.
+  [s4] chunk spec-crypto-13 (medium, rank 43, lens=crypto): crypto specialist sweep over module 'cg:vector'.
+  [s4] chunk spec-crypto-14 (medium, rank 44, lens=crypto): crypto specialist sweep over module 'ext/java [shard 1/2]'.
+  [s4] chunk spec-crypto-15 (medium, rank 45, lens=crypto): crypto specialist sweep over module 'ext/java [shard 2/2]'.
+  [s4] chunk spec-crypto-16 (medium, rank 46, lens=crypto): crypto specialist sweep over module 'ext/nokogiri'.
+  [s4] chunk spec-crypto-17 (medium, rank 47, lens=crypto): crypto specialist sweep over module 'gumbo-parser/src'.
+  [s4] chunk spec-crypto-18 (medium, rank 48, lens=crypto): crypto specialist sweep over module 'lib/nokogiri'.
+  [s4] chunk spec-logic-bug-01 (medium, rank 49, lens=logic-bug): logic-bug specialist sweep over module 'nokogiri-c-ext'.
+  [s4] chunk spec-logic-bug-02 (medium, rank 50, lens=logic-bug): logic-bug specialist sweep over module 'gumbo-parser [shard 1/3]'.
+  [s4] chunk spec-logic-bug-03 (medium, rank 51, lens=logic-bug): logic-bug specialist sweep over module 'gumbo-parser [shard 2/3]'.
+  [s4] chunk spec-logic-bug-04 (medium, rank 52, lens=logic-bug): logic-bug specialist sweep over module 'gumbo-parser [shard 3/3]'.
+  [s4] chunk spec-logic-bug-05 (medium, rank 53, lens=logic-bug): logic-bug specialist sweep over module 'nokogiri-gumbo-binding'.
+  [s4] chunk spec-logic-bug-06 (medium, rank 54, lens=logic-bug): logic-bug specialist sweep over module 'ruby-lib'.
+  [s4] chunk spec-logic-bug-07 (medium, rank 55, lens=logic-bug): logic-bug specialist sweep over module 'jruby-ext'.
+  [s4] chunk spec-logic-bug-08 (medium, rank 56, lens=logic-bug): logic-bug specialist sweep over module 'cg:NokogiriService'.
+  [s4] chunk spec-logic-bug-09 (medium, rank 57, lens=logic-bug): logic-bug specialist sweep over module 'cg:extconf'.
+  [s4] chunk spec-logic-bug-10 (medium, rank 58, lens=logic-bug): logic-bug specialist sweep over module 'cg:error'.
+  [s4] chunk spec-logic-bug-11 (medium, rank 59, lens=logic-bug): logic-bug specialist sweep over module 'cg:string_buffer'.
+  [s4] chunk spec-logic-bug-12 (medium, rank 60, lens=logic-bug): logic-bug specialist sweep over module 'cg:util'.
+  [s4] chunk spec-logic-bug-13 (medium, rank 61, lens=logic-bug): logic-bug specialist sweep over module 'cg:vector'.
+  [s4] chunk spec-logic-bug-14 (medium, rank 62, lens=logic-bug): logic-bug specialist sweep over module 'ext/java [shard 1/2]'.
+  [s4] chunk spec-logic-bug-15 (medium, rank 63, lens=logic-bug): logic-bug specialist sweep over module 'ext/java [shard 2/2]'.
+  [s4] chunk spec-logic-bug-16 (medium, rank 64, lens=logic-bug): logic-bug specialist sweep over module 'ext/nokogiri'.
+  [s4] chunk spec-logic-bug-17 (medium, rank 65, lens=logic-bug): logic-bug specialist sweep over module 'gumbo-parser/src'.
+  [s4] chunk spec-logic-bug-18 (medium, rank 66, lens=logic-bug): logic-bug specialist sweep over module 'lib/nokogiri'.
+  [s4] chunk spec-access-control-01 (medium, rank 67, lens=access-control): access-control specialist sweep over module 'nokogiri-c-ext'.
+  [s4] chunk spec-access-control-02 (medium, rank 68, lens=access-control): access-control specialist sweep over module 'gumbo-parser [shard 1/3]'.
+  [s4] chunk spec-access-control-03 (medium, rank 69, lens=access-control): access-control specialist sweep over module 'gumbo-parser [shard 2/3]'.
+  [s4] chunk spec-access-control-04 (medium, rank 70, lens=access-control): access-control specialist sweep over module 'gumbo-parser [shard 3/3]'.
+  [s4] chunk spec-access-control-05 (medium, rank 71, lens=access-control): access-control specialist sweep over module 'nokogiri-gumbo-binding'.
+  [s4] chunk spec-access-control-06 (medium, rank 72, lens=access-control): access-control specialist sweep over module 'ruby-lib'.
+  [s4] chunk spec-access-control-07 (medium, rank 73, lens=access-control): access-control specialist sweep over module 'jruby-ext'.
+  [s4] chunk spec-access-control-08 (medium, rank 74, lens=access-control): access-control specialist sweep over module 'cg:NokogiriService'.
+  [s4] chunk spec-access-control-09 (medium, rank 75, lens=access-control): access-control specialist sweep over module 'cg:extconf'.
+  [s4] chunk spec-access-control-10 (medium, rank 76, lens=access-control): access-control specialist sweep over module 'cg:error'.
+  [s4] chunk spec-access-control-11 (medium, rank 77, lens=access-control): access-control specialist sweep over module 'cg:string_buffer'.
+  [s4] chunk spec-access-control-12 (medium, rank 78, lens=access-control): access-control specialist sweep over module 'cg:util'.
+  [s4] chunk spec-access-control-13 (medium, rank 79, lens=access-control): access-control specialist sweep over module 'cg:vector'.
+  [s4] chunk spec-access-control-14 (medium, rank 80, lens=access-control): access-control specialist sweep over module 'ext/java [shard 1/2]'.
+  [s4] chunk spec-access-control-15 (medium, rank 81, lens=access-control): access-control specialist sweep over module 'ext/java [shard 2/2]'.
+  [s4] chunk spec-access-control-16 (medium, rank 82, lens=access-control): access-control specialist sweep over module 'ext/nokogiri'.
+  [s4] chunk spec-access-control-17 (medium, rank 83, lens=access-control): access-control specialist sweep over module 'gumbo-parser/src'.
+  [s4] chunk spec-access-control-18 (medium, rank 84, lens=access-control): access-control specialist sweep over module 'lib/nokogiri'.
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in gumbo-parser/src/parser.c [SECRET:1]
+    [s4] chunk-03-a: +1 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-03-a] (15572 chars, max_tokens=64000)
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-03-b] (1036139 chars, max_tokens=64000)
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in gumbo-parser/src/hashmap.c
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] chunk-03-c: +12 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-03-c] (52614 chars, max_tokens=64000)
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] chunk-01: +17 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-01] (211995 chars, max_tokens=64000)
+    [s4] chunk-02: +13 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-02] (275794 chars, max_tokens=64000)
+    [cli] usage: in=753146 (cache_read=0, cache_write=753144) out=2542
+    [s4] chunk-03-b run 1/1: 0 raw findings
+  [s4] chunk chunk-03-b: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-03-d] (11042 chars, max_tokens=64000)
+    [cli] usage: in=8044 (cache_read=0, cache_write=8042) out=898
+    [s4] chunk-03-d run 1/1: 0 raw findings
+  [s4] chunk chunk-03-d: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-04] (100730 chars, max_tokens=64000)
+    [cli] usage: in=10449 (cache_read=0, cache_write=10447) out=4443
+    [s4] chunk-03-a run 1/1: 0 raw findings
+  [s4] chunk chunk-03-a: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-05] (57239 chars, max_tokens=64000)
+    [cli] usage: in=105778 (cache_read=0, cache_write=105776) out=9118
+    [s4] chunk-01 run 1/1: 0 raw findings
+  [s4] chunk chunk-01: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-06] (125584 chars, max_tokens=64000)
+    [cli] usage: in=52892 (cache_read=0, cache_write=52890) out=4750
+    [s4] chunk-04 run 1/1: 1 raw findings
+  [s4] chunk chunk-04: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-07] (23826 chars, max_tokens=64000)
+    [cli] usage: in=29727 (cache_read=0, cache_write=29725) out=8940
+    [s4] chunk-05 run 1/1: 1 raw findings
+  [s4] chunk chunk-05: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-08] (28943 chars, max_tokens=64000)
+    [cli] usage: in=28586 (cache_read=0, cache_write=28584) out=16750
+    [s4] chunk-03-c run 1/1: 1 raw findings
+  [s4] chunk chunk-03-c: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in lib/nokogiri/css/tokenizer.rb [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-09] (84043 chars, max_tokens=64000)
+    [cli] usage: in=134002 (cache_read=0, cache_write=134000) out=16043
+    [s4] chunk-02 run 1/1: 1 raw findings
+  [s4] chunk chunk-02: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-10] (50171 chars, max_tokens=64000)
+    [cli] usage: in=16910 (cache_read=0, cache_write=16908) out=4333
+    [s4] chunk-08 run 1/1: 1 raw findings
+  [s4] chunk chunk-08: 1 high-confidence findings
+    [s4] chunk-11: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-11] (172159 chars, max_tokens=64000)
+    [cli] usage: in=25340 (cache_read=0, cache_write=25338) out=6915
+    [s4] chunk-10 run 1/1: 1 raw findings
+  [s4] chunk chunk-10: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 chunk-12] (16178 chars, max_tokens=64000)
+    [cli] usage: in=14550 (cache_read=0, cache_write=14548) out=13885
+    [s4] chunk-07 run 1/1: 1 raw findings
+  [s4] chunk chunk-07: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] catchall-01: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-01] (48922 chars, max_tokens=64000)
+    [cli] usage: in=11219 (cache_read=0, cache_write=11217) out=1146
+    [s4] chunk-12 run 1/1: 0 raw findings
+  [s4] chunk chunk-12: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/NokogiriEntityResolver.java [SECRET:1]
+    [s4] catchall-02: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-02] (48390 chars, max_tokens=64000)
+    [cli] usage: in=42057 (cache_read=0, cache_write=42055) out=9037
+    [s4] chunk-09 run 1/1: 2 raw findings
+  [s4] chunk chunk-09: 2 high-confidence findings
+    [s4] catchall-03: +4 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-03] (156504 chars, max_tokens=64000)
+    [cli] usage: in=76890 (cache_read=0, cache_write=76888) out=9176
+    [s4] chunk-11 run 1/1: 1 raw findings
+  [s4] chunk chunk-11: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] catchall-04: +4 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-04] (101733 chars, max_tokens=64000)
+    [cli] usage: in=23949 (cache_read=0, cache_write=23947) out=3995
+    [s4] dropped non-object finding: int
+    [s4] dropped non-object finding: int
+    [s4] catchall-01 run 1/1: 0 raw findings
+  [s4] chunk catchall-01: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/hashmap.c
+    [s4] catchall-05: +1 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-05] (52288 chars, max_tokens=64000)
+    [cli] usage: in=44304 (cache_read=0, cache_write=44302) out=674
+    [s4] catchall-04 run 1/1: 0 raw findings
+  [s4] chunk catchall-04: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] catchall-06: +6 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-06] (53366 chars, max_tokens=64000)
+    [cli] usage: in=65144 (cache_read=0, cache_write=65142) out=20136
+    [s4] chunk-06 run 1/1: 1 raw findings
+  [s4] chunk chunk-06: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-07] (40331 chars, max_tokens=64000)
+    [cli] usage: in=24005 (cache_read=0, cache_write=24003) out=232
+    [s4] catchall-07 run 1/1: 0 raw findings
+  [s4] chunk catchall-07: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-08] (5691 chars, max_tokens=64000)
+    [cli] usage: in=24504 (cache_read=0, cache_write=24502) out=4549
+    [s4] catchall-02 run 1/1: 1 raw findings
+  [s4] chunk catchall-02: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-09] (146268 chars, max_tokens=64000)
+    [cli] usage: in=6070 (cache_read=0, cache_write=6068) out=888
+    [s4] catchall-08 run 1/1: 0 raw findings
+  [s4] chunk catchall-08: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/ParserContext.java [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-10] (127065 chars, max_tokens=64000)
+    [cli] usage: in=27793 (cache_read=0, cache_write=27791) out=2039
+    [s4] catchall-05 run 1/1: 0 raw findings
+  [s4] chunk catchall-05: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-11] (135578 chars, max_tokens=64000)
+    [cli] usage: in=71692 (cache_read=0, cache_write=71690) out=5491
+    [s4] catchall-03 run 1/1: 2 raw findings
+  [s4] chunk catchall-03: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-12] (104202 chars, max_tokens=64000)
+    [cli] usage: in=29033 (cache_read=0, cache_write=29031) out=3467
+    [s4] catchall-06 run 1/1: 1 raw findings
+  [s4] chunk catchall-06: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-13] (94959 chars, max_tokens=64000)
+    [cli] usage: in=46227 (cache_read=0, cache_write=46225) out=1816
+    [s4] catchall-12 run 1/1: 1 raw findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-14] (6477 chars, max_tokens=64000)
+  [s4] chunk catchall-12: 1 high-confidence findings
+    [cli] usage: in=7021 (cache_read=0, cache_write=7019) out=118
+    [s4] catchall-14 run 1/1: 0 raw findings
+  [s4] chunk catchall-14: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-15] (2576 chars, max_tokens=64000)
+    [cli] usage: in=4644 (cache_read=0, cache_write=4642) out=9
+    [s4] catchall-15 run 1/1: 0 raw findings
+  [s4] chunk catchall-15: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-16] (187336 chars, max_tokens=64000)
+    [cli] usage: in=51565 (cache_read=0, cache_write=51563) out=2547
+    [s4] catchall-13 run 1/1: 1 raw findings
+  [s4] chunk catchall-13: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-17] (131402 chars, max_tokens=64000)
+    [cli] usage: in=67969 (cache_read=0, cache_write=67967) out=5306
+    [s4] catchall-09 run 1/1: 2 raw findings
+  [s4] chunk catchall-09: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 catchall-18] (74534 chars, max_tokens=64000)
+    [cli] usage: in=58303 (cache_read=0, cache_write=58301) out=5582
+    [s4] catchall-10 run 1/1: 2 raw findings
+  [s4] chunk catchall-10: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-01] (207402 chars, max_tokens=64000)
+    [cli] usage: in=32744 (cache_read=0, cache_write=32742) out=2362
+    [s4] catchall-18 run 1/1: 1 raw findings
+  [s4] chunk catchall-18: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-crypto-02: +13 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-02] (380441 chars, max_tokens=64000)
+    [cli] usage: in=57834 (cache_read=0, cache_write=57832) out=3174
+    [s4] catchall-17 run 1/1: 1 raw findings
+  [s4] chunk catchall-17: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-03] (867375 chars, max_tokens=64000)
+    [cli] usage: in=60654 (cache_read=0, cache_write=60652) out=7394
+    [s4] catchall-11 run 1/1: 2 raw findings
+  [s4] chunk catchall-11: 2 high-confidence findings
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in gumbo-parser/src/hashmap.c
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-crypto-04: +33 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-04] (93389 chars, max_tokens=64000)
+    [cli] usage: in=630019 (cache_read=0, cache_write=630017) out=1178
+    [s4] spec-crypto-03 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-03: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-05] (29140 chars, max_tokens=64000)
+    [cli] usage: in=111444 (cache_read=0, cache_write=111442) out=6213
+    [s4] dropped non-object finding: int
+    [s4] catchall-16 run 1/1: 0 raw findings
+  [s4] chunk catchall-16: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-crypto-06: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-06] (95469 chars, max_tokens=64000)
+    [cli] usage: in=45140 (cache_read=0, cache_write=45138) out=3298
+    [s4] spec-crypto-06 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-06: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/NokogiriEntityResolver.java [SECRET:1]
+    [s4] spec-crypto-07: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-07] (47881 chars, max_tokens=64000)
+    [cli] usage: in=24207 (cache_read=0, cache_write=24205) out=2878
+    [s4] spec-crypto-07 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-07: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-crypto-08: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-08] (322731 chars, max_tokens=64000)
+    [cli] usage: in=46723 (cache_read=0, cache_write=46721) out=7459
+    [s4] spec-crypto-04 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-04: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/hashmap.c
+    [s4] spec-crypto-09: +1 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-09] (50959 chars, max_tokens=64000)
+    [cli] usage: in=27259 (cache_read=0, cache_write=27257) out=1288
+    [s4] spec-crypto-09 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-09: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-crypto-10: +16 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-10] (99541 chars, max_tokens=64000)
+    [cli] usage: in=106451 (cache_read=0, cache_write=106449) out=16563
+    [s4] spec-crypto-01 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-01: 1 high-confidence findings
+    [s4] spec-crypto-11: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-11] (7226 chars, max_tokens=64000)
+    [cli] usage: in=6617 (cache_read=0, cache_write=6615) out=342
+    [s4] spec-crypto-11 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-11: 0 high-confidence findings
+    [s4] spec-crypto-12: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-12] (5759 chars, max_tokens=64000)
+    [cli] usage: in=17072 (cache_read=0, cache_write=17070) out=12071
+    [s4] spec-crypto-05 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-05: 1 high-confidence findings
+    [s4] spec-crypto-13: +3 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-13] (7321 chars, max_tokens=64000)
+    [cli] usage: in=141345 (cache_read=0, cache_write=141343) out=5314
+    [s4] spec-crypto-08 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-08: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/ParserContext.java [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-14] (339659 chars, max_tokens=64000)
+    [cli] usage: in=6073 (cache_read=0, cache_write=6071) out=257
+    [s4] spec-crypto-12 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-12: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-15] (256216 chars, max_tokens=64000)
+    [cli] usage: in=6653 (cache_read=0, cache_write=6651) out=238
+    [s4] spec-crypto-13 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-13: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-16] (132805 chars, max_tokens=64000)
+    [cli] usage: in=71290 (cache_read=0, cache_write=71288) out=2835
+    [s4] spec-crypto-16 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-16: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-17] (90064 chars, max_tokens=64000)
+    [cli] usage: in=186896 (cache_read=0, cache_write=186894) out=18807
+    [s4] dropped non-object finding: int
+    [s4] spec-crypto-02 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-02: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in lib/nokogiri/css/tokenizer.rb [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-crypto-18] (259578 chars, max_tokens=64000)
+    [cli] usage: in=108894 (cache_read=0, cache_write=108892) out=3745
+    [s4] spec-crypto-15 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-15: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-01] (208063 chars, max_tokens=64000)
+    [cli] usage: in=151189 (cache_read=0, cache_write=151187) out=5276
+    [s4] spec-crypto-14 run 1/1: 2 raw findings
+  [s4] chunk spec-crypto-14: 2 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-logic-bug-02: +13 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-02] (381102 chars, max_tokens=64000)
+    [cli] usage: in=50030 (cache_read=0, cache_write=50028) out=3676
+    [s4] spec-crypto-17 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-17: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-03] (868036 chars, max_tokens=64000)
+    [cli] usage: in=109332 (cache_read=0, cache_write=109330) out=5126
+    [s4] spec-crypto-18 run 1/1: 1 raw findings
+  [s4] chunk spec-crypto-18: 1 high-confidence findings
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in gumbo-parser/src/hashmap.c
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-logic-bug-04: +33 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-04] (94050 chars, max_tokens=64000)
+    [cli] usage: in=51505 (cache_read=0, cache_write=51503) out=13113
+    [s4] spec-crypto-10 run 1/1: 0 raw findings
+  [s4] chunk spec-crypto-10: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-05] (29801 chars, max_tokens=64000)
+    [cli] usage: in=630195 (cache_read=0, cache_write=630193) out=1226
+    [s4] spec-logic-bug-03 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-03: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-logic-bug-06: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-06] (96130 chars, max_tokens=64000)
+    [cli] usage: in=17248 (cache_read=0, cache_write=17246) out=5814
+    [s4] spec-logic-bug-05 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-05: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/NokogiriEntityResolver.java [SECRET:1]
+    [s4] spec-logic-bug-07: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-07] (48542 chars, max_tokens=64000)
+    [cli] usage: in=45316 (cache_read=0, cache_write=45314) out=5547
+    [s4] spec-logic-bug-06 run 1/1: 2 raw findings
+  [s4] chunk spec-logic-bug-06: 2 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-logic-bug-08: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-08] (323392 chars, max_tokens=64000)
+    [cli] usage: in=141521 (cache_read=0, cache_write=141519) out=4412
+    [s4] spec-logic-bug-08 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-08: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/hashmap.c
+    [s4] spec-logic-bug-09: +1 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-09] (51620 chars, max_tokens=64000)
+    [cli] usage: in=46899 (cache_read=0, cache_write=46897) out=11475
+    [s4] spec-logic-bug-04 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-04: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-logic-bug-10: +16 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-10] (100202 chars, max_tokens=64000)
+    [cli] usage: in=27435 (cache_read=0, cache_write=27433) out=1557
+    [s4] spec-logic-bug-09 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-09: 0 high-confidence findings
+    [s4] spec-logic-bug-11: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-11] (7887 chars, max_tokens=64000)
+    [cli] usage: in=6793 (cache_read=0, cache_write=6791) out=477
+    [s4] spec-logic-bug-11 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-11: 0 high-confidence findings
+    [s4] spec-logic-bug-12: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-12] (6420 chars, max_tokens=64000)
+    [cli] usage: in=6249 (cache_read=0, cache_write=6247) out=273
+    [s4] spec-logic-bug-12 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-12: 0 high-confidence findings
+    [s4] spec-logic-bug-13: +3 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-13] (7982 chars, max_tokens=64000)
+    [cli] usage: in=6829 (cache_read=0, cache_write=6827) out=433
+    [s4] spec-logic-bug-13 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-13: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/ParserContext.java [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-14] (340320 chars, max_tokens=64000)
+    [cli] usage: in=24383 (cache_read=0, cache_write=24381) out=9070
+    [s4] spec-logic-bug-07 run 1/1: 2 raw findings
+  [s4] chunk spec-logic-bug-07: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-15] (256877 chars, max_tokens=64000)
+    [cli] prompt mode (global.anthropic.claude-opus-4-8) [s4 spec-logic-bug-01] still running... 300s elapsed
+    [cli] prompt mode (global.anthropic.claude-opus-4-8) [s4 spec-logic-bug-02] still running... 300s elapsed
+    [cli] usage: in=109070 (cache_read=0, cache_write=109068) out=4974
+    [s4] spec-logic-bug-15 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-15: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-16] (133466 chars, max_tokens=64000)
+    [cli] usage: in=151365 (cache_read=0, cache_write=151363) out=7185
+    [s4] spec-logic-bug-14 run 1/1: 2 raw findings
+  [s4] chunk spec-logic-bug-14: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-17] (90725 chars, max_tokens=64000)
+    [cli] usage: in=71466 (cache_read=0, cache_write=71464) out=2725
+    [s4] spec-logic-bug-16 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-16: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in lib/nokogiri/css/tokenizer.rb [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-logic-bug-18] (260239 chars, max_tokens=64000)
+    [cli] usage: in=50206 (cache_read=0, cache_write=50204) out=8366
+    [s4] spec-logic-bug-17 run 1/1: 2 raw findings
+  [s4] chunk spec-logic-bug-17: 2 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-01] (208743 chars, max_tokens=64000)
+    [cli] usage: in=109508 (cache_read=0, cache_write=109506) out=6651
+    [s4] spec-logic-bug-18 run 1/1: 0 raw findings
+  [s4] chunk spec-logic-bug-18: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-access-control-02: +13 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-02] (381782 chars, max_tokens=64000)
+    [cli] usage: in=0 out=0
+    [s4] spec-logic-bug-02 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-02: 1 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-03] (868716 chars, max_tokens=64000)
+    [cli] usage: in=51681 (cache_read=0, cache_write=51679) out=20537
+    [s4] spec-logic-bug-10 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-10: 1 high-confidence findings
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in gumbo-parser/src/hashmap.c
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-access-control-04: +33 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-04] (94730 chars, max_tokens=64000)
+    [cli] usage: in=630497 (cache_read=0, cache_write=630495) out=412
+    [s4] spec-access-control-03 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-03: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-05] (30481 chars, max_tokens=64000)
+    [cli] usage: in=47201 (cache_read=0, cache_write=47199) out=1941
+    [s4] spec-access-control-04 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-04: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-access-control-06: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-06] (96810 chars, max_tokens=64000)
+    [cli] usage: in=17550 (cache_read=0, cache_write=17548) out=2151
+    [s4] spec-access-control-05 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-05: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/NokogiriEntityResolver.java [SECRET:1]
+    [s4] spec-access-control-07: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-07] (49222 chars, max_tokens=64000)
+    [cli] usage: in=45618 (cache_read=0, cache_write=45616) out=4224
+    [s4] spec-access-control-06 run 1/1: 2 raw findings
+  [s4] chunk spec-access-control-06: 2 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-access-control-08: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-08] (324072 chars, max_tokens=64000)
+    [cli] prompt mode (global.anthropic.claude-opus-4-8) [s4 spec-logic-bug-01] still running... 600s elapsed
+    [cli] usage: in=141823 (cache_read=0, cache_write=141821) out=3456
+    [s4] spec-access-control-08 run 1/1: 1 raw findings
+  [s4] chunk spec-access-control-08: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/nokogiri/extconf.rb [SECRET:1]
+    [s4] redacted 3 PAN-prefix + 0 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/hashmap.c
+    [s4] spec-access-control-09: +1 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-09] (52300 chars, max_tokens=64000)
+    [cli] usage: in=187374 (cache_read=0, cache_write=187372) out=11370
+    [s4] dropped non-object finding: int
+    [s4] spec-access-control-02 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-02: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [cli] usage: in=24685 (cache_read=0, cache_write=24683) out=6549
+    [s4] spec-access-control-07 run 1/1: 2 raw findings
+  [s4] chunk spec-access-control-07: 2 high-confidence findings
+    [s4] spec-access-control-11: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-11] (8567 chars, max_tokens=64000)
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in /home/higgs/workspace/cyness/nokogiri/gumbo-parser/src/parser.c [SECRET:1]
+    [s4] spec-access-control-10: +16 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-10] (100882 chars, max_tokens=64000)
+    [cli] usage: in=106929 (cache_read=0, cache_write=106927) out=12044
+    [s4] spec-access-control-01 run 1/1: 1 raw findings
+  [s4] chunk spec-access-control-01: 1 high-confidence findings
+    [s4] spec-access-control-12: +2 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-12] (7100 chars, max_tokens=64000)
+    [cli] usage: in=6551 (cache_read=0, cache_write=6549) out=172
+    [s4] spec-access-control-12 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-12: 0 high-confidence findings
+    [s4] spec-access-control-13: +3 neighbor-context excerpts
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-13] (8662 chars, max_tokens=64000)
+    [cli] usage: in=7095 (cache_read=0, cache_write=7093) out=363
+    [s4] spec-access-control-11 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-11: 0 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in ext/java/nokogiri/internals/ParserContext.java [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-14] (341000 chars, max_tokens=64000)
+    [cli] usage: in=7131 (cache_read=0, cache_write=7129) out=263
+    [s4] spec-access-control-13 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-13: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-15] (257557 chars, max_tokens=64000)
+    [cli] usage: in=27737 (cache_read=0, cache_write=27735) out=882
+    [s4] spec-access-control-09 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-09: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-16] (134146 chars, max_tokens=64000)
+    [cli] usage: in=51983 (cache_read=0, cache_write=51981) out=2590
+    [s4] spec-access-control-10 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-10: 0 high-confidence findings
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-17] (91405 chars, max_tokens=64000)
+    [cli] usage: in=71768 (cache_read=0, cache_write=71766) out=2808
+    [s4] spec-access-control-16 run 1/1: 1 raw findings
+  [s4] chunk spec-access-control-16: 1 high-confidence findings
+    [s4] redacted 0 PAN-prefix + 1 sensitive token(s) in lib/nokogiri/css/tokenizer.rb [SECRET:1]
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s4 spec-access-control-18] (260919 chars, max_tokens=64000)
+    [cli] usage: in=50508 (cache_read=0, cache_write=50506) out=1854
+    [s4] spec-access-control-17 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-17: 0 high-confidence findings
+    [cli] usage: in=109372 (cache_read=0, cache_write=109370) out=4179
+    [s4] spec-access-control-15 run 1/1: 1 raw findings
+  [s4] chunk spec-access-control-15: 1 high-confidence findings
+    [cli] usage: in=109810 (cache_read=0, cache_write=109808) out=1342
+    [s4] spec-access-control-18 run 1/1: 0 raw findings
+  [s4] chunk spec-access-control-18: 0 high-confidence findings
+    [cli] usage: in=151667 (cache_read=0, cache_write=151665) out=5418
+    [s4] spec-access-control-14 run 1/1: 1 raw findings
+  [s4] chunk spec-access-control-14: 1 high-confidence findings
+    [cli] prompt mode (global.anthropic.claude-opus-4-8) [s4 spec-logic-bug-01] still running... 900s elapsed
+    [cli] prompt mode (global.anthropic.claude-opus-4-8) [s4 spec-logic-bug-01] still running... 1200s elapsed
+    [cli] usage: in=0 out=0
+    [s4] spec-logic-bug-01 run 1/1: 1 raw findings
+  [s4] chunk spec-logic-bug-01: 1 high-confidence findings
+  [s4] cross-chunk collapse: 62 → 47
+  ✓ [4/9] Step 4 — Deep-dive (global.anthropic.claude-opus-4-8 [cli]; 1 runs, vote≥3, parallel=5) (2234.7s)
+  [ckpt] saved s4
+  ▶ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) …
+  [s5-prefilter] 47 → 6 (41 unconfirmed)
+  ✓ [5/9] Step 5 — Pre-filter (deterministic + semantic pre-dedup) (0.0s)
+  ▶ [6/9] Step 6 — Verify (global.anthropic.claude-opus-4-8 [cli]) …
+  [s6-verify] verifying 6 findings (5 parallel, gate≥7/10)...
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#0], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#1], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#2], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#3], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#4], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] usage: in=152653 (cache_read=136739, cache_write=13373) out=4674
+    [s6-verify] #2 ext/java/nokogiri/XsltStylesheet.java:153 → FALSE_POSITIVE (8/10) cvss=10.0
+    [cli] agentic mode -> global.anthropic.claude-opus-4-8 [s6 verify#5], cwd=/home/higgs/workspace/cyness/nokogiri
+    [cli] usage: in=257767 (cache_read=242160, cache_write=12809) out=4630
+    [s6-verify] #4 gumbo-parser/src/tokenizer.c:849 → FALSE_POSITIVE (8/10) cvss=3.7
+    [cli] usage: in=109170 (cache_read=94186, cache_write=12492) out=6200
+    [s6-verify] #3 ext/java/nokogiri/XmlSchema.java:292 → TRUE_POSITIVE (8/10) cvss=5.8
+    [cli] usage: in=81712 (cache_read=64213, cache_write=15043) out=3460
+    [s6-verify] #5 ext/java/nokogiri/XsltStylesheet.java:153 → FALSE_POSITIVE (7/10) cvss=10.0
+    [cli] usage: in=198577 (cache_read=162035, cache_write=33838) out=8946
+    [s6-verify] #0 lib/nokogiri/css/xpath_visitor.rb:170 → TRUE_POSITIVE (8/10) cvss=5.3
+    [cli] usage: in=246036 (cache_read=220330, cache_write=22864) out=11781
+    [s6-verify] #1 ext/nokogiri/html4_element_description.c:27 → FALSE_POSITIVE (8/10) cvss=6.5
+  [s6-verify] done: 2 TRUE_POSITIVE, 4 FALSE_POSITIVE, 0 UNCONFIRMED, 0 GUARDRAIL_BLOCKED, 0 errors
+  ✓ [6/9] Step 6 — Verify (global.anthropic.claude-opus-4-8 [cli]) (170.9s)
+  ▶ [7/9] Step 7 — Dedup (global.anthropic.claude-opus-4-8 [cli]) …
+  [s7-dedup] pre-filter: 0 trivial dups, 2 unresolved
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s7 dedup] (2140 chars, max_tokens=64000)
+    [cli] usage: in=1947 out=115
+  [s7-dedup] done: 2 canonical, 0 duplicates collapsed
+  ✓ [7/9] Step 7 — Dedup (global.anthropic.claude-opus-4-8 [cli]) (3.0s)
+  [ckpt] saved s7
+  ▶ [8/9] Step 8 — Chain (global.anthropic.claude-opus-4-8 [cli]) …
+    [cli] prompt mode -> global.anthropic.claude-opus-4-8 [s8 chain] (10596 chars, max_tokens=64000)
+    [cli] usage: in=5930 (cache_read=0, cache_write=5928) out=1438
+  [s8] done: 2 ranked findings, 0 chains
+  ✓ [8/9] Step 8 — Chain (global.anthropic.claude-opus-4-8 [cli]) (22.1s)
+  [ckpt] saved s8
+  [out] wrote /home/higgs/workspace/cyness/nokogiri/security-scan/nokogiri_20260617T011402Z_report.md
+  ▶ [9/9] Step 9 — SARIF (app_id=bench-nokogiri) …
+  SARIF written: /home/higgs/workspace/cyness/nokogiri/security-scan/nokogiri_20260617T011402Z_report.sarif (2 results)
+  ✓ [9/9] Step 9 — SARIF (app_id=bench-nokogiri) (0.0s)
+  [out] wrote /home/higgs/workspace/cyness/nokogiri/security-scan/nokogiri_20260617T011402Z_report.sarif
+  [ckpt] saved s9
+
+Done in 2678s. 2 verified findings (45 dropped), 0 chains.
+Tokens: prompt=7415214, completion=499921, total=7915135
+Report: /home/higgs/workspace/cyness/nokogiri/security-scan/nokogiri_20260617T011402Z_report.md
+# Agentic SAST — nokogiri
+
+## Summary
+Two independent, scoped logic/injection flaws were found, neither reaching memory corruption or auth bypass. Finding 0 is a JRuby schema-parsing SSRF/file-read where the NONET guard only filters http/ftp, leaving https/file/jar exploitable when an app parses an untrusted XSD with network blocking expected. Finding 1 is a CSS-to-XPath query injection on CRuby via an unescaped id selector. There is no exploit chain between them (different runtimes, different assets), and neither delivers RCE or bulk data exposure; both are Medium per their CVSS bands.
+
+## Scan Metrics
+
+- Scan ID: 2026-06-17T01:14:02Z__nokogiri
+- Module: nokogiri
+- Start: 2026-06-17T01:14:02Z
+- End: 2026-06-17T01:58:19Z
+- Duration (sec): 2657
+- Files in scope: 259
+- Files analyzed (unique): 258
+- Coverage: 99.6%
+- Chunks: 87 (risk=15, catch-all=18, specialist=54)
+- Tokens (prompt): 7415214
+- Tokens (completion): 499921
+- Tokens (total): 7915135
+
+- Folders scanned: 26
+### Tokens by Phase
+
+_Prompt = fresh + cache-write (billable). Cache-read shown separately, NOT included in totals._
+
+| Phase | Calls | Prompt | Completion | Total | % | Cache-read (excl.) |
+|---|---:|---:|---:|---:|---:|---:|
+| s4-deepdive | 87 | 7,202,647 | 440,172 | 7,642,819 | 96.6 | 0 |
+| s6-verify | 6 | 126,252 | 39,691 | 165,943 | 2.1 | 919,663 |
+| s3-decompose | 1 | 31,505 | 6,123 | 37,628 | 0.5 | 0 |
+| s1-preprocess | 1 | 29,302 | 6,694 | 35,996 | 0.5 | 355,328 |
+| s2-threatmodel | 1 | 12,710 | 5,478 | 18,188 | 0.2 | 0 |
+| s1-autoexclude | 1 | 6,343 | 1,644 | 7,987 | 0.1 | 0 |
+| unlabeled | 1 | 4,508 | 4 | 4,512 | 0.1 | 15,379 |
+| s7-dedup | 1 | 1,947 | 115 | 2,062 | 0.0 | 0 |
+
+### Language LOC Coverage
+
+| Language | LOC in scope | LOC scanned | Coverage % |
+|---|---:|---:|---:|
+| c-cpp | 44231 | 44231 | 100.0 |
+| java | 19714 | 19714 | 100.0 |
+| other | 3674 | 3649 | 99.3 |
+| ruby | 12252 | 12252 | 100.0 |
+
+## Scan Health
+
+- Recoverable errors logged by stage: s4=5
+- Full error log: `nokogiri_20260617T011402Z_errors.jsonl`
+
+## Threat Model
+
+### System context
+
+Nokogiri is a widely-deployed Ruby gem (library) that parses, queries, modifies, and serializes XML and HTML. On CRuby it is a C extension binding the vendored libxml2/libxslt libraries plus a vendored gumbo HTML5 parser; on JRuby it is backed by Xerces/Xalan with a vendored XML-C14N implementation. It is not a service — it runs in-process inside whatever application embeds it (web apps, scrapers, document pipelines, CLI tools, batch jobs). Its security posture is therefore inherited by every consuming application.
+
+### Assets
+
+| Asset | Sensitivity | Description |
+|---|---|---|
+| Host process memory integrity | critical | Memory safety of the Ruby/JRuby process embedding Nokogiri; corruption leads to crash or RCE in the consuming application |
+| Service availability | high | CPU/memory of the consuming application; parsing must terminate in bounded resources |
+| Local files and internal network resources | high | Filesystem and SSRF-reachable endpoints accessible to the process, exposable via XXE external entities or XSLT document()/extension functions |
+| Parsed document integrity | high | Correctness/trustworthiness of the DOM returned to downstream consumers (e.g. sanitizers, security decisions built atop query results) |
+| Vendored native dependency chain | high | libxml2, libxslt, libgumbo, libiconv, Xerces/Xalan, Saxon-HE shipped inside the gem |
+
+### Trust boundaries
+
+- **ext/nokogiri/gumbo.c::noko_gumbo_s_parse / noko_gumbo_s_fragment** — untrusted HTML5 bytes → vendored gumbo C parser → Host process memory integrity, Service availability, Parsed document integrity
+- **ext/nokogiri/html4_document.c::rb_html_document_s_read_memory** — untrusted HTML4 bytes → libxml2 HTML parser (C) → Host process memory integrity, Service availability, Parsed document integrity
+- **ext/nokogiri/xml_document.c::noko_xml_document_s_read_memory / read_io** — untrusted XML bytes → libxml2 XML parser (C) → Host process memory integrity, Service availability, Local files and internal network resources, Parsed document integrity
+- **ext/nokogiri/xml_node.c::noko_xml_node__in_context (xmlParseInNodeContext)** — untrusted fragment bytes parsed in node context → libxml2 (C) → Host process memory integrity, Parsed document integrity
+- **ext/nokogiri/xml_reader.c::from_memory / from_io** — untrusted XML stream → libxml2 streaming reader (C) → Host process memory integrity, Service availability, Local files and internal network resources
+- **ext/nokogiri/xml_sax_parser_context.c::noko_xml_sax_parser_context__parse_with** — untrusted SAX/push input → libxml2 SAX parser (C) → Host process memory integrity, Service availability
+- **ext/nokogiri/xml_xpath_context.c::noko_xml_xpath_context_evaluate** — caller-supplied / interpolated query string → XPath engine → Parsed document integrity, Service availability
+- **ext/nokogiri/xslt_stylesheet.c::transform/parse** — untrusted XSLT stylesheet → libxslt execution (file/network/extension functions) → Local files and internal network resources, Host process memory integrity, Service availability
+- **Vendored dependency supply chain (dependencies.yml / native.yml)** — upstream libxml2/libxslt/gumbo/Saxon → shipped gem binary → Vendored native dependency chain, Host process memory integrity, Local files and internal network resources
+
+### Ranked threats
+
+| ID | Threat | Actor | Surface | Asset | Impact | Likelihood | Controls |
+|---|---|---|---|---|---|---|---|
+| T1 | Crafted HTML5 input triggers a heap/stack buffer overflow in the vendored gumbo parser, leading to memory corruption and potential remote code execution in the host process. | remote_unauth | ext/nokogiri/gumbo.c::noko_gumbo_s_parse / noko_gumbo_s_fragment | Host process memory integrity | critical | possible | Length-clamped memcpy (safe_len) at nokogiri.c:89; in-place known-table strcpy in adjust_svg_tag; C extension treats all input as untrusted |
+| T2 | Malicious XML/HTML triggers a memory-corruption bug (UAF/OOB write/integer overflow) inside vendored libxml2, escalating to code execution in the consuming application. | remote_unauth | ext/nokogiri/xml_document.c::noko_xml_document_s_read_memory / read_io | Host process memory integrity | critical | possible | Vendored libxml2 kept current (v2.14.6); rapid security patch cadence |
+| T3 | Untrusted XSLT stylesheet executes document()/external entity/extension-function access to read local files or reach internal network endpoints (SSRF) and exhaust memory. | remote_unauth | ext/nokogiri/xslt_stylesheet.c::transform/parse | Local files and internal network resources | critical | possible | Documented as unsafe with untrusted stylesheets in lib/nokogiri/xslt.rb; libxslt security prefs available |
+| T4 | XML with external entity references or DTD external subsets exfiltrates local files or performs SSRF when NOENT/DTDLOAD parse options are enabled by the consuming app (XXE). | remote_unauth | ext/nokogiri/xml_document.c::noko_xml_document_s_read_memory / read_io | Local files and internal network resources | high | possible | Secure-by-default: NOENT and DTDLOAD OFF by default; entity substitution disabled unless explicitly enabled |
+| T5 | Use-after-free or double-free reachable through fragment-in-context parsing or SAX context input corrupts the host process. | remote_unauth | ext/nokogiri/xml_node.c::noko_xml_node__in_context (xmlParseInNodeContext) | Host process memory integrity | critical | rare | SAX ParserContext now retains input reference to avoid UAF (#3395); upstream libxml2 patched |
+| T6 | Maliciously nested entities or deeply-nested/oversized markup cause unbounded CPU/memory consumption (billion-laughs / quadratic blowup), denying service to the consuming application. | remote_unauth | ext/nokogiri/xml_reader.c::from_memory / from_io | Service availability | high | possible | libxml2 entity-expansion limits; HTML5 attribute parsing made linear (#3393) |
+| T7 | A crafted CSS selector triggers exponential regex backtracking in the selector tokenizer, hanging the consuming application (ReDoS). | remote_unauth | ext/nokogiri/xml_xpath_context.c::noko_xml_xpath_context_evaluate | Service availability | high | possible | Fixed in v1.19.3 by removing exponential backtracking in CSS tokenizer |
+| T8 | Untrusted SAX/push parser input drives a memory-safety fault or unbounded resource use in the streaming libxml2 callbacks. | remote_unauth | ext/nokogiri/xml_sax_parser_context.c::noko_xml_sax_parser_context__parse_with | Host process memory integrity | high | rare | Input reference retained to avoid UAF; libxml2 patched |
+| T9 | User-controlled values interpolated into XPath/CSS expressions allow query injection that returns unintended nodes, subverting downstream security/filtering decisions. | remote_unauth | ext/nokogiri/xml_xpath_context.c::noko_xml_xpath_context_evaluate | Parsed document integrity | medium | possible | Parameterized variable binding API available; StringValueCStr used on full expression (no auto-sanitization) |
+| T10 | HTML4 parsing of attacker markup hits a memory-corruption or crash bug in the libxml2 HTML parser path. | remote_unauth | ext/nokogiri/html4_document.c::rb_html_document_s_read_memory | Host process memory integrity | high | rare | Vendored libxml2 current; HTML5 parser raw-text spec alignment in v2.14 |
+| T11 | A compromised or vulnerable upstream vendored dependency (libxml2/libxslt/gumbo/Saxon-HE) ships memory-safety or logic flaws to every gem consumer. | supply_chain | Vendored dependency supply chain (dependencies.yml / native.yml) | Vendored native dependency chain | high | likely | Active dependency tracking, frequent security patch releases, pinned versions in dependencies.yml, precompiled native gems with reproducible builds |
+| T12 | Unchecked native return value (e.g. C14N canonicalization) silently produces malformed output, contributing to signature-bypass in downstream consumers like ruby-saml. | remote_unauth | Vendored dependency supply chain (dependencies.yml / native.yml) | Parsed document integrity | high | rare | Fixed: xmlC14NExecute return value now checked (v1.19.1) |
+
+### Open questions
+
+- Does the embedding application expose any parse entry point to remote unauthenticated input (web request bodies, uploaded files), or only to trusted internal data?
+- Do consumers enable non-default parse options (NOENT, DTDLOAD, NONET off) that re-introduce XXE/SSRF exposure?
+- Are XSLT stylesheets ever sourced from untrusted parties, and is libxslt's security-preferences API engaged by the host app?
+- Is parsing run with resource limits / sandboxing, or directly in a request-serving process where a crash or hang is a full DoS?
+- Which platform path (CRuby+libxml2 vs JRuby+Xerces/Xalan) is in production, since their native attack surfaces differ?
+- Are query strings (XPath/CSS) ever built from user input rather than developer-controlled literals?
+
+## Verification
+- Raw findings (pre-verification): 47
+- True positives (verified): 2
+- False positives (dropped): 4
+- Verifier errors (excluded — undetermined, not confirmed clean): 0
+- Duplicates collapsed (all passes): 0
+- Verification precision: 4.3%
+
+## Findings (2)
+
+### 1. [MEDIUM] NONET schema guard only blocks http/ftp, not https/file/jar
+**Class:** CWE-918: Server-Side Request Forgery (SSRF)
+**CWE:** CWE-918: Server-Side Request Forgery (SSRF) - https://cwe.mitre.org/data/definitions/918.html
+**File:** `ext/java/nokogiri/XmlSchema.java:292-305`
+**CVSS 3.1:** **5.8** (Medium) — `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N`
+**OffensivePriority:** **P3** - Internal Network / Privileged Position | *exposure unverified — no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*
+**Confidence:** 0.60 (1 run agreed)
+
+#### Description
+createSchemaInstance() builds a SchemaResourceResolver using `noNet` derived from the caller-supplied parse options (XmlSchema.java:77,80-81). During schema parsing, the XML library calls resolveResource() with `systemId`/`baseURI` taken directly from the attacker-controlled schema document (e.g. an <xs:import schemaLocation=...> or external entity). The network-blocking branch at line 292 fires only when `systemId.startsWith("http://") || systemId.startsWith("ftp://")`. Any other scheme — https://, file://, jar:, ftps:// — falls into the else branch (line 300-305) where adjustSystemIdIfNecessary() is called and the systemId is set on `lsInput`, causing the resource to be loaded. Thus the NONET protection is incomplete and bypassable simply by using an https:// (or file://) URL inside the schema.
+
+#### Impact
+When an application parses an attacker-supplied XML Schema (or RelaxNG) with the NONET option set to forbid network access, the resolver still resolves systemIds that use https://, file://, jar:, etc. An attacker can therefore make the validator fetch a remote schema over HTTPS (SSRF) or read a local file (XXE-style disclosure) despite NONET being requested.
+
+#### Exploit scenario
+An application validates user data against a user-provided XSD with NONET set, calling Schema.from_document on the attacker's schema. The schema contains `<xs:import namespace="x" schemaLocation="https://attacker.example/track.xsd"/>` or `schemaLocation="file:///etc/passwd"`. resolveResource() skips the http/ftp guard, sets the systemId on the LSInput, and the parser fetches the URL — yielding SSRF (HTTPS callback / internal endpoint probe) or local-file inclusion even though network access was supposed to be disabled.
+
+#### Preconditions
+- Application validates against an attacker-influenced XML Schema / RelaxNG document
+- NONET parse option is relied upon to prevent network/external access
+
+```
+if (noNet && systemId != null && (systemId.startsWith("http://") || systemId.startsWith("ftp://"))) {
+  if (systemId.startsWith(XMLConstants.W3C_XML_SCHEMA_NS_URI)) {
+    return null; // use default resolver
+  }
+  try {
+    this.errorHandler.warning(new SAXParseException(String.format("Attempt to load network entity '%s'", systemId), null));
+  } catch (SAXException ignored) {
+  }
+} else {
+  String adjusted = adjustSystemIdIfNecessary(currentDir, scriptFileName, baseURI, systemId);
+  lsInput.setPublicId(publicId);
+  lsInput.setSystemId(adjusted != null ? adjusted : systemId);
+  lsInput.setBaseURI(baseURI);
+}
+```
+
+#### How to fix
+The network/external-resource guard must cover all non-local and remote schemes, not just http/ftp. In resolveResource() (XmlSchema.java:292) replace the literal `http://`/`ftp://` prefix test with a scheme allow-list (or block-list including https, file, jar, ftps, etc.), and when noNet is set refuse to resolve any absolute external systemId rather than falling through to set it on lsInput.
+
+**Exploitability:** CVSS 6.8 (Medium band, S:C/C:L). Pre-auth reachable but requires multiple realistic preconditions: app runs on JRuby, parses an attacker-controlled XML Schema, and relies on the noNet/NONET option for protection (the bug only matters if NONET is expected to block loads). Primitive is a confidentiality leak (file:// local read, https/jar SSRF) with no write or code execution — incomplete deny-list scheme filter. Blast radius is files/internal endpoints reachable by the process, scope-changed but C:L only. Settling at Medium per the CVSS band and the stacked preconditions.
+
+#### Adversarial verification
+**Verdict:** TRUE_POSITIVE (confidence: 8/10) — NONET guard checks only http/ftp prefixes; https/file/jar schemes in an attacker-supplied schema's xs:import bypass it, yielding SSRF/forced local-file load despite NONET being set.
+
+**Analysis**
+
+**A. The sink (XmlSchema.java:292-305)** — verified verbatim against the file. The scanner read it correctly. The network guard fires *only* for `systemId.startsWith("http://") || systemId.startsWith("ftp://")`. Every other scheme (`https://`, `file://`, `jar:`, `ftps://`) falls into the `else` branch, which calls `adjustSystemIdIfNecessary()` and then `lsInput.setSystemId(...)` / `setBaseURI(...)` and returns the populated `lsInput`. A `SchemaLSInput` carrying only a `systemId` (no byteStream/charStream/stringData) causes Xerces to dereference and fetch that systemId — the resource is loaded.
+
+Note the asymmetry that confirms the bug: in the http/ftp branch the code emits a warning and returns an **empty** `lsInput` (no systemId set) → effectively blocked. For all other schemes it returns a fully-populated `lsInput` → loaded.
+
+**B. Call chain to external entry** — `resolveResource` is wired via `schemaFactory.setResourceResolver()` in `getSchema()` (line 83), invoked from `createSchemaInstance()` ← `getSchema()` ← `from_document` (`@JRubyMethod meta=true`, public `Schema.from_document`). This is reachable from Ruby with an attacker-influenced XSD. The `systemId`/`baseURI` originate from the schema document's `<xs:import schemaLocation=...>` — attacker-controlled, full URL (host + scheme).
+
+**C. Defenses checked:**
+- `noNet` derived from `ParserContext.Options(parseOptions).noNet`, `NONET = 1<<11` (ParserContext.java:209/254). `DEFAULT_SCHEMA = NONET | BIG_LINES` (parse_options.rb:350) — so NONET is **on by default**, exactly the configuration the finding targets.
+- `adjustSystemIdIfNecessary()` (NokogiriHelpers.java:689) does *not* block schemes — for absolute URIs/paths it returns the systemId unchanged or resolves a local file; it is a path-resolution helper, not a security gate.
+- No allow-list, no scheme filtering beyond the two literal prefixes.
+
+**D. Defense coverage** — the guard is a literal two-prefix check; it manifestly does not cover `https://`/`file://`/`jar:`. Trivially bypassed.
+
+**Scope check:** This is not the "path-only SSRF" exclusion — the attacker controls the full URL (host *and* scheme), so it qualifies. `file://` yields forced local-file load (LFI/blind SSRF). Impact is primarily forced resource load / blind SSRF (internal endpoint probing, HTTPS callback) with limited confidentiality leak via parse errors — `I`/`A` unaffected.
+
+The NONET protection is genuinely incomplete and the path reaches an unauthenticated external entry point with no compensating control.
+
+### 2. [MEDIUM] Unescaped CSS id interpolated into XPath string literal
+**Class:** CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection)
+**CWE:** CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection) - https://cwe.mitre.org/data/definitions/643.html
+**File:** `lib/nokogiri/css/xpath_visitor.rb:170-173`
+**CVSS 3.1:** **5.3** (Medium) — `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`
+**OffensivePriority:** **P3** - Internal Network / Privileged Position | *exposure unverified — no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*
+**Confidence:** 0.60 (1 run agreed)
+
+#### Description
+visit_id matches the id fragment with /^#(.*)$/ and interpolates the captured group directly into "@id='...'" with no escaping. The id value reaching this visitor has already passed through unescape_css_identifier (parser.rb _reduce_64, line 694), which turns CSS escape sequences such as \27 or \' into a literal single quote. A single quote in the id therefore terminates the XPath string literal and lets attacker text be parsed as XPath. Unlike visit_attribute_condition (lines 179-188) which deliberately neutralizes embedded quotes with a concat() construction, visit_id performs no quoting at all. The resulting XPath string is handed verbatim to xmlXPathEvalExpression via noko_xml_xpath_context_evaluate (xml_xpath_context.c:379-395).
+
+#### Impact
+An application that builds a CSS selector from untrusted input (e.g. doc.css("#" + user_id)) gets XPath injection: the id value is dropped raw into a single-quoted XPath literal. An attacker can break out of the literal and change which nodes the query returns, bypassing an intended element filter or forcing a query error.
+
+#### Exploit scenario
+An app does doc.css("#" + params[:anchor]). Attacker sends anchor = "x\27]|//user[secret/text()=\27" which unescapes to id text x']|//user[secret/text()='. visit_id emits @id='x']|//user[secret/text()='', producing a valid injected XPath union that selects nodes outside the intended scope. The attacker thereby reads or matches document nodes the query was never meant to expose.
+
+#### Preconditions
+- Application concatenates untrusted data into a CSS id selector passed to css()/search()
+- Attacker can include CSS escape sequences (e.g. \27) in that data
+
+```
+def visit_id(node)
+  node.value.first =~ /^#(.*)$/
+  "@id='#{Regexp.last_match(1)}'"
+end
+```
+
+#### How to fix
+visit_id must emit the id value as a properly quoted XPath literal. Apply the same quote-neutralizing logic used in visit_attribute_condition (or a shared helper that wraps values in concat() when they contain quote characters) at xpath_visitor.rb:172 instead of bare single-quote interpolation.
+
+**Exploitability:** CVSS 5.3 (Medium band, S:U/C:L). Query-injection: an unescaped CSS id is interpolated into an XPath string literal, letting a single quote (decoded by unescape_css_identifier) break out and inject XPath. Precondition: the application must pass an attacker-controlled CSS selector string into a .css()/at_css() query — uncommon but plausible. Primitive is parsed-document-integrity subversion (returns unintended nodes), not memory corruption or auth bypass; impact is bounded to fooling downstream filtering/sanitization logic. No info leak beyond document contents already in scope. Medium per CVSS band; would be Low on impact alone but anchored to the band.
+
+#### Adversarial verification
+**Verdict:** TRUE_POSITIVE (confidence: 8/10) — unescaped id with literal-quote injected verbatim into the `@id='...'` XPath literal; full path from `css()` to sink confirmed, no escaping anywhere unlike `visit_attribute_condition`. Impact confined to the queried document (read-only), hence limited confidentiality.
+
+I have confirmed the full chain in the actual source. Let me verify my findings:
+
+**A. The sink (xpath_visitor.rb:170-173)** — Confirmed verbatim:
+```ruby
+def visit_id(node)
+  node.value.first =~ /^#(.*)$/
+  "@id='#{Regexp.last_match(1)}'"
+end
+```
+No escaping, no quote neutralization. Contrast with `visit_attribute_condition` (lines 182-188) which builds a `concat()` when the value contains its own quote char — `visit_id` does nothing equivalent.
+
+**B. The unescaping claim** — Confirmed. `parser.rb` `_reduce_64` (line 694) builds the `:ID` node via `unescape_css_identifier(val[0])`. That function (line 26-28):
+```ruby
+identifier.gsub(/\\(?:([^0-9a-fA-F])|([0-9a-fA-F]{1,6})\s?)/){ |m| $1 || [$2.hex].pack('U') }
+```
+So `\27` → `[0x27].pack('U')` → literal `'`. Special chars like `]`, `|`, `/`, `[`, `(` can all be smuggled as hex escapes (`\5d`, `\7c`, `\2f`, …), and the tokenizer's HASH rule (tokenizer.rb:72) explicitly accepts `\[0-9A-Fa-f]{1,6}` and `\[^...]` escape forms inside the `#…` token. After unescaping, those become literal XPath metacharacters.
+
+**C/D. Searching for a defense** — None exists:
+- `Searchable#css` → `css_internal` → `css_rules_to_xpath` → `xpath_for` → `ast.to_xpath(visitor)`. No sanitization between the public entry point and the visitor.
+- The unescape happens at parse time and the result flows directly into the string-interpolated literal. No allow-list, length, or quote-stripping guard on the id path.
+- The asymmetry with `visit_attribute_condition` confirms this is an oversight, not intentional handling.
+
+**External entry point** — `doc.css("#" + params[:anchor])` is a realistic, common app pattern; the CSS selector string is the untrusted boundary. A crafted `#x\5d|...` selector unescapes into `@id='x']|//...'`, terminating the XPath string literal and injecting a XPath union — reading document nodes outside the intended query scope.
+
+**Impact bounds** — XPath injection via `xmlXPathEvalExpression` is read-only evaluation against the already-loaded document. Confidentiality impact is limited to nodes within that one document (no integrity write, no inherent file/network access under default libxml2 options). So C:L / I:N / A:N.
+
+The scanner correctly read the sink, the class, and the data flow. The exploit is real and no upstream control closes it.
+
+## Exploit Chains
+
+No exploit chains were identified — the findings above are independent and do not combine into a multi-step path.
+
+
+## Dropped Findings
+
+- **[UNCONFIRMED]** `gumbo-parser/src/parser.c:1993` heap-overflow (chunk-02) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/error.c:387` info-leak (chunk-03-c) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xml_document.c:427` integer-overflow (chunk-04) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xml_reader.c:652` use-after-free (chunk-05) — s4 confidence 0.35 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xml_node.c:1967` injection (chunk-06) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/html4_document.c:106` integer-overflow (chunk-07) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xslt_stylesheet.c:323` other (chunk-08) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `lib/nokogiri/css/xpath_visitor.rb:365` injection (chunk-09) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/c14n/Canonicalizer11.java:510` logic-flaw (chunk-11) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XsltStylesheet.java:153` other (catchall-02) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlNamespace.java:180` injection (catchall-03) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlSchema.java:79` other (catchall-03) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/tag.c:188` integer-overflow (catchall-06) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlDocument.java:176` other (catchall-09) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlAttributeDecl.java:103` logic-flaw (catchall-09) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/HtmlDomParserContext.java:203` logic-flaw (spec-crypto-14) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/ReaderNode.java:391` logic-flaw (spec-logic-bug-14) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/SaveContextVisitor.java:405` injection (catchall-11) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/SaveContextVisitor.java:870` injection (catchall-11) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/dom2dtm/DOM2DTM.java:883` other (catchall-12) — s4 confidence 0.35 < gate 0.60
+- **[UNCONFIRMED]** `lib/nokogiri/css/selector_cache.rb:16` other (catchall-17) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `lib/nokogiri/xml/document_fragment.rb:96` injection (catchall-18) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xml_node.c:1951` injection (spec-crypto-01) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/hashmap.c:288` logic-flaw (spec-crypto-04) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/gumbo.c:167` other (spec-crypto-05) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/c14n/ElementProxy.java:238` logic-flaw (spec-crypto-15) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/string_set.c:6` logic-flaw (spec-crypto-17) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `lib/nokogiri/xml/document_fragment.rb:268` injection (spec-crypto-18) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/xml_document.c:424` logic-flaw (spec-logic-bug-01) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/hashmap.c:270` integer-overflow (spec-logic-bug-04) — s4 confidence 0.32 < gate 0.60
+- **[UNCONFIRMED]** `ext/nokogiri/gumbo.c:230` integer-overflow (spec-logic-bug-05) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `lib/nokogiri/css/xpath_visitor.rb:341` logic-flaw (spec-logic-bug-06) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlXpathContext.java:133` logic-flaw (spec-logic-bug-07) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XsltStylesheet.java:117` logic-flaw (spec-logic-bug-07) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/error.c:154` integer-overflow (spec-logic-bug-10) — s4 confidence 0.30 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/internals/c14n/Canonicalizer11.java:504` logic-flaw (spec-logic-bug-15) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/token_buffer.c:42` integer-overflow (spec-logic-bug-17) — s4 confidence 0.40 < gate 0.60
+- **[UNCONFIRMED]** `gumbo-parser/src/utf8.h:79` logic-flaw (spec-logic-bug-17) — s4 confidence 0.20 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XsltStylesheet.java:260` injection (spec-access-control-07) — s4 confidence 0.55 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlSchema.java:292` info-leak (spec-access-control-08) — s4 confidence 0.50 < gate 0.60
+- **[UNCONFIRMED]** `ext/java/nokogiri/XmlRelaxng.java:76` other (spec-access-control-14) — s4 confidence 0.40 < gate 0.60
+- **[FP]** `ext/java/nokogiri/XsltStylesheet.java:153` logic-flaw (spec-crypto-07) — XSLT stylesheets are trusted executable code by Nokogiri's explicit, documented design (mirrored on the CRuby/libxslt path); absence of secure-processing is intentional, and no untrusted-stylesheet flow exists within the scanned library — exploitability requires the consuming app to violate the documented "do not pass untrusted stylesheets" contract.
+- **[FP]** `gumbo-parser/src/tokenizer.c:849` info-leak (spec-logic-bug-02) — real uninitialized-write bug, but Nokogiri's only GumboAttribute consumer (gumbo.c) reads just name/value; value_start/value_end are never read or serialized, so no data ever leaks.
+- **[FP]** `ext/java/nokogiri/XsltStylesheet.java:153` injection (spec-access-control-07) — Stylesheet is developer-supplied code, not parsed untrusted data; the library explicitly documents that stylesheets must be trusted and intentionally supports extension functions, so the missing secure-processing flag is working-as-designed, exploitable only by app contract violation.
+- **[FP]** `ext/nokogiri/html4_element_description.c:27` info-leak (spec-logic-bug-16) — claimed OOB info-leak cannot trigger (no element has attrs_depr longer than attrs_req); real behavior is a no-data NULL-deref crash, out of scope per rule B, and reachable only via an uncommon app-exposed introspection API.
+
+
+---
+
+## Appendix: Scan Scope
+
+### Folders scanned (26)
+
+- `./`
+- `bin/`
+- `ext/java/nokogiri/`
+- `ext/java/nokogiri/internals/`
+- `ext/java/nokogiri/internals/c14n/`
+- `ext/java/nokogiri/internals/dom2dtm/`
+- `ext/nokogiri/`
+- `gumbo-parser/`
+- `gumbo-parser/src/`
+- `lib/`
+- `lib/nokogiri/`
+- `lib/nokogiri/css/`
+- `lib/nokogiri/decorators/`
+- `lib/nokogiri/html4/`
+- `lib/nokogiri/html4/sax/`
+- `lib/nokogiri/html5/`
+- `lib/nokogiri/jruby/`
+- `lib/nokogiri/version/`
+- `lib/nokogiri/xml/`
+- `lib/nokogiri/xml/node/`
+- `lib/nokogiri/xml/pp/`
+- `lib/nokogiri/xml/sax/`
+- `lib/nokogiri/xml/xpath/`
+- `lib/nokogiri/xslt/`
+- `lib/xsd/xmlparser/`
+- `misc/`
+
+### Excluded from scan (287 files)
+
+**Folders** (matched `exclude_dirs`):
+
+- `test/` — 144 files
+- `.git/` — 28 files
+- `oci-images/` — 19 files
+- `rakelib/` — 14 files
+- `.github/` — 11 files
+- `scripts/` — 10 files
+- `gumbo-parser/test/` — 10 files
+- `gumbo-parser/fuzzer/` — 5 files
+- `doc/` — 3 files
+- `adr/` — 2 files
+- `suppressions/` — 2 files
+- `checkpoints/` — 1 files
+
+**File types** (matched `exclude_exts`):
+
+- `*.md` — 11 files
+- `*.jar` — 11 files
+- `*.patch` — 5 files
+- `*.gperf` — 4 files
+- `*.sed` — 1 files
+
+**Patterns** (matched `exclude_globs`):
+
+- `**/.gitignore` — 2 files
+- `**/.gitkeep` — 2 files
+- `**/.gitmodules` — 1 files
+- `**/.editorconfig` — 1 files
+  [manifest] wrote /home/higgs/workspace/cyness/visa-vulnerability-agentic-harness/run_manifest.json
+

@@ -21,7 +21,13 @@ A 3 × 3 matrix: **three models × three source repos**.
 |---|---|---|---|---|---|---|---|
 | `qwen2.5-coder-14b-32k` | `qwen2.5-coder:14b` | qwen2 (dense) | 14.8B | `via:openai` → Ollama | 32768 | No | `config.yaml` (32k budgets) |
 | `qwen3.6-36b-128k` | `qwen3.6` | qwen35moe (MoE) | 36B | `via:openai` → Ollama | 131072 | Yes | `config.qwen3.6.yaml` (128k budgets) |
-| `claude-opus-4-8` | Anthropic (cloud) | — | — | `via:cli` → Claude Code login | ~200k | Yes | `config.opus.yaml` (shipped large budgets) |
+| `claude-opus-4-8` | Anthropic (cloud) | — | — | `via:cli` → **AWS Bedrock** | ~200k | Yes | `config.opus.yaml` (shipped large budgets) |
+
+> Model C note: the Claude Code **subscription** was not viable for these scans —
+> Opus's s4 token demand exceeds one subscription refresh window and s4 can't
+> checkpoint mid-stage, so it was unwinnable. Model C runs the same stock harness
+> and `via:cli` backend pointed at **Opus 4.8 on AWS Bedrock** (pay-per-token, no
+> daily wall). See `VISA_HARNESS_MODEL_COMPARISON.md` for the full write-up.
 
 All three advertise the `tools` capability (required by the agentic stages
 s1/s6). **Context design = "each model at its own max"**: the 14B at 32k,
@@ -143,8 +149,9 @@ same repo), not just against each other.
   keeps it from 4×-ing. Per-run token/cost provenance is in each
   `run_manifest.json`; `estimate.txt` is the pre-spend scope preview.
 - **Backend asymmetry.** Locals run `via:openai` (Ollama); Opus runs `via:cli`
-  (Claude Code login). The agentic tool surface is held identical
-  (Read/Glob/Grep) so this is an auth/transport difference, not a capability one.
+  pointed at **AWS Bedrock** (the Claude subscription was token-bound). The
+  agentic tool surface is held identical (Read/Glob/Grep) so this is an
+  auth/transport difference, not a capability one.
 
 ### Run isolation (how the matrix was produced safely)
 
@@ -203,11 +210,13 @@ export OLLAMA_MODEL=qwen3.6-36b-128k          # or qwen2.5-coder-14b-32k
   --config ./config.qwen3.6.yaml \            # or ./config.yaml for the 14B
   --auto-step1 --application-id "bench-<repo>" --repo-name "<repo>"
 
-# Frontier model (C) — no OLLAMA_MODEL; uses your Claude Code login:
+# Frontier model (C) — Opus 4.8 on AWS Bedrock (no OLLAMA_MODEL):
+export AWS_BEARER_TOKEN_BEDROCK="$BEDROCK_API_KEY"     # .env sets CLAUDE_CODE_USE_BEDROCK=1, AWS_REGION
 .venv/bin/vvaharness scan \
   --repo /home/higgs/workspace/cyness/<repo> \
   --config ./config.opus.yaml \
   --auto-step1 --application-id "bench-<repo>" --repo-name "<repo>"
+# convenience wrapper (B-guarded, integrity gate): scripts/run_opus_bedrock.sh <repo>
 
 # then move <repo>/security-scan and <repo>/checkpoints into the matching
 # benchmarks/visa/<model>/<repo>/ directory.
@@ -216,4 +225,6 @@ export OLLAMA_MODEL=qwen3.6-36b-128k          # or qwen2.5-coder-14b-32k
 Backends: the local models run `via: openai` → Ollama `/v1` (`OPENAI_API_KEY` is
 a placeholder `ollama`; Ollama ignores it but preflight requires it non-empty;
 the `OLLAMA_MODEL` shell export wins over `.env`). Opus 4.8 runs `via: cli` → the
-`claude` CLI using the on-disk Claude Code login — no API key, no `.env` change.
+`claude` CLI in **Bedrock mode** (`CLAUDE_CODE_USE_BEDROCK=1` + `AWS_REGION` in
+`.env`, `AWS_BEARER_TOKEN_BEDROCK` from your shell). The earlier Claude Code
+subscription path was abandoned as token-bound (see the model-comparison doc).

