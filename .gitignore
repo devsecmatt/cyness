@@ -12,6 +12,11 @@
 /visa-vulnerability-agentic-harness/
 /defending-code-reference-harness/
 
+# Opus parallel scan copies (replica trees scanned at a distinct path so they
+# don't collide with the local runs' per-repo lock; not benchmark deliverables —
+# the artifacts get moved into benchmarks/visa/claude-opus-4-8/<repo>/).
+/*-opus/
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Local tooling / state (kept here, but not committed)
 # ─────────────────────────────────────────────────────────────────────────────

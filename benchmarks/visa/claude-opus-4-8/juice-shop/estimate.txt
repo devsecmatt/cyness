@@ -1,0 +1,7 @@
+scope estimate for /home/higgs/workspace/cyness/juice-shop-opus
+  code files       : 39,779
+  bytes            : 223,498,074
+  ~input tokens    : 55,874,518 (rough, bytes/4)
+  note: the pipeline reads each file across several stages; expect
+  total token usage to be a multiple of the above. Cost depends on
+  the model in config.yaml. Use --stop-after s3 for an exact scope.
