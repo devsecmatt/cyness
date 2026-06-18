@@ -56,28 +56,30 @@ A/B local (free GPU); C is AWS Bedrock (pay-per-token, ~$5/$25 per M in/out).
 | underscore | qwen3.6-36b-128k | local Ollama | _pending_ |  |  |
 | underscore | claude-opus-4-8 | AWS Bedrock | 10m | 2,052,172 | clean |
 
-### Token breakdown (input / output / total)
+### Token breakdown (input / output / total / cache-read)
 
-Billable tokens from each run's report (`prompt` = fresh + cache-write input; `completion` = output). Cache-*reads* are tracked separately and excluded, so tokens *processed* were higher; only these are billed (only Model C's are paid — Bedrock). Model B underscore still running.
+Billable tokens from each run's report. `Total (billed)` = `prompt` (fresh + cache-write input) + `completion` (output). **Cache-read** is tracked separately and is **excluded** from the billed total — it bills at ~$0.50/M (0.1× input). Model B underscore still running.
 
-| Model | Repo | Input | Output | Total |
-|---|---|--:|--:|--:|
-| qwen2.5-coder-14b | nokogiri | 3,962,360 | 59,582 | 4,021,942 |
-|  | juice-shop | 4,391,084 | 226,561 | 4,617,645 |
-|  | underscore | 1,315,192 | 33,857 | 1,349,049 |
-|  | **subtotal** |  |  | **9,988,636** |
-| qwen3.6-36b | nokogiri | 15,460,760 | 1,245,811 | 16,706,571 |
-|  | juice-shop | 40,092,851 | 2,518,248 | 42,611,099 |
-|  | underscore | _running_ |  | — |
-|  | **subtotal (2/3)** |  |  | **59,317,670** |
-| claude-opus-4-8 | nokogiri | 7,415,214 | 499,921 | 7,915,135 |
-|  | juice-shop | 7,330,213 | 1,143,729 | 8,473,942 |
-|  | underscore | 1,955,292 | 96,880 | 2,052,172 |
-|  | **subtotal** |  |  | **18,441,249** |
-| **GRAND TOTAL (8 cells)** |  |  |  | **87,747,555** |
+| Model | Repo | Input | Output | Total (billed) | Cache-read |
+|---|---|--:|--:|--:|--:|
+| qwen2.5-coder-14b | nokogiri | 3,962,360 | 59,582 | 4,021,942 | 0 |
+|  | juice-shop | 4,391,084 | 226,561 | 4,617,645 | 0 |
+|  | underscore | 1,315,192 | 33,857 | 1,349,049 | 0 |
+|  | **subtotal** |  |  | **9,988,636** | **0** |
+| qwen3.6-36b | nokogiri | 15,460,760 | 1,245,811 | 16,706,571 | 0 |
+|  | juice-shop | 40,092,851 | 2,518,248 | 42,611,099 | 0 |
+|  | underscore | _running_ |  | — | — |
+|  | **subtotal (2/3)** |  |  | **59,317,670** | **0** |
+| claude-opus-4-8 | nokogiri | 7,415,214 | 499,921 | 7,915,135 | 1,290,370 |
+|  | juice-shop | 7,330,213 | 1,143,729 | 8,473,942 | 10,731,344 |
+|  | underscore | 1,955,292 | 96,880 | 2,052,172 | 263,940 |
+|  | **subtotal** |  |  | **18,441,249** | **12,285,654** |
+| **GRAND TOTAL (8 cells)** |  |  |  | **87,747,555** | **12,285,654** |
 
+- **Locals report zero cache-read** — Ollama's `/v1` usage doesn't surface `cached_tokens` and it isn't doing Anthropic-style prefix caching; the billed totals are the whole story for A and B.
+- **Opus on Bedrock cached heavily** — juice-shop's cache-reads (10.7M) *exceeded* its billed total (8.5M, 127%): the multi-stage agentic prompts reuse a large cached prefix.
 - The local **36B is the token hog**: 59.3M for *two* repos vs Opus's 18.4M for *three*. qwen3.6 juice-shop alone (**42.6M**) exceeds Opus's entire column.
-- **Opus is the most token-efficient per repo** and far faster (~2.1h for the column vs the 36B's ~69h for two repos).
+- **Cost (Model C only — Bedrock, ~$5/$25 per M in/out):** the billed column is ≈$115–126 (with the global +10%); the 12.3M cache-reads add ~$6 → **≈$121–133** total. Caching saved ~$55–61 vs paying those reads at the full input rate.
 
 ## 4. Headline findings
 
