@@ -1,8 +1,8 @@
 # Cross-Harness Comparison — Visa vvaharness vs Anthropic defending-code
 
-The two SAST harnesses on the three shared targets. Visa from `visa/.../security-scan/`; Anthropic from `anthropics/.../{VULN-FINDINGS,TRIAGE}.json`. Compiled 2026-06-17.
+The two SAST harnesses on the three shared targets. Visa from `visa/.../security-scan/`; Anthropic from `anthropics/.../{VULN-FINDINGS,TRIAGE}.json`. Compiled 2026-06-18.
 
-> **opus is now fully model-matched** across all three repos (Visa·opus complete). qwen3.6 is matched on nokogiri only (Visa·qwen3.6 juice-shop/underscore pending).
+> Model-matched cells available now: nokogiri (both models), **juice-shop (both models)**, underscore (opus). Only Visa·qwen3.6 underscore is pending.
 
 ## 1. Methodology — why raw counts are NOT comparable
 
@@ -18,12 +18,12 @@ The two SAST harnesses on the three shared targets. Visa from `visa/.../security
 | Target | Visa·qwen2.5-14b | Visa·qwen3.6 | Visa·opus (Bedrock) | Anthropic·qwen3.6 | Anthropic·opus |
 |---|---|---|---|---|---|
 | nokogiri | 4 | 1 | 2 | 3 | 2 |
-| juice-shop | 19 | _pending_ | 64 | 27 | 11 |
+| juice-shop | 19 | 32 | 64 | 27 | 11 |
 | underscore | 1 | _pending_ | 0 | 1 | 1 |
 
-**The key cross-harness finding — agreement is repo-size dependent (now confirmed on the full opus row):**
-- **Small repos: the two harnesses agree closely** on the same model. nokogiri: Visa·opus **2** vs Anthropic·opus **2**. underscore: Visa·opus **0** vs Anthropic·opus **1** — both essentially 'nothing exploitable here.'
-- **Large app: they diverge ~6×** — juice-shop Visa·opus **64** vs Anthropic·opus **11**. Visa's exhaustive 9-stage decomposition scales with attack surface and surfaces far more confirmed issues; the Anthropic skills' curated `/vuln-scan` shortlist stays in the tens regardless of repo size. **On a big attack surface the pipeline design matters more than the model.**
+**Agreement depends on BOTH repo size and model strength — the key finding:**
+- **Small repos: the harnesses agree on every model.** nokogiri Visa·opus 2 vs Anth·opus 2 (Visa·qwen3.6 1 vs Anth·qwen3.6 3); underscore Visa·opus 0 vs Anth·opus 1. Little attack surface → both land near the same small number.
+- **Large app (juice-shop), now matched on both models — and the gap tracks model strength.** Visa·qwen3.6 **32** vs Anth·qwen3.6 **27** (close); Visa·opus **64** vs Anth·opus **11** (~6×). The divergence is *largest with the strongest model*: Visa's exhaustive pipeline **plus a decisive Opus verifier** confirms far more than the Anthropic skills' curated shortlist, while a weaker verifier (qwen3.6) upholds fewer candidates and lands near that shortlist. So exhaustive decomposition only pays off on a big attack surface when paired with a strong verifier.
 
 ## 3. Raw-candidate volume (context only — NOT comparable)
 
@@ -35,7 +35,7 @@ The two SAST harnesses on the three shared targets. Visa from `visa/.../security
 
 ## Caveats
 
-- opus fully model-matched; qwen3.6 matched on nokogiri only (Visa B juice-shop/underscore pending).
+- Model-matched on nokogiri (both) + juice-shop (both) + underscore (opus); Visa·qwen3.6 underscore pending.
 - Raw counts not comparable across harnesses (different definitions).
 - Both harnesses' 'confirmed' verdicts are model-generated (self-consistency, not a verified gold set).
-- Visa·opus ran on **AWS Bedrock** (subscription was token-bound — see `visa/VISA_HARNESS_MODEL_COMPARISON.md`); juice-shop/underscore on path-copies to run parallel to Model B.
+- Visa·opus ran on **AWS Bedrock** (subscription was token-bound); juice-shop/underscore on path-copies to run parallel to Model B.
