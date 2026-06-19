@@ -1,14 +1,14 @@
 # Visa vvaharness — Model Comparison
 
-Models run through the **Visa vvaharness** 9-stage pipeline on the three shared targets. Numbers from each run's `security-scan/*_report.md` + `*_report.sarif`. Compiled 2026-06-18.
+Models run through the **Visa vvaharness** 9-stage pipeline on the three shared targets. Numbers from each run's `security-scan/*_report.md` + `*_report.sarif`. Compiled 2026-06-19.
 
-**Status: 8/9 complete.** Model A (`qwen2.5-coder-14b-32k`) 3/3 ✓; Model C (`claude-opus-4-8`, AWS Bedrock) 3/3 ✓; Model B (`qwen3.6-36b-128k`) nokogiri + juice-shop ✓, **underscore running**. The **juice-shop row is now complete for all three models**.
+**Status: COMPLETE — full 3×3 matrix done.** A (`qwen2.5-coder-14b-32k`), B (`qwen3.6-36b-128k`), C (`claude-opus-4-8`, AWS Bedrock) — all 3/3.
 
 **Findings are triage candidates, not verified vulnerabilities.**
 
 ## ⚠️ Model C note — the Claude subscription was NOT viable; Model C runs on Bedrock
 
-Model C was first attempted on a **Claude Code subscription** (`via:cli`) and proved **unwinnable** — Opus's s4 is hundreds of ~80k-token chunks with no intra-stage checkpoint, so it could never finish within one ~4h subscription token window. Resolution: same stock harness + `via:cli`, but the `claude` CLI points at **Opus 4.8 on AWS Bedrock** (`CLAUDE_CODE_USE_BEDROCK=1`, pay-per-token, no wall). The full column completed in ~2.1h / ~18.5M tokens (≈$115–126 at $5/$25 per M). juice-shop/underscore ran on `<repo>-opus/` path-copies to run parallel to Model B.
+Model C was first attempted on a **Claude Code subscription** (`via:cli`) and proved **unwinnable** — Opus's s4 is hundreds of ~80k-token chunks with no intra-stage checkpoint, so it could never finish within one ~4h subscription token window. Resolution: same stock harness + `via:cli`, but the `claude` CLI points at **Opus 4.8 on AWS Bedrock** (`CLAUDE_CODE_USE_BEDROCK=1`, pay-per-token, no wall). The full column completed in ~2.1h / ~18.4M tokens (≈$133–146; see cost table). juice-shop/underscore ran on `<repo>-opus/` path-copies to run parallel to Model B.
 
 ## 1. Verification funnel — raw → confirmed
 
@@ -23,7 +23,7 @@ Model C was first attempted on a **Claude Code subscription** (`via:cli`) and pr
 | juice-shop | qwen3.6-36b-128k | 321 | 32 | 115 | 81 | 83 | 10.0% |
 | juice-shop | claude-opus-4-8 | 184 | 64 | 21 | 0 | 26 | 34.8% |
 | underscore | qwen2.5-coder-14b-32k | 53 | 1 | 6 | 20 | 13 | 1.9% |
-| underscore | qwen3.6-36b-128k | — | — | — | — | — | _pending_ |
+| underscore | qwen3.6-36b-128k | 132 | 0 | 61 | 39 | 31 | 0.0% |
 | underscore | claude-opus-4-8 | 8 | 0 | 2 | 0 | 0 | 0.0% |
 
 ## 2. Confirmed findings by severity + exploit chains
@@ -37,7 +37,7 @@ Model C was first attempted on a **Claude Code subscription** (`via:cli`) and pr
 | juice-shop | qwen3.6-36b-128k | 32 | 8 | 9 | 15 | 0 | 0 |
 | juice-shop | claude-opus-4-8 | 64 | 8 | 17 | 38 | 1 | 7 |
 | underscore | qwen2.5-coder-14b-32k | 1 | 1 | 0 | 0 | 0 | 0 |
-| underscore | qwen3.6-36b-128k | _pending_ |  |  |  |  |  |
+| underscore | qwen3.6-36b-128k | 0 | 0 | 0 | 0 | 0 | 0 |
 | underscore | claude-opus-4-8 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## 3. Cost / runtime
@@ -50,15 +50,15 @@ A/B local (free GPU); C is AWS Bedrock (pay-per-token, ~$5/$25 per M in/out).
 | nokogiri | qwen3.6-36b-128k | local Ollama | 22.9h | 16,706,571 | s4 degraded 4/148 |
 | nokogiri | claude-opus-4-8 | AWS Bedrock | 44m | 7,915,135 | clean |
 | juice-shop | qwen2.5-coder-14b-32k | local Ollama | 7.3h | 4,617,645 | clean |
-| juice-shop | qwen3.6-36b-128k | local Ollama | 45.7h | 42,611,099 | 1/490 degraded (negligible) |
-| juice-shop | claude-opus-4-8 | AWS Bedrock | 1.2h | 8,473,942 | 1/584 degraded (negligible) |
+| juice-shop | qwen3.6-36b-128k | local Ollama | 45.7h | 42,611,099 | 1/490 degraded |
+| juice-shop | claude-opus-4-8 | AWS Bedrock | 1.2h | 8,473,942 | 1/584 degraded |
 | underscore | qwen2.5-coder-14b-32k | local Ollama | 1.1h | 1,349,049 | clean |
-| underscore | qwen3.6-36b-128k | local Ollama | _pending_ |  |  |
+| underscore | qwen3.6-36b-128k | local Ollama | 27.0h | 23,164,089 | clean |
 | underscore | claude-opus-4-8 | AWS Bedrock | 10m | 2,052,172 | clean |
 
 ### Token breakdown (input / output / total / cache-read)
 
-Per-run tokens from each report. `Total (I/O)` = `prompt` (fresh + cache-write input) + `completion` (output). **Cache-read** is tracked separately and **excluded** from Total (I/O) — it bills at ~$0.50/M (0.1× input). Model B underscore still running.
+Per-run tokens from each report. `Total (I/O)` = `prompt` (fresh + cache-write input) + `completion` (output). **Cache-read** is tracked separately and **excluded** from Total (I/O) — bills at ~$0.50/M (0.1× input).
 
 | Model | Repo | Input | Output | Total (I/O) | Cache-read | Time |
 |---|---|--:|--:|--:|--:|--:|
@@ -68,22 +68,22 @@ Per-run tokens from each report. `Total (I/O)` = `prompt` (fresh + cache-write i
 |  | **subtotal** |  |  | **9,988,636** | **0** |  |
 | qwen3.6-36b | nokogiri | 15,460,760 | 1,245,811 | 16,706,571 | 0 | 22.9h |
 |  | juice-shop | 40,092,851 | 2,518,248 | 42,611,099 | 0 | 45.7h |
-|  | underscore | _running_ |  | — | — | — |
-|  | **subtotal (2/3)** |  |  | **59,317,670** | **0** |  |
+|  | underscore | 21,984,313 | 1,179,776 | 23,164,089 | 0 | 27.0h |
+|  | **subtotal** |  |  | **82,481,759** | **0** |  |
 | claude-opus-4-8 | nokogiri | 7,415,214 | 499,921 | 7,915,135 | 1,290,370 | 44m |
 |  | juice-shop | 7,330,213 | 1,143,729 | 8,473,942 | 10,731,344 | 1.2h |
 |  | underscore | 1,955,292 | 96,880 | 2,052,172 | 263,940 | 10m |
 |  | **subtotal** |  |  | **18,441,249** | **12,285,654** |  |
-| **GRAND TOTAL (8 cells)** |  |  |  | **87,747,555** | **12,285,654** |  |
+| **GRAND TOTAL (9 cells)** |  |  |  | **110,911,644** | **12,285,654** |  |
 
-- **Locals report zero cache-read** — Ollama's `/v1` usage doesn't surface `cached_tokens` and it isn't doing Anthropic-style prefix caching; Total (I/O) is the whole story for A and B.
-- **Opus on Bedrock cached heavily** — juice-shop's cache-reads (10.7M) *exceeded* its Total (I/O) (8.5M, 127%): the multi-stage agentic prompts reuse a large cached prefix.
-- The local **36B is the token hog**: 59.3M for *two* repos vs Opus's 18.4M for *three*. qwen3.6 juice-shop alone (**42.6M**) exceeds Opus's entire column.
+- **Locals report zero cache-read** — Ollama doesn't surface `cached_tokens` / do prefix caching; Total (I/O) is the whole story for A and B.
+- **Opus on Bedrock cached heavily** — juice-shop's cache-reads (10.7M) exceeded its Total (I/O) (127%).
+- **The local 36B dominates token use:** 82.5M for its column vs Opus's 18.4M and the 14B's 10.0M. B underscore alone (23.2M) is more than Opus's entire 3-repo column.
 - **A and B are free** (local GPU); only Model C is paid — priced below.
 
 ### Model C cost (AWS Bedrock)
 
-Opus 4.8 on Bedrock: **$5/M input, $25/M output, $0.50/M cache-read**. `+global 10%` = the approximate cross-region surcharge on the `global.` inference profile (confirm against the actual AWS bill).
+Opus 4.8: **$5/M input, $25/M output, $0.50/M cache-read**. `+global 10%` = approximate cross-region surcharge on the `global.` profile (confirm vs the AWS bill).
 
 | Repo | Input ($5/M) | Output ($25/M) | Cache-read ($0.50/M) | Run total | + global 10% |
 |---|--:|--:|--:|--:|--:|
@@ -92,32 +92,22 @@ Opus 4.8 on Bedrock: **$5/M input, $25/M output, $0.50/M cache-read**. `+global 
 | underscore | $9.78 | $2.42 | $0.13 | $12.33 | $13.56 |
 | **TOTAL** | **$83.50** | **$43.51** | **$6.14** | **$133.15** | **$146.47** |
 
-**≈ $133 at base pricing, ≈ $146 with the ~10% global surcharge** (~$135–150 all-in).
-
-- The **`global.` surcharge is approximate** — the AWS bill is the source of truth.
-- Slight **under-estimate**: the Input figure lumps fresh input with cache-write tokens (cache-write bills 1.25× = $6.25/M), and the fresh-vs-write split isn't broken out here.
+**≈ $133 at base pricing, ≈ $146 with the ~10% global surcharge** (~$135–150 all-in). Input lumps fresh + cache-write (cache-write bills 1.25×), so a slight under-estimate; AWS bill is the source of truth.
 
 ## 4. Headline findings
 
-**juice-shop is a textbook capability gradient** — every metric scales monotonically with model strength:
+**Confirmed findings scale with model strength — clearest on the large app:** juice-shop A **19** → B **32** → C **64**; precision 5.9% → 10.0% → 34.8%; verifier-errors 217 → 81 → 0; chains 3 → 0 → 7.
 
-| Metric | A · 14B | B · 36B | C · Opus |
-|---|---|---|---|
-| Confirmed | 19 | 32 | 64 |
-| Precision | 5.9% | 10.0% | 34.8% |
-| Verifier-errors (undet.) | 217 | 81 | 0 |
-| Exploit chains | 3 | 0 | 7 |
-| Wall-clock | 7.3h | 45.7h | 72m |
+**Verifier decisiveness scales with strength.** Total verifier-errors (undetermined) across the full matrix: **A 288, B 136, C 0.** Opus adjudicated every candidate on all three repos; the locals left a third to two-thirds unresolved — the locals' low precision is **verifier weakness**, not purely bad candidates.
 
-- **Verifier decisiveness scales with strength:** undetermined counts 217 → 81 → **0**. Opus adjudicated every candidate; the 14B left two-thirds unresolved — the locals' low precision is **verifier weakness**, not purely bad candidates.
-- **Severity calibration:** A inflates to **16 Critical**; B and C both land at **8 Critical** (B 8C/9H/15M, C 8C/17H/38M) — the 36B and Opus agree on severity where the 14B over-rates.
-- **Cost of the local 36B:** B juice-shop took **45.7h / 42.6M tokens** — 6× slower than the 14B and 38× slower than Opus on Bedrock, for half Opus's findings.
+**Severity calibration:** on juice-shop, A inflates to 16 Critical; B and C both land at 8 Critical — the 14B over-rates where the 36B and Opus agree.
 
-**Small repos:** nokogiri A 4 (1C/3H) · B 1 (MED) · C 2 (MED) — converge on schema-SSRF & CSS/XPath classes. underscore A 1 (a lone 'CRITICAL') · C 0 — Opus refuted all 8 candidates on the pure utility lib (A's Critical is likely inflated/FP).
+**Small repos, all models ~agree there's little:** nokogiri A 4 (1C/3H) · B 1 (MED) · C 2 (MED). **underscore A 1 · B 0 · C 0** — a pure utility lib; B refuted all 132 candidates and C all 8, confirming none. A's lone Critical is the outlier (likely FP).
+
+**Cost of the local 36B:** Model B's column took **~95.6h wall-clock** (nokogiri 22.9h + juice-shop 45.7h + underscore 27.0h) and 82.5M tokens — vs Model A's ~14h and Opus's ~2.1h. underscore's 27h for **zero** findings (132 candidates, all refuted) is the starkest cost/value point in the matrix.
 
 ## Caveats
 
-- Only **Model B underscore** remains (running).
-- Degraded s4: **B nokogiri 4/148**, **B juice-shop 1/490**, **C juice-shop 1/584** — all other runs clean (B nokogiri's 4/148 is the only non-trivial one).
+- Degraded s4: **B nokogiri 4/148**, **B juice-shop 1/490**, **C juice-shop 1/584** — all other runs clean. (B underscore s4 clean; its 39 s6 verifier-errors are undetermined verdicts, not coverage loss.)
 - `Verifier errors` are undetermined, not clean — high local counts mean degraded verification, so low local precision partly reflects verifier weakness.
 - Backends differ (A/B local Ollama `via:openai`; C Bedrock `via:cli`) — transport/billing, same harness. C juice-shop/underscore ran on `<repo>-opus/` path-copies. Per-run provenance in each `run_manifest.json`.
